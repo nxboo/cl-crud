@@ -1,3 +1,5 @@
+![Image text](./demo.jpg)
+
 ## Options
 
 [插件配置文档](https://docs.cool-admin.com/#/front/crud)
