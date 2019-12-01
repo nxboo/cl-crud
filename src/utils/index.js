@@ -70,6 +70,8 @@ export function cloneDeep(obj) {
         }
       }
     }
+  } else if (isArray(obj)) {
+    d = obj.map(cloneDeep);
   }
 
   return d;
@@ -265,6 +267,8 @@ export function renderForm(options = {}) {
           __vue.component(name, jsx);
         }
 
+        console.log(jsx);
+
         vnode = h(name, jsx);
       } else if (name) {
         if (name.includes('slot-')) {
@@ -313,7 +317,15 @@ export function renderForm(options = {}) {
       }
 
       return (
-        <el-col span={e.span} offset={e.offset} key={i}>
+        <el-col
+          xs={e.xs}
+          sm={e.sm}
+          md={e.md}
+          lg={e.lg}
+          xl={e.xl}
+          span={e.span}
+          offset={e.offset}
+          key={i}>
           <el-form-item label={e.label} prop={e.prop} rules={e.rules} {...{ props: e.props }}>
             {vnode}
           </el-form-item>

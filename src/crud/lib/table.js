@@ -208,24 +208,26 @@ export default {
     );
 
     return (
-      <div class="data-table">
-        {
-          <el-table
-            ref="table"
-            data={data}
-            on-selection-change={this.selectionChange}
-            on-sort-change={this.sortChange}
-            v-loading={loading}
-            max-height={this.maxHeight + 'px'}
-            {...{
-              on,
-              props
-            }}>
-            {columnEl}
-            {op.visible && opEl}
-          </el-table>
-        }
-      </div>
+      this.table.visible && (
+        <div class="data-table">
+          {
+            <el-table
+              ref="table"
+              data={data}
+              on-selection-change={this.selectionChange}
+              on-sort-change={this.sortChange}
+              v-loading={loading}
+              max-height={this.maxHeight + 'px'}
+              {...{
+                on,
+                props
+              }}>
+              {columnEl}
+              {op.visible && opEl}
+            </el-table>
+          }
+        </div>
+      )
     );
   }
 };

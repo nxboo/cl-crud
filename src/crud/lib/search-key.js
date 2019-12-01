@@ -22,7 +22,8 @@ export default {
       });
 
       this.crud.refresh({
-        [selected || 'keyWord']: value
+        [selected || 'keyWord']: value,
+        page: 1
       });
     }
   },

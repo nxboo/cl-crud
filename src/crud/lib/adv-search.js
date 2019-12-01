@@ -17,7 +17,10 @@ export default {
       const { fn } = this.crud;
 
       const next = params => {
-        this.crud.refresh(params);
+        this.crud.refresh({
+          ...params,
+          page: 1
+        });
       };
 
       if (fn.advSearch) {

@@ -1,7 +1,9 @@
-import { renderForm, renderLayout } from '../../utils';
+import { renderForm, renderLayout, certainProperty } from '../../utils';
+import { ToolsMixin } from '../../mixins/index';
 
 export default {
   inject: ['crud'],
+  mixins: [ToolsMixin],
 
   data() {
     return {
@@ -18,13 +20,28 @@ export default {
 
   methods: {
     open(callback) {
-      const { props, items, op } = this.crud.upsert;
+      let { props, items, op, form } = this.crud.upsert;
 
       this.visible = true;
 
+      this.form = form;
       this.items = items;
       this.props = props;
       this.op = op;
+
+      if (!props.title) {
+        props.title = this.isEdit ? '编辑' : '新增';
+      }
+
+      if (!props.top) {
+        props.top = '15vh';
+      }
+
+      if (!props.width) {
+        props.width = '50%';
+      }
+
+      this.dialog.fullscreen = props.fullscreen;
 
       this.items.forEach(e => {
         this.$set(this.form, e.prop, e.value);
@@ -36,9 +53,16 @@ export default {
     },
 
     close() {
+      // reset value
       this.$refs['form'].resetFields();
+
+      // clear status
       this.visible = false;
+      this.loading = false;
+
+      // default values
       this.form = {};
+      this.crud.upsert.form = {};
 
       this.emit('close', this.isEdit);
     },
@@ -106,7 +130,7 @@ export default {
       this.isEdit = false;
 
       this.open(() => {
-        this.emit('open', null);
+        this.emit('open', false);
       });
     },
 
@@ -118,7 +142,7 @@ export default {
           Object.assign(this.form, data);
         }
 
-        this.emit('open', data);
+        this.emit('open', false, data);
       });
     },
 
@@ -184,23 +208,32 @@ export default {
   },
 
   render() {
-    const form = renderForm.call(this);
+    const formEl = renderForm.call(this);
+    const titleEl = this.renderTitleSlot();
     const { confirmButtonText, cancelButtonText, layout } = this.op;
 
     return (
       this.visible && (
         <el-dialog
           class="crud-upsert-dialog"
-          visible={this.visible}
-          title={this.isEdit ? '编辑' : '新增'}
           {...{
             props: this.props,
 
             on: {
               close: this.close
-            }
-          }}>
-          {form}
+            },
+
+            directives: [
+              {
+                name: 'dialog-drag',
+                value: certainProperty(this, ['props', 'dialog'])
+              }
+            ]
+          }}
+          visible={this.visible}>
+          {formEl}
+          <template slot="title">{titleEl}</template>
+
           <template slot="footer">
             {layout.map(vnode => {
               if (vnode == 'confirm') {

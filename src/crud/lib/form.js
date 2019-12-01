@@ -1,8 +1,10 @@
-import { renderForm, deepMerge, renderLayout } from '../../utils';
+import { renderForm, deepMerge, renderLayout, certainProperty } from '../../utils';
+import { ToolsMixin } from '../../mixins/index';
 import '../index.styl';
 
 export default {
   name: 'cl-form',
+  mixins: [ToolsMixin],
 
   props: {
     options: Object
@@ -20,7 +22,9 @@ export default {
       props: {
         size: 'small',
         'append-to-body': true,
-        'close-on-click-modal': false
+        'close-on-click-modal': false,
+        'destroy-on-close': true,
+        drag: true
       },
       form: {},
       on: {},
@@ -43,6 +47,14 @@ export default {
 
       if (items) {
         this.items = items;
+      }
+
+      if (!props.top) {
+        props.top = '15vh';
+      }
+
+      if (!props.width) {
+        props.width = '50%';
       }
 
       if (props) {
@@ -107,6 +119,7 @@ export default {
 
   render() {
     const form = renderForm.call(this);
+    const titleEl = this.renderTitleSlot();
     const { confirmButtonText, cancelButtonText, layout } = this.op;
 
     return (
@@ -119,9 +132,17 @@ export default {
             on: {
               open: this.open,
               close: this.close
-            }
+            },
+
+            directives: [
+              {
+                name: 'dialog-drag',
+                value: certainProperty(this, ['props', 'dialog'])
+              }
+            ]
           }}>
           {form}
+          <template slot="title">{titleEl}</template>
           <template slot="footer">
             {layout.map(vnode => {
               if (vnode == 'confirm') {

@@ -74,6 +74,10 @@ export const bootstrap = that => {
       );
     },
 
+    setForm(k, v) {
+      this.refs('upsert').form[k] = v;
+    },
+
     changeSort(prop, order) {
       that.changeSort(prop, order);
     },

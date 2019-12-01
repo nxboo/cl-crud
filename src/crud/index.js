@@ -9,7 +9,7 @@ import MultiDeleteBtn from './lib/multi-delete-btn';
 import AdvBtn from './lib/adv-btn';
 import Pagination from './lib/pagination';
 import SearchKey from './lib/search-key';
-import { deepMerge, print, renderLayout } from '../utils';
+import { deepMerge, print, renderLayout, cloneDeep } from '../utils';
 import { bootstrap } from './app';
 import { __crud } from '../options';
 import './index.styl';
@@ -157,10 +157,12 @@ export default {
         items: [],
         props: {
           width: '',
-          labelWidth: '80px',
+          'label-width': '80px',
           'append-to-body': true,
           'close-on-click-modal': false,
-          size: 'small'
+          size: 'small',
+          'destroy-on-close': true,
+          drag: true
         },
         op: {
           confirmButtonText: '保存',
@@ -413,7 +415,7 @@ export default {
 
               Object.assign(this.pagination, res.pagination);
 
-              render(res.list);
+              render(cloneDeep(res.list));
               done();
               resolve(res);
             })
