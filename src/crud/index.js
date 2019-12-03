@@ -12,7 +12,7 @@ import SearchKey from './lib/search-key';
 import { deepMerge, print, renderLayout, cloneDeep } from '../utils';
 import { bootstrap } from './app';
 import { __crud } from '../options';
-import './index.styl';
+import './assets/css/index.styl';
 
 export default {
   name: 'cl-crud',

@@ -5,7 +5,9 @@ import Crud from './crud/index';
 import Form from './crud/lib/form';
 import { DialogDrag } from './directive/index';
 
-export default {
+export const CRUD = {
+  version: '1.1.9',
+
   install: function(Vue, options = {}) {
     const { crud, version = '' } = options;
 
@@ -22,3 +24,5 @@ export default {
     Vue.component(Ver('cl-form'), Form);
   }
 };
+
+export default CRUD;

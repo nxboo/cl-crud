@@ -1,30 +1,57 @@
+function onPass(el, binding) {
+  const dlg = el.querySelector('.el-dialog');
+  const { dialog, props } = binding.value;
+  const { clientHeight } = document.body;
+
+  if (dialog.fullscreen) {
+    return false;
+  }
+
+  if (!props.drag) {
+    return false;
+  }
+
+  // 超出禁用拖动
+  let top = 0;
+
+  if (['vh', '%'].some(e => props.marginTop.includes(e))) {
+    top = clientHeight * (parseInt(props.marginTop) / 100);
+  }
+
+  if (props.marginTop.includes('px')) {
+    top = props.marginTop;
+  }
+
+  if (dlg.clientHeight > clientHeight - 50 - top) {
+    return false;
+  }
+
+  return true;
+}
+
 export const DialogDrag = {
-  bind(el, binding, vnode, oldVnode) {
+  bind(el, binding) {
     const dlg = el.querySelector('.el-dialog');
-    const hdr = el.querySelector('.el-dialog__header');
+    const hdr = el.querySelector('.el-dialog__header-slot__title');
     const sty = dlg.currentStyle || window.getComputedStyle(dlg, null);
     const pad = 5;
-    const { dialog, props } = binding.value;
-    const { drag, fullscreen, top } = props;
+    const { props, dialog } = binding.value;
 
-    if (dialog.drag === null) {
-      dialog.drag = drag;
+    if (!props.marginTop) {
+      props.marginTop = '15vh';
     }
 
     dlg.style.marginTop = 0;
-    dlg.style.marginBottom = 0;
-    dlg.style.top = fullscreen ? 0 : top;
+    dlg.style.top = props.fullscreen ? 0 : props.marginTop;
 
     const moveDown = e => {
       const { clientWidth, clientHeight } = document.body;
-      const { fullscreen, drag } = binding.value.dialog;
+      const isDrag = onPass(el, binding);
 
-      if (fullscreen) {
-        return false;
-      }
-
-      if (drag === false || !drag) {
-        return false;
+      if (isDrag) {
+        dlg.style.marginBottom = 0;
+      } else {
+        return (dlg.style.marginBottom = dialog.fullscreen ? 0 : '50px');
       }
 
       const disX = e.clientX - hdr.offsetLeft;
@@ -50,10 +77,6 @@ export const DialogDrag = {
       const maxT = clientHeight - dlg.clientHeight - pad;
 
       document.onmousemove = function(e) {
-        if (drag === false || !drag) {
-          return false;
-        }
-
         let l = e.clientX - disX + styL;
         let t = e.clientY - disY + styT;
 
@@ -80,28 +103,5 @@ export const DialogDrag = {
     };
 
     hdr.onmousedown = moveDown;
-  },
-  update(el, binding) {
-    const dlg = el.querySelector('.el-dialog');
-    const { props, dialog } = binding.value;
-    const { top } = props;
-    const { fullscreen, drag } = dialog;
-
-    dialog.drag = dlg.clientHeight <= document.body.clientHeight;
-
-    if (drag === false) {
-      dlg.style.marginTop = fullscreen ? 0 : top;
-      dlg.style.marginBottom = fullscreen ? 0 : '50px';
-      dlg.style.top = 0;
-
-      document.onmousemove = null;
-      document.onmouseup = null;
-    }
-
-    if (drag === true) {
-      dlg.style.marginTop = 0;
-      dlg.style.marginBottom = 0;
-      dlg.style.top = fullscreen ? 0 : top;
-    }
   }
 };

@@ -8,7 +8,11 @@
 密码 123456
 
 ## 版本信息
-2019/12/2 1.1.9 添加窗口操作
+
+1、1.1.9 添加窗口操作
+2、1.1.91 修改 update 自动校正
+3、1.1.92 修改 el-dialog 拖动异常
+4、1.1.93 修改 el-dialog 切换异常
 
 ## 开始
 
@@ -16,13 +20,13 @@
 
 ## 包含的功能
 
--   数据表格
--   高级搜索
--   多、单关键字搜索
--   类目搜索
--   新增、删除、修改、查询
--   排序
--   分页
+- 数据表格
+- 高级搜索
+- 多、单关键字搜索
+- 类目搜索
+- 新增、删除、修改、查询
+- 排序
+- 分页
 
 ## 配置参数
 
@@ -229,7 +233,7 @@
 
 ```html
 <template #table-column-name="{ scope }">
-	<el-tag type="primary">{{ scope.row.name }}</el-tag>
+  <el-tag type="primary">{{ scope.row.name }}</el-tag>
 </template>
 ```
 
@@ -237,9 +241,9 @@
 
 ```html
 <template #table-header-name="{ scope }">
-	<el-tooltip content="本月业绩之和">
-		<span>总量<i class="el-icon-warning"></i></span>
-	</el-tooltip>
+  <el-tooltip content="本月业绩之和">
+    <span>总量<i class="el-icon-warning"></i></span>
+  </el-tooltip>
 </template>
 ```
 
@@ -335,19 +339,19 @@ or
 布局，二维数组每一项表示这一行的所有元素。
 默认支持的元素
 
--   adv-search 高级搜索表单 （默认写入）
--   refresh-btn 刷新表格按钮
--   add-btn 新增按钮
--   multi-delete-btn 批量删除按钮
--   query 类目搜索
--   flex1 弹性布局填充
--   search-key 关键字搜索
--   adv-btn 高级搜索按钮
--   data-table 数据表格
--   pagination 分页
--   edit 行编辑（只适用在`table.op.layout`）
--   delete 行删除（只适用在`table.op.layout`）
--   其他方式如下：
+- adv-search 高级搜索表单 （默认写入）
+- refresh-btn 刷新表格按钮
+- add-btn 新增按钮
+- multi-delete-btn 批量删除按钮
+- query 类目搜索
+- flex1 弹性布局填充
+- search-key 关键字搜索
+- adv-btn 高级搜索按钮
+- data-table 数据表格
+- pagination 分页
+- edit 行编辑（只适用在`table.op.layout`）
+- delete 行删除（只适用在`table.op.layout`）
+- 其他方式如下：
 
 使用`slot-*`方式示例：
 
@@ -363,17 +367,17 @@ or
 
 ```js
 [
-	[
-		'refresh-btn',
-		<el-button
-			on-click={e => {
-				alert('清空日志成功');
-			}}>
-			清空日志
-		</el-button>
-	],
-	['data-table'],
-	['flex1', 'pagination']
+  [
+    'refresh-btn',
+    <el-button
+      on-click={e => {
+        alert('清空日志成功');
+      }}>
+      清空日志
+    </el-button>
+  ],
+  ['data-table'],
+  ['flex1', 'pagination']
 ];
 ```
 
@@ -400,11 +404,11 @@ import TopFilter from '@/components/top-filter.vue'
 ```js
 // 自定义情况下
 ctx.service({
-	add: axios.get('//'),
-	delete,
-	update,
-	page,
-	info
+  add: axios.get('//'),
+  delete,
+  update,
+  page,
+  info
 });
 
 // cool-admin 下
@@ -416,22 +420,22 @@ ctx.service(this.$service.system.user);
 ```js
 // object
 ctx.permission({
-	add: true,
-	delete: true,
-	update: true,
-	info: true
+  add: true,
+  delete: true,
+  update: true,
+  info: true
 });
 
 // function
 ctx.permission(that => {
-	const { permission } = that.$store.state.menu;
-	const { add, delete: del, update } = that.service.permission;
+  const { permission } = that.$store.state.menu;
+  const { add, delete: del, update } = that.service.permission;
 
-	return {
-		add: permission.includes(add),
-		delete: permission.includes(del),
-		update: permission.includes(update)
-	};
+  return {
+    add: permission.includes(add),
+    delete: permission.includes(del),
+    update: permission.includes(update)
+  };
 });
 ```
 
@@ -440,29 +444,29 @@ ctx.permission(that => {
 ```js
 // object
 ctx.set('table', {
-	columns: [
-		{
-			label: '姓名',
-			prop: 'name',
-			align: 'center',
-			width: 200
-		}
-	]
+  columns: [
+    {
+      label: '姓名',
+      prop: 'name',
+      align: 'center',
+      width: 200
+    }
+  ]
 });
 
 ctx.set('tips', {
-	add: {
-		success: '新增成功，请刷新后重试。'
-	}
+  add: {
+    success: '新增成功，请刷新后重试。'
+  }
 });
 
 // function
 ctx.set('tips', d => {
-	return {
-		add: {
-			success: '新增成功，请刷新后重试。'
-		}
-	};
+  return {
+    add: {
+      success: '新增成功，请刷新后重试。'
+    }
+  };
 });
 ```
 
@@ -476,52 +480,52 @@ ctx.set('tips', d => {
 // render 渲染数据列表
 // done 关闭loading
 ctx.on('refresh', async (params, { next, render, done }) => {
-	// 业务需求：额外附带参数
-	params.source = 1;
+  // 业务需求：额外附带参数
+  params.source = 1;
 
-	// 继续执行刷新
-	let { list, pagination } = await next(params);
+  // 继续执行刷新
+  let { list, pagination } = await next(params);
 
-	// 业务需求：名称只显示姓
-	list.map(e => {
-		e.name = e.name.substr(0, 1) + '**';
-	});
+  // 业务需求：名称只显示姓
+  list.map(e => {
+    e.name = e.name.substr(0, 1) + '**';
+  });
 });
 
 // 编辑对话框打开
 ctx.on('open', (isEdit, form) => {
-	// isEdit 为 true 时表示新增或者追加新增，否则编辑
-	// form 表示表单数据
+  // isEdit 为 true 时表示新增或者追加新增，否则编辑
+  // form 表示表单数据
 });
 
 // 编辑对话框关闭
 ctx.op('close', isEdit => {
-	// isEdit 为 true 时表示新增或者追加新增，否则编辑
+  // isEdit 为 true 时表示新增或者追加新增，否则编辑
 });
 
 // 提交
 // next 继续执行
 // done 关闭loading
-ctx.on('submit',  (isEdit, data, { next, done }) => {
-    next(data)
+ctx.on('submit', (isEdit, data, { next, done }) => {
+  next(data);
 });
 
 // 删除
 // next 继续执行
 ctx.on('delete', (selection, { next }) => {
-	// 默认根据id删除，id用 `,`拼接
-	next({
-		ids: selection.map(e => e.id).join(',')
-	});
+  // 默认根据id删除，id用 `,`拼接
+  next({
+    ids: selection.map(e => e.id).join(',')
+  });
 });
 
 // 详情
 // next 继续执行
 ctx.on('info', (data, { next }) => {
-	// 默认根据id获取详情
-	next({
-		id: data.id
-	});
+  // 默认根据id获取详情
+  next({
+    id: data.id
+  });
 });
 ```
 
@@ -529,8 +533,8 @@ ctx.on('info', (data, { next }) => {
 
 ```js
 ctx.done(next => {
-	// 不传入参数，直接下一步。否则手动执行 next
-	next();
+  // 不传入参数，直接下一步。否则手动执行 next
+  next();
 });
 ```
 

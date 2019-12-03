@@ -2,8 +2,7 @@ export const ToolsMixin = {
   data() {
     return {
       dialog: {
-        fullscreen: false,
-        drag: null
+        fullscreen: false
       }
     };
   },

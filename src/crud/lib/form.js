@@ -1,6 +1,6 @@
 import { renderForm, deepMerge, renderLayout, certainProperty } from '../../utils';
 import { ToolsMixin } from '../../mixins/index';
-import '../index.styl';
+import '../assets/css/index.styl';
 
 export default {
   name: 'cl-form',
@@ -56,6 +56,8 @@ export default {
       if (!props.width) {
         props.width = '50%';
       }
+
+      this.dialog.fullscreen = props.fullscreen;
 
       if (props) {
         deepMerge(this.props, props);
