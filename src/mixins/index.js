@@ -29,6 +29,7 @@ export const ToolsMixin = {
         dlg.style.width = width;
         dlg.style.top = top;
         dlg.style.left = 0;
+        dlg.style.marginBottom = '50px';
       }
     },
 

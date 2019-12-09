@@ -84,7 +84,11 @@ export default {
     resize() {
       this.calcHeight();
 
-      this.crud.$emit('table-resize', this.maxHeight);
+      const { resize } = this.crud.fn;
+
+      if (resize) {
+        resize({ tableHeight: this.maxHeight });
+      }
     }
   },
 
