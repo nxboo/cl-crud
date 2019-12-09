@@ -44,7 +44,8 @@ export default {
         delete: null,
         info: null,
         permission: null,
-        advSearch: null
+        advSearch: null,
+        tableResize: null
       },
       dict: {
         api: {
