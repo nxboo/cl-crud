@@ -13,6 +13,8 @@
 2、1.1.91 修改 update 自动校正
 3、1.1.92 修改 el-dialog 拖动异常
 4、1.1.93 修改 el-dialog 切换异常
+5、1.1.94 修改 el-dialog 拖动异常，添加resize事件
+6、1.1.95 修改 el-dialog 拖动指针显示
 
 ## 开始
 

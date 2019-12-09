@@ -50,7 +50,9 @@ export const DialogDrag = {
 
       if (isDrag) {
         dlg.style.marginBottom = 0;
+        hdr.style.cursor = 'move';
       } else {
+        hdr.style.cursor = 'text';
         return (dlg.style.marginBottom = dialog.fullscreen ? 0 : '50px');
       }
 
