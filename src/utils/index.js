@@ -245,7 +245,9 @@ export function renderForm(options = {}) {
           ...attrs,
           value: this.form[e.prop]
         },
-        props,
+        props: {
+          ...props
+        },
         on: {
           input: val => {
             this.form[e.prop] = val;
@@ -267,7 +269,8 @@ export function renderForm(options = {}) {
           __vue.component(name, jsx);
         }
 
-        console.log(jsx);
+        // Delete jsx props, avoid props is null.
+        delete jsx.props;
 
         vnode = h(name, jsx);
       } else if (name) {
