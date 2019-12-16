@@ -1,9 +1,9 @@
-import { renderForm, renderLayout, certainProperty } from '../../utils';
-import { ToolsMixin } from '../../mixins/index';
+import { renderForm, renderLayout, certainProperty } from '@/utils';
+import { DialogMixin } from '@/mixins/dialog';
 
 export default {
   inject: ['crud'],
-  mixins: [ToolsMixin],
+  mixins: [DialogMixin],
 
   data() {
     return {
@@ -14,13 +14,14 @@ export default {
       items: [],
       op: {},
       form: {},
-      props: {}
+      props: {},
+      'v-loading': {}
     };
   },
 
   methods: {
     open(callback) {
-      let { props, items, op, form } = this.crud.upsert;
+      let { props, items, op, form, ['v-loading']: vLoading } = this.crud.upsert;
 
       this.visible = true;
 
@@ -39,6 +40,10 @@ export default {
 
       if (!props.width) {
         props.width = '50%';
+      }
+
+      if (vLoading) {
+        this['v-loading'] = vLoading;
       }
 
       this.dialog.fullscreen = props.fullscreen;

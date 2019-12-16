@@ -1,10 +1,10 @@
-import { renderForm, deepMerge, renderLayout, certainProperty } from '../../utils';
-import { ToolsMixin } from '../../mixins/index';
+import { renderForm, deepMerge, renderLayout, certainProperty, dataset } from '@/utils';
+import { DialogMixin } from '@/mixins/dialog';
 import '../assets/css/index.styl';
 
 export default {
   name: 'cl-form',
-  mixins: [ToolsMixin],
+  mixins: [DialogMixin],
 
   props: {
     options: Object
@@ -16,7 +16,6 @@ export default {
       op: {
         confirmButtonText: '保存',
         cancelButtonText: '取消',
-
         layout: ['cancel', 'confirm']
       },
       props: {
@@ -31,7 +30,12 @@ export default {
       fn: {},
       saving: false,
       loading: false,
-      visible: false
+      visible: false,
+      'v-loading': {
+        'element-loading-text': '',
+        'element-loading-spinner': '',
+        'element-loading-background': ''
+      }
     };
   },
 
@@ -41,9 +45,13 @@ export default {
         return console.warn(`can't open form, because argument is null`);
       }
 
-      const { props, items, on, op } = options;
+      const { props, items, on, op, ['v-loading']: vLoading } = options;
 
       this.visible = true;
+
+      if (vLoading) {
+        this['v-loading'] = vLoading;
+      }
 
       if (items) {
         this.items = items;
@@ -71,26 +79,50 @@ export default {
         deepMerge(this.op, op);
       }
 
-      this.form = {};
+      // 改变指向
+      // this.form = {};
 
       this.items.forEach(e => {
         this.$set(this.form, e.prop, e.value);
       });
 
-      return this.emit();
+      return this.cb();
     },
 
-    emit() {
-      const done = () => {
-        this.saving = false;
-      };
+    done() {
+      this.saving = false;
+    },
 
+    showLoading(text) {
+      this['v-loading']['element-loading-text'] = text;
+      this.loading = true;
+    },
+
+    hideLoading() {
+      this.loading = false;
+    },
+
+    data(p) {
+      return dataset(certainProperty(this, ['items']), p);
+    },
+
+    setData(p, d) {
+      deepMerge(this, dataset(certainProperty(this, ['items']), p, d));
+    },
+
+    cb() {
       return {
-        done,
         data: this.form,
-        items: this.items,
-        save: this.save,
-        close: this.close
+        ...certainProperty(this, [
+          'done',
+          'items',
+          'save',
+          'close',
+          'showLoading',
+          'hideLoading',
+          'setData',
+          'data'
+        ])
       };
     },
 
@@ -110,9 +142,9 @@ export default {
           if (this.on.submit) {
             this.saving = true;
 
-            this.on.submit(this.emit());
+            this.on.submit(this.cb());
           } else {
-            console.warn('function[submit] is not fount');
+            console.warn('Submit is not found');
           }
         }
       });

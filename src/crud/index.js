@@ -9,7 +9,7 @@ import MultiDeleteBtn from './lib/multi-delete-btn';
 import AdvBtn from './lib/adv-btn';
 import Pagination from './lib/pagination';
 import SearchKey from './lib/search-key';
-import { deepMerge, print, renderLayout, cloneDeep } from '../utils';
+import { deepMerge, print, renderLayout, cloneDeep } from '@/utils';
 import { bootstrap } from './app';
 import { __crud } from '../options';
 import './assets/css/index.styl';

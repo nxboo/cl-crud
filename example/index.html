@@ -25,7 +25,12 @@
   </head>
   <body>
     <div id="app">
-      <cl-crud @load="onLoad"></cl-crud>
+      <cl-crud @load="onLoad">
+        <template #slot-append>
+          <el-button type="text" size="mini" @click="openForm_Loading">测试loading</el-button>
+        </template>
+      </cl-crud>
+      <cl-form ref="cl-form"></cl-form>
     </div>
 
     <script>
@@ -164,6 +169,9 @@
                 }
               })
               .set('upsert', {
+                props: {
+                  loader: true
+                },
                 items: [
                   {
                     label: '输入框',
@@ -300,6 +308,45 @@
               })
               .done();
             app.refresh();
+          },
+
+          openForm_Loading() {
+            const $ = this.$refs['cl-form'].open({
+              props: {
+                title: '测试loading',
+                width: '500px'
+              },
+
+              items: [
+                {
+                  prop: 'tl',
+                  hidden: false,
+                  component: {
+                    name: 'test-loading',
+
+                    data() {
+                      return {
+                        status: 'loading'
+                      };
+                    },
+
+                    mounted() {
+                      this.status = 'loading';
+                      $.showLoading('加载中');
+
+                      setTimeout(() => {
+                        this.status = 'done';
+                        $.hideLoading();
+                      }, 1000);
+                    },
+
+                    render(h) {
+                      return h('p', this.status);
+                    }
+                  }
+                }
+              ]
+            });
           }
         }
       });

@@ -1,4 +1,4 @@
-import { cloneDeep, renderForm } from '../../utils';
+import { cloneDeep, renderForm } from '@/utils';
 
 export default {
   inject: ['crud'],

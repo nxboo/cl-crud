@@ -1,4 +1,4 @@
-export const ToolsMixin = {
+export const DialogMixin = {
   data() {
     return {
       dialog: {
@@ -48,15 +48,15 @@ export const ToolsMixin = {
           <div class="el-dialog__header-slot__button">
             {fullscreen ? (
               <button class="minimize" on-click={this.onFullScreen}>
-                <i class="el-icon-minus"></i>
+                <i class="el-icon-minus" />
               </button>
             ) : (
               <button class="maximize" on-click={this.onFullScreen}>
-                <i class="el-icon-full-screen"></i>
+                <i class="el-icon-full-screen" />
               </button>
             )}
             <button class="close" on-click={this.close}>
-              <i class="el-icon-close"></i>
+              <i class="el-icon-close" />
             </button>
           </div>
         </div>

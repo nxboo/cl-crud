@@ -1,4 +1,4 @@
-import { deepMerge, isFunction, dataset, certainProperty } from '../utils';
+import { deepMerge, isFunction, dataset, certainProperty } from '@/utils';
 
 export const bootstrap = that => {
   // eslint-disable-next-line

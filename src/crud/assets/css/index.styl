@@ -203,7 +203,7 @@
 
     .el-dialog__header-slot__title {
       display: block;
-      font-size: 14px;
+      font-size: 15px;
       letter-spacing: 0.5px;
 
       &._drag {
@@ -213,6 +213,17 @@
         -khtml-user-select: none;
         user-select: none;
         cursor: move;
+      }
+    }
+
+    .el-dialog__header-slot__loading {
+      height: 25px;
+      line-height: 25px;
+      position: absolute;
+      left: 10px;
+
+      i {
+        font-size: 20px;
       }
     }
 

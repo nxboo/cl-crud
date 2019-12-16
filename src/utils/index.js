@@ -184,7 +184,7 @@ export function renderLayout(vnode) {
     if (vnode.render) {
       if (!vnode.name) {
         console.error('Component name is required');
-        return <span></span>;
+        return <span />;
       }
 
       if (!this.$root.$options.components[vnode.name]) {
@@ -285,11 +285,7 @@ export function renderForm(options = {}) {
             case 'el-select':
               children = options.map((e, i) => {
                 return (
-                  <el-option
-                    key={i}
-                    label={e.label}
-                    value={e.value}
-                    {...{ props: e.props }}></el-option>
+                  <el-option key={i} label={e.label} value={e.value} {...{ props: e.props }} />
                 );
               });
               break;
@@ -348,7 +344,13 @@ export function renderForm(options = {}) {
           ...this.props
         }
       }}>
-      <el-row v-loading={this.loading}>
+      <el-row
+        v-loading={this.loading}
+        {...{
+          attrs: {
+            ...this['v-loading']
+          }
+        }}>
         {items}
         {appendEl}
       </el-row>

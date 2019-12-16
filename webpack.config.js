@@ -1,11 +1,13 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
+const resolve = dir => path.resolve(__dirname, dir);
+
 const webpackConfig = {
   mode: 'production',
   entry: './src/index.js',
   output: {
-    path: path.resolve(__dirname, './dist'),
+    path: resolve('./dist'),
     filename: 'cl-crud.min.js',
     libraryTarget: 'umd'
   },
@@ -31,7 +33,12 @@ const webpackConfig = {
       }
     ]
   },
-  plugins: [new VueLoaderPlugin()]
+  plugins: [new VueLoaderPlugin()],
+  resolve: {
+    alias: {
+      '@': resolve('src')
+    }
+  }
 };
 
 module.exports = webpackConfig;
