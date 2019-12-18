@@ -27,6 +27,8 @@
 
 - 9、1.2.2 自定义表单 data 方法冲突，导致 bound data
 
+- 10、1.2.3 优化深拷贝，处理高级搜索重置问题
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)

@@ -57,21 +57,21 @@ export function isEmpty(value) {
   return value === '' || value === undefined || value === null;
 }
 
-export function cloneDeep(obj) {
-  let d = isArray(obj) ? obj : {};
+export function cloneDeep(v) {
+  let d = v;
 
-  if (isObject(obj)) {
-    for (let key in obj) {
-      if (obj.hasOwnProperty && obj.hasOwnProperty(key)) {
-        if (obj[key] && typeof obj[key] === 'object') {
-          d[key] = cloneDeep(obj[key]);
+  if (isObject(v)) {
+    for (let k in v) {
+      if (v.hasOwnProperty && v.hasOwnProperty(k)) {
+        if (v[k] && typeof v[k] === 'object') {
+          d[k] = cloneDeep(v[k]);
         } else {
-          d[key] = obj[key];
+          d[k] = v[k];
         }
       }
     }
-  } else if (isArray(obj)) {
-    d = obj.map(cloneDeep);
+  } else if (isArray(v)) {
+    d = v.map(cloneDeep);
   }
 
   return d;

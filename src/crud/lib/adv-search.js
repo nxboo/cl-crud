@@ -1,4 +1,4 @@
-import { cloneDeep, renderForm } from '@/utils';
+import { cloneDeep, renderForm, isArray, isString, isObject } from '@/utils';
 
 export default {
   inject: ['crud'],
@@ -58,8 +58,17 @@ export default {
     },
 
     reset() {
-      this.items.forEach(e => (this.form[e.prop] = e.value));
-      this.$refs['form'].resetFields();
+      this.items.forEach(e => {
+        if (isArray(e.value)) {
+          this.form[e.prop] = [];
+        } else if (isObject(e.value)) {
+          this.form[e.prop] = {};
+        } else if (isString(e.value)) {
+          this.form[e.prop] = '';
+        } else {
+          this.form[e.prop] = undefined;
+        }
+      });
     }
   },
 
