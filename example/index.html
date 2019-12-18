@@ -29,6 +29,19 @@
         <template #slot-append>
           <el-button type="text" size="mini" @click="openForm_Loading">测试loading</el-button>
         </template>
+
+        <template #slot-validate="{scope}">
+          <el-form-item
+            v-for="(item, index) in scope.vads"
+            :key="index"
+            :prop="'vads.' + index + '.val'"
+            :rules="{ required: true }"
+          >
+            <el-input v-model="item.val"></el-input>
+          </el-form-item>
+
+          <el-button @click="addVad(scope.vads)">添加行</el-button>
+        </template>
       </cl-crud>
       <cl-form ref="cl-form"></cl-form>
     </div>
@@ -38,6 +51,14 @@
 
       new Vue({
         el: '#app',
+
+        data() {
+          return {
+            vad: {
+              list: []
+            }
+          };
+        },
 
         methods: {
           onLoad({ ctx, app }) {
@@ -170,9 +191,17 @@
               })
               .set('upsert', {
                 props: {
-                  loader: true
+                  labelWidth: '150px'
                 },
                 items: [
+                  {
+                    prop: 'vads',
+                    value: [],
+                    label: '动态增减表单验证',
+                    component: {
+                      name: 'slot-validate'
+                    }
+                  },
                   {
                     label: '输入框',
                     prop: 'a',
@@ -346,6 +375,12 @@
                   }
                 }
               ]
+            });
+          },
+
+          addVad(list) {
+            list.push({
+              val: ''
             });
           }
         }

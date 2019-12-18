@@ -25,6 +25,8 @@
 
 - 8、1.2.1 优化自定义表单
 
+- 9、1.2.2 自定义表单 data 方法冲突，导致 bound data
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)

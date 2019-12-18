@@ -102,7 +102,7 @@ export default {
       this.loading = false;
     },
 
-    data(p) {
+    getData(p) {
       return dataset(certainProperty(this, ['items']), p);
     },
 
@@ -121,7 +121,7 @@ export default {
           'showLoading',
           'hideLoading',
           'setData',
-          'data'
+          'getData'
         ])
       };
     },
