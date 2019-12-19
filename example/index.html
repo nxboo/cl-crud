@@ -157,17 +157,25 @@
                   {
                     label: '花名',
                     prop: 'name',
-                    align: 'center'
-                  },
-                  {
-                    label: '进展',
-                    prop: 'process',
-                    align: 'center'
-                  },
-                  {
-                    label: '总量',
-                    prop: 'price',
-                    align: 'center'
+                    align: 'center',
+                    children: [
+                      {
+                        label: '进展',
+                        prop: 'process',
+                        align: 'center'
+                      },
+                      {
+                        label: '花名2',
+                        prop: 'name',
+                        children: [
+                          {
+                            label: '总量',
+                            prop: 'price',
+                            align: 'center'
+                          }
+                        ]
+                      }
+                    ]
                   },
                   {
                     label: '销售',

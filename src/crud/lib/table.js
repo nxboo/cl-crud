@@ -107,44 +107,50 @@ export default {
     let columnEl = columns
       .filter(e => !e.hidden)
       .map(item => {
-        let params = {
-          props: item,
-          on: item.on
+        const deep = item => {
+          let params = {
+            props: item,
+            on: item.on
+          };
+
+          if (!item.type) {
+            params.scopedSlots = {
+              default: scope => {
+                let rn = this.$scopedSlots[`table-column-${item.prop}`];
+
+                let newScope = {
+                  ...scope,
+                  ...item
+                };
+
+                if (rn) {
+                  return rn({
+                    scope: newScope
+                  });
+                } else {
+                  return this.column_handler(newScope);
+                }
+              },
+              header: scope => {
+                let rn = this.$scopedSlots[`table-header-${item.prop}`];
+
+                if (rn) {
+                  return rn({
+                    scope
+                  });
+                } else {
+                  return scope.column.label;
+                }
+              }
+            };
+          }
+
+          const childrenEl = item.children ? item.children.map(deep) : null;
+
+          return <el-table-column {...params}>{childrenEl}</el-table-column>;
         };
 
-        if (!item.type) {
-          params.scopedSlots = {
-            default: scope => {
-              let rn = this.$scopedSlots[`table-column-${item.prop}`];
-
-              let newScope = {
-                ...scope,
-                ...item
-              };
-
-              if (rn) {
-                return rn({
-                  scope: newScope
-                });
-              } else {
-                return this.column_handler(newScope);
-              }
-            },
-            header: scope => {
-              let rn = this.$scopedSlots[`table-header-${item.prop}`];
-
-              if (rn) {
-                return rn({
-                  scope
-                });
-              } else {
-                return scope.column.label;
-              }
-            }
-          };
-        }
-
-        return <el-table-column {...params} />;
+        return deep(item);
       });
 
     let opEl = (

@@ -1,6 +1,6 @@
 {
   "name": "cl-crud",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "cool-admin: cl-crud、cl-form",
   "main": "dist/cl-crud.min.js",
   "scripts": {
@@ -10,13 +10,16 @@
   "license": "ISC",
   "keywords": [
     "crud",
-    "admin"
+    "admin",
+    "vue",
+    "element-ui"
   ],
   "homepage": "https://github.com/icssoa/cl-crud",
   "files": [
     "dist",
     "src",
-    "webpack.config.js"
+    "webpack.config.js",
+    "example"
   ],
   "devDependencies": {
     "@babel/plugin-transform-async-to-generator": "^7.7.0",
