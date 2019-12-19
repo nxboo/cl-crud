@@ -1,4 +1,4 @@
-export const DialogMixin = {
+export default {
   data() {
     return {
       dialog: {

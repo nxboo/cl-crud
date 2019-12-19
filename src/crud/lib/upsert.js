@@ -1,5 +1,13 @@
-import { renderForm, renderLayout, certainProperty } from '@/utils';
-import { DialogMixin } from '@/mixins/dialog';
+import {
+  renderForm,
+  renderLayout,
+  certainProperty,
+  isArray,
+  isObject,
+  isString,
+  cloneDeep
+} from '@/utils';
+import DialogMixin from '@/mixins/dialog';
 
 export default {
   inject: ['crud'],
@@ -21,7 +29,7 @@ export default {
 
   methods: {
     open(callback) {
-      let { props, items, op, form, ['v-loading']: vLoading } = this.crud.upsert;
+      let { props, items, op, form } = this.crud.upsert;
 
       this.visible = true;
 
@@ -42,14 +50,10 @@ export default {
         props.width = '50%';
       }
 
-      if (vLoading) {
-        this['v-loading'] = vLoading;
-      }
-
       this.dialog.fullscreen = props.fullscreen;
 
       this.items.forEach(e => {
-        this.$set(this.form, e.prop, e.value);
+        this.$set(this.form, e.prop, cloneDeep(e.value));
       });
 
       this.$nextTick(() => {
@@ -59,17 +63,28 @@ export default {
 
     close() {
       // reset value
-      this.$refs['form'].resetFields();
+      this.reset();
 
       // clear status
       this.visible = false;
       this.loading = false;
-
-      // default values
-      this.form = {};
-      this.crud.upsert.form = {};
+      this.saving = false;
 
       this.emit('close', this.isEdit);
+    },
+
+    reset() {
+      this.items.forEach(e => {
+        if (isArray(e.value)) {
+          this.form[e.prop] = [];
+        } else if (isObject(e.value)) {
+          this.form[e.prop] = {};
+        } else if (isString(e.value)) {
+          this.form[e.prop] = '';
+        } else {
+          this.form[e.prop] = undefined;
+        }
+      });
     },
 
     emit(name, ...args) {

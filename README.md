@@ -31,6 +31,8 @@
 
 - 1.2.4 兼容多级表头
 
+- 1.2.5 优化表单处理
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)

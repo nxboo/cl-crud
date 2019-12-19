@@ -48,7 +48,7 @@ export default {
 
       this.items.map(e => {
         if (this.form[e.prop] === undefined) {
-          this.$set(this.form, e.prop, e.value);
+          this.$set(this.form, e.prop, cloneDeep(e.value));
         }
       });
     },

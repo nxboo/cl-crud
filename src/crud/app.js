@@ -110,6 +110,10 @@ export const bootstrap = that => {
       that.rowClose(d);
     },
 
+    reset() {
+      that.reset();
+    },
+
     renderList(d) {
       that.table.data = d;
       that.table.loading = false;

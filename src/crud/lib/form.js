@@ -1,5 +1,15 @@
-import { renderForm, deepMerge, renderLayout, certainProperty, dataset } from '@/utils';
-import { DialogMixin } from '@/mixins/dialog';
+import {
+  renderForm,
+  deepMerge,
+  renderLayout,
+  certainProperty,
+  dataset,
+  isArray,
+  isObject,
+  isString,
+  cloneDeep
+} from '@/utils';
+import DialogMixin from '@/mixins/dialog';
 import '../assets/css/index.styl';
 
 export default {
@@ -45,13 +55,9 @@ export default {
         return console.warn(`can't open form, because argument is null`);
       }
 
-      const { props, items, on, op, ['v-loading']: vLoading } = options;
+      const { props, items, on, op } = options;
 
       this.visible = true;
-
-      if (vLoading) {
-        this['v-loading'] = vLoading;
-      }
 
       if (items) {
         this.items = items;
@@ -83,7 +89,7 @@ export default {
       // this.form = {};
 
       this.items.forEach(e => {
-        this.$set(this.form, e.prop, e.value);
+        this.$set(this.form, e.prop, cloneDeep(e.value));
       });
 
       return this.cb();
@@ -91,6 +97,31 @@ export default {
 
     done() {
       this.saving = false;
+    },
+
+    reset() {
+      this.items.forEach(e => {
+        if (isArray(e.value)) {
+          this.form[e.prop] = [];
+        } else if (isObject(e.value)) {
+          this.form[e.prop] = {};
+        } else if (isString(e.value)) {
+          this.form[e.prop] = '';
+        } else {
+          this.form[e.prop] = undefined;
+        }
+      });
+    },
+
+    close() {
+      this.reset();
+
+      this.visible = false;
+      this.saving = false;
+
+      if (this.on.close) {
+        this.on.close();
+      }
     },
 
     showLoading(text) {
@@ -118,22 +149,13 @@ export default {
           'items',
           'save',
           'close',
+          'reset',
           'showLoading',
           'hideLoading',
           'setData',
           'getData'
         ])
       };
-    },
-
-    close() {
-      this.$refs['form'].resetFields();
-      this.visible = false;
-      this.saving = false;
-
-      if (this.on.close) {
-        this.on.close();
-      }
     },
 
     save() {
