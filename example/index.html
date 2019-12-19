@@ -27,6 +27,7 @@
     <div id="app">
       <cl-crud @load="onLoad">
         <template #slot-append>
+          <el-button type="text" size="mini" @click="openForm_CRUD">内嵌crud</el-button>
           <el-button type="text" size="mini" @click="openForm_Loading">测试loading</el-button>
         </template>
 
@@ -191,7 +192,7 @@
 
                 op: {
                   props: {
-                    width: 200
+                    width: 250
                   },
 
                   layout: ['slot-append', 'edit', 'delete']
@@ -343,6 +344,19 @@
                   ]
                 }
               })
+              .set('layout', [
+                [
+                  'refresh-btn',
+                  'add-btn',
+                  'multi-delete-btn',
+                  'query',
+                  'flex1',
+                  'search-key',
+                  'adv-btn'
+                ],
+                ['data-table'],
+                ['flex1', 'pagination']
+              ])
               .done();
             app.refresh();
           },
@@ -379,6 +393,40 @@
 
                     render(h) {
                       return h('p', this.status);
+                    }
+                  }
+                }
+              ]
+            });
+          },
+
+          openForm_CRUD() {
+            this.$refs['cl-form'].open({
+              props: {
+                title: '内嵌CRUD',
+                width: '800px',
+                size: 'mini'
+              },
+
+              items: [
+                {
+                  props: {
+                    labelWidth: '0px'
+                  },
+
+                  component: {
+                    name: 'cl-crud',
+
+                    on: {
+                      load({ ctx }) {
+                        ctx
+                          .service({
+                            page: p => {
+                              return Promise.resolve({ list: [], pagination: {} });
+                            }
+                          })
+                          .done();
+                      }
                     }
                   }
                 }

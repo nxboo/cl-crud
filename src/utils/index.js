@@ -226,8 +226,13 @@ export function renderForm(options = {}) {
         slot,
         key,
         ref,
-        refInFor
+        refInFor,
+        width = '100%'
       } = e.component || {};
+      
+      if (!style.width) {
+        style.width = width;
+      }
 
       let jsx = {
         ...e.component,
