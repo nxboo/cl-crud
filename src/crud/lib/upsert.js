@@ -22,8 +22,7 @@ export default {
       items: [],
       op: {},
       form: {},
-      props: {},
-      'v-loading': {}
+      props: {}
     };
   },
 

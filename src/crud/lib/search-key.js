@@ -39,9 +39,9 @@ export default {
     });
 
     return (
-      <div class="search-key">
+      <div class="crud-search-key">
         <el-select
-          class="_select"
+          class="crud-search-key__select"
           v-model={this.crud.search.key.selected}
           filterable
           size="mini"
@@ -51,7 +51,7 @@ export default {
         </el-select>
 
         <el-input
-          class="_input"
+          class="crud-search-key__input"
           v-model={this.crud.search.key.value}
           placeholder={placeholder}
           nativeOnKeyup={this.onKeyup}
@@ -59,7 +59,11 @@ export default {
           size="mini"
         />
 
-        <el-button class="_button" type="primary" size="mini" on-click={this.search}>
+        <el-button
+          class="crud-search-key__button"
+          type="primary"
+          size="mini"
+          on-click={this.search}>
           搜索
         </el-button>
       </div>

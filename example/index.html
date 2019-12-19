@@ -425,6 +425,11 @@
                               return Promise.resolve({ list: [], pagination: {} });
                             }
                           })
+                          .set('layout', [
+                            ['refresh-btn', 'flex1', 'search-key'],
+                            ['data-table'],
+                            ['flex1', 'pagination']
+                          ])
                           .done();
                       }
                     }

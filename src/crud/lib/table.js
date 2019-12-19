@@ -64,7 +64,7 @@ export default {
           let f = true;
 
           for (let j = 0; j < rows[i].childNodes.length; j++) {
-            if (rows[i].childNodes[j].className == 'data-table') {
+            if (rows[i].childNodes[j].className == 'crud-data-table') {
               f = false;
             }
           }
@@ -221,7 +221,7 @@ export default {
 
     return (
       this.table.visible && (
-        <div class="data-table">
+        <div class="crud-data-table">
           {
             <el-table
               ref="table"
