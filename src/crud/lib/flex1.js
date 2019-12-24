@@ -1,7 +1,7 @@
 export default {
-  name: 'flex1',
+    name: 'flex1',
 
-  render() {
-    return <div style="flex: 1" />;
-  }
+    render() {
+        return <div style="flex: 1" />;
+    }
 };

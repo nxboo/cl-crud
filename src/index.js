@@ -6,23 +6,23 @@ import Form from './crud/lib/form';
 import { DialogDrag } from './directive/index';
 
 export const CRUD = {
-  version: '1.2.7',
+    version: '1.2.9',
 
-  install: function(Vue, options = {}) {
-    const { crud, version = '' } = options;
+    install: function(Vue, options = {}) {
+        const { crud, version = '' } = options;
 
-    const Ver = name => {
-      return `${name}${version}`;
-    };
+        const Ver = name => {
+            return `${name}${version}`;
+        };
 
-    deepMerge(__crud, crud);
-    deepMerge(__vue, Vue);
+        deepMerge(__crud, crud);
+        deepMerge(__vue, Vue);
 
-    Vue.directive('dialog-drag', DialogDrag);
+        Vue.directive('dialog-drag', DialogDrag);
 
-    Vue.component(Ver('cl-crud'), Crud);
-    Vue.component(Ver('cl-form'), Form);
-  }
+        Vue.component(Ver('cl-crud'), Crud);
+        Vue.component(Ver('cl-form'), Form);
+    }
 };
 
 export default CRUD;

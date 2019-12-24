@@ -1,17 +1,17 @@
 export default {
-  name: 'refresh-btn',
+    name: 'refresh-btn',
 
-  inject: ['crud'],
+    inject: ['crud'],
 
-  render() {
-    return (
-      <el-button
-        size="mini"
-        on-click={() => {
-          this.crud.refresh();
-        }}>
-        {this.crud.dict.label.refresh}
-      </el-button>
-    );
-  }
+    render() {
+        return (
+            <el-button
+                size="mini"
+                on-click={() => {
+                    this.crud.refresh();
+                }}>
+                {this.crud.dict.label.refresh}
+            </el-button>
+        );
+    }
 };
