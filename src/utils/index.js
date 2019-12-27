@@ -289,9 +289,9 @@ export function renderForm(options = {}) {
                         vnode = rn({ scope: this.form });
                     }
                 } else {
-                    switch (name) {
-                        case 'el-select':
-                            children = options.map((e, i) => {
+                    children = (e.component.options || []).map((e, i) => {
+                        switch (name) {
+                            case 'el-select':
                                 return (
                                     <el-option
                                         key={i}
@@ -300,29 +300,22 @@ export function renderForm(options = {}) {
                                         {...{ props: e.props }}
                                     />
                                 );
-                            });
-                            break;
 
-                        case 'el-radio-group':
-                            children = options.map((e, i) => {
+                            case 'el-radio-group':
                                 return (
                                     <el-radio key={i} label={e.value} {...{ props: e.props }}>
                                         {e.label}
                                     </el-radio>
                                 );
-                            });
-                            break;
 
-                        case 'el-checkbox-group':
-                            children = options.map((e, i) => {
+                            case 'el-checkbox-group':
                                 return (
                                     <el-checkbox key={i} label={e.value} {...{ props: e.props }}>
                                         {e.label}
                                     </el-checkbox>
                                 );
-                            });
-                            break;
-                    }
+                        }
+                    });
 
                     vnode = h(name, jsx, children);
                 }
