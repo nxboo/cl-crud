@@ -24,8 +24,8 @@ export const bootstrap = that => {
 
             const refs = (that.refs = {
                 table: table.$refs['table'],
-                upsert,
-                advSearch
+                upsert: upsert.$refs['form'],
+                'adv-search': advSearch.$refs['form']
             });
 
             return k ? refs[k] : refs;

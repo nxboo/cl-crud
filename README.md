@@ -41,6 +41,8 @@
 
 -   1.2.9 修改方法 fn.permission 为接收一个返回值
 
+-   1.3.0 解决 app.refs 获取异常
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)
