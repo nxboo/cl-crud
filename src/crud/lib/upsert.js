@@ -5,7 +5,9 @@ import {
     isArray,
     isObject,
     isString,
-    cloneDeep
+    cloneDeep,
+    resetForm,
+    clearForm
 } from '@/utils';
 import DialogMixin from '@/mixins/dialog';
 
@@ -62,7 +64,7 @@ export default {
 
         close() {
             // reset value
-            this.reset();
+            clearForm(this.form);
 
             // clear status
             this.visible = false;
@@ -72,18 +74,12 @@ export default {
             this.emit('close', this.isEdit);
         },
 
+        clear() {
+            clearForm(this.form);
+        },
+
         reset() {
-            this.items.forEach(e => {
-                if (isArray(e.value)) {
-                    this.form[e.prop] = [];
-                } else if (isObject(e.value)) {
-                    this.form[e.prop] = {};
-                } else if (isString(e.value)) {
-                    this.form[e.prop] = '';
-                } else {
-                    this.form[e.prop] = undefined;
-                }
-            });
+            this.resetForm(this.items, this.form);
         },
 
         emit(name, ...args) {

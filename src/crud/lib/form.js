@@ -4,10 +4,9 @@ import {
     renderNode,
     certainProperty,
     dataset,
-    isArray,
-    isObject,
-    isString,
-    cloneDeep
+    cloneDeep,
+    resetForm,
+    clearForm
 } from '@/utils';
 import DialogMixin from '@/mixins/dialog';
 import '../assets/css/index.styl';
@@ -85,9 +84,6 @@ export default {
                 deepMerge(this.op, op);
             }
 
-            // 改变指向
-            // this.form = {};
-
             this.items.forEach(e => {
                 this.$set(this.form, e.prop, cloneDeep(e.value));
             });
@@ -100,21 +96,11 @@ export default {
         },
 
         reset() {
-            this.items.forEach(e => {
-                if (isArray(e.value)) {
-                    this.form[e.prop] = [];
-                } else if (isObject(e.value)) {
-                    this.form[e.prop] = {};
-                } else if (isString(e.value)) {
-                    this.form[e.prop] = '';
-                } else {
-                    this.form[e.prop] = undefined;
-                }
-            });
+            resetForm(this.items, this.form);
         },
 
         close() {
-            this.reset();
+            clearForm(this.form);
 
             this.visible = false;
             this.saving = false;

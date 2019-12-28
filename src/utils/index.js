@@ -159,6 +159,30 @@ export function print(title, value) {
     }
 }
 
+export function resetForm(items, form) {
+    items.forEach(e => {
+        if (isArray(e.value)) {
+            form[e.prop] = [];
+        } else if (isObject(e.value)) {
+            form[e.prop] = {};
+        } else {
+            form[e.prop] = undefined;
+        }
+    });
+}
+
+export function clearForm(form) {
+    for (let i in form) {
+        if (isArray(form[i])) {
+            form[i] = [];
+        } else if (isObject(form[i])) {
+            form[i] = {};
+        } else {
+            form[i] = undefined;
+        }
+    }
+}
+
 export function deepMerge(a, b) {
     let k;
     for (k in b) {

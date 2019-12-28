@@ -45,6 +45,8 @@
 
 -   1.3.1 解决 options 重新设置不生效问题
 
+-   1.3.2 解决 upsert.form 未完全清空问题
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)
