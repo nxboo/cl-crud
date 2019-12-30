@@ -204,11 +204,7 @@ export default {
                         });
                     };
 
-                    let data = Object.create(null);
-
-                    for (let i in this.form) {
-                        data[i] = this.form[i];
-                    }
+                    let data = cloneDeep(this.form);
 
                     this.saving = true;
 

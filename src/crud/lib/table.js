@@ -84,40 +84,32 @@ export default {
         },
 
         opRender() {
-            const { rowEdit, rowDelete, dict, permission } = this.crud;
+            const { rowEdit, rowDelete, dict, getPermission, getLabel } = this.crud;
             const { on, op } = this.table;
 
             const render = scope => {
                 return op.layout.map(vnode => {
-                    if (vnode == 'edit') {
-                        const label = dict.label.update;
-                        const click = () => {
-                            rowEdit(scope.row);
-                        };
+                    if (['edit', 'update', 'delete'].includes(vnode)) {
+                        // 获取权限
+                        const perm = getPermission(vnode);
 
-                        if (permission.update) {
+                        if (perm) {
+                            // 标签名
+                            const label = getLabel(vnode);
+                            // 点击事件
+                            const onclick = () => {
+                                if (vnode == 'edit' || vnode == 'update') {
+                                    rowEdit(scope.row);
+                                } else if (vnode == 'delete') {
+                                    rowDelete(scope.row);
+                                }
+                            };
+
                             if (op.name == 'dropdown-menu') {
-                                return <p on-click={click}>{label}</p>;
+                                return <p on-click={onclick}>{label}</p>;
                             } else {
                                 return (
-                                    <el-button size="mini" type="text" on-click={click}>
-                                        {label}
-                                    </el-button>
-                                );
-                            }
-                        }
-                    } else if (vnode == 'delete') {
-                        const label = dict.label.delete;
-                        const click = () => {
-                            rowDelete(scope.row);
-                        };
-
-                        if (permission.delete) {
-                            if (op.name == 'dropdown-menu') {
-                                return <p on-click={click}>{label}</p>;
-                            } else {
-                                return (
-                                    <el-button size="mini" type="text" on-click={click}>
+                                    <el-button size="mini" type="text" on-click={onclick}>
                                         {label}
                                     </el-button>
                                 );

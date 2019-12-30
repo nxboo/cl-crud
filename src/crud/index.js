@@ -222,6 +222,28 @@ export default {
     },
 
     methods: {
+        // 检查是否有权限
+        getPermission(key) {
+            switch (key) {
+                case 'edit':
+                case 'update':
+                    return this.permission['update'];
+                default:
+                    return this.permission[key];
+            }
+        },
+
+        // 获取标签
+        getLabel(key) {
+            switch (key) {
+                case 'edit':
+                case 'update':
+                    return this.dict.label['update'];
+                default:
+                    return this.dict.label[key];
+            }
+        },
+
         // 新增
         rowAdd() {
             this.$refs['upsert'].add();
@@ -420,15 +442,14 @@ export default {
                             Object.assign(this.pagination, res.pagination);
 
                             render(cloneDeep(res.list));
-                            done();
                             resolve(res);
                         })
                         .catch(err => {
                             this.$message.error(err);
-                            done();
                             reject(err);
                         })
                         .done(() => {
+                            done();
                             this.temp.sortLock = true;
                         });
                 });
