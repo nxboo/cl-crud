@@ -413,16 +413,18 @@ export default {
             // 预防脏数据
             let rd = (this.temp.refreshRd = Math.random());
 
-            // 操作事件
+            // 完成事件
             const done = () => {
                 this.table.loading = false;
             };
 
+            // 渲染列表
             const render = list => {
                 this.table.data = list;
                 done();
             };
 
+            // 请求执行
             const next = params => {
                 return new Promise((resolve, reject) => {
                     const reqName = this.dict.api.page;
@@ -486,9 +488,13 @@ export default {
             }
         };
 
-        const template = this.layout.map(e => {
+        const template = this.layout.map((e, i) => {
             if (e instanceof Array) {
-                return <el-row type="flex">{e.map(rn)}</el-row>;
+                return (
+                    <el-row type="flex" class={`el-row--${i}`}>
+                        {e.map(rn)}
+                    </el-row>
+                );
             } else {
                 return rn(e);
             }
@@ -497,10 +503,10 @@ export default {
         return (
             this.process.status && (
                 <div class="crud-index">
+                    {template}
+
                     <adv-search ref="adv-search" />
                     <upsert ref="upsert" />
-
-                    {template}
                 </div>
             )
         );

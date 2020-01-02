@@ -32,7 +32,7 @@ function onPass(el, binding) {
 export const DialogDrag = {
     bind(el, binding) {
         const dlg = el.querySelector('.el-dialog');
-        const hdr = el.querySelector('.el-dialog__header-slot__title');
+        const hdr = el.querySelector('.el-dialog__header-slot-title');
         const sty = dlg.currentStyle || window.getComputedStyle(dlg, null);
         const pad = 5;
         const { props, dialog } = binding.value;

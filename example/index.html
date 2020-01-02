@@ -29,6 +29,17 @@
     <body>
         <div id="app">
             <cl-crud @load="onLoad">
+                <template #table-column-images="{scope}">
+                    <el-image
+                        :src="scope.row.images[0]"
+                        :preview-src-list="scope.row.images"
+                        :style='{
+                            height: "100px",
+                            width: "100px"
+                        }'
+                    ></el-image>
+                </template>
+
                 <template #slot-append>
                     <p @click="openForm_Loading">测试loading</p>
                 </template>
@@ -102,7 +113,10 @@
                                             endTime: '2019年09月02日',
                                             price: 75.99,
                                             salesRate: 52.2,
-                                            salesStatus: 1
+                                            salesStatus: 1,
+                                            images: [
+                                                'https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3783120155,1061441906&fm=26&gp=0.jpg'
+                                            ]
                                         },
                                         {
                                             id: 2,
@@ -111,7 +125,8 @@
                                             endTime: '2019年09月05日',
                                             price: 242.1,
                                             salesRate: 72.1,
-                                            salesStatus: 1
+                                            salesStatus: 1,
+                                            images: []
                                         },
                                         {
                                             id: 3,
@@ -120,7 +135,8 @@
                                             endTime: '2019年09月12日',
                                             price: 74.11,
                                             salesRate: 23.9,
-                                            salesStatus: 0
+                                            salesStatus: 0,
+                                            images: []
                                         },
                                         {
                                             id: 4,
@@ -129,7 +145,8 @@
                                             endTime: '2019年09月13日',
                                             price: 276.64,
                                             salesRate: 47.2,
-                                            salesStatus: 0
+                                            salesStatus: 0,
+                                            images: []
                                         },
                                         {
                                             id: 5,
@@ -138,7 +155,8 @@
                                             endTime: '2019年09月18日',
                                             price: 160.23,
                                             salesRate: 28.3,
-                                            salesStatus: 1
+                                            salesStatus: 1,
+                                            images: []
                                         },
                                         {
                                             id: 6,
@@ -147,7 +165,8 @@
                                             endTime: '2019年09月20日',
                                             price: 219.52,
                                             salesRate: 24.4,
-                                            salesStatus: 0
+                                            salesStatus: 0,
+                                            images: []
                                         }
                                     ],
                                     pagination: {
@@ -187,6 +206,12 @@
                                         type: 'selection',
                                         align: 'center',
                                         width: 60
+                                    },
+                                    {
+                                        label: '图片',
+                                        prop: 'images',
+                                        align: 'center',
+                                        width: '200'
                                     },
                                     {
                                         label: '花名',
@@ -242,6 +267,13 @@
                                         label: '动态增减表单验证',
                                         component: {
                                             name: 'slot-validate'
+                                        }
+                                    },
+                                    {
+                                        label: '数字框',
+                                        prop: 'a1',
+                                        component: {
+                                            name: 'el-input-number'
                                         }
                                     },
                                     {
@@ -367,11 +399,11 @@
                                 query: {
                                     list: [
                                         {
-                                            label: '上升的',
+                                            label: '类目1',
                                             value: 1
                                         },
                                         {
-                                            label: '下跌的',
+                                            label: '类目2',
                                             value: 0
                                         }
                                     ]

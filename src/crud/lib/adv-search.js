@@ -90,10 +90,10 @@ export default {
                             ...on
                         }
                     }}>
-                    <div class="crud-adv-search__drawer">
-                        <div class="crud-adv-search__drawer-container">{form}</div>
+                    <div class="crud-adv-search">
+                        <div class="crud-adv-search__container">{form}</div>
 
-                        <div class="crud-adv-search__drawer-footer">
+                        <div class="crud-adv-search__footer">
                             <el-button size="medium" type="primary" on-click={this.search}>
                                 {op.confirmButtonText}
                             </el-button>

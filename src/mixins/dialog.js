@@ -41,14 +41,14 @@ export default {
                 <div class="el-dialog__header-slot">
                     <span
                         class={{
-                            'el-dialog__header-slot__title': true,
+                            'el-dialog__header-slot-title': true,
                             _drag: drag && !fullscreen
                         }}
                         on-dblclick={this.onFullScreen}>
                         {title}
                     </span>
 
-                    <div class="el-dialog__header-slot__button">
+                    <div class="el-dialog__header-slot-button">
                         {fullscreen ? (
                             <button class="minimize" on-click={this.onFullScreen}>
                                 <i class="el-icon-minus" />

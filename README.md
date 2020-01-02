@@ -49,6 +49,8 @@
 
 -   1.3.3 优化 table.op
 
+-   1.3.4 解决 refs 冲突；样式规范修改
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)
