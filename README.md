@@ -51,6 +51,8 @@
 
 -   1.3.4 解决 refs 冲突；样式规范修改
 
+-   1.3.5 添加 flat 兼容
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)

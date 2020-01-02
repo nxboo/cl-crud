@@ -1,5 +1,43 @@
 import { __vue } from '../options';
 
+// flat的兼容
+if (Array.prototype.flat === undefined) {
+    Array.prototype.flat = function(count) {
+        let c = count || 1;
+        let len = this.length;
+        let ret = [];
+        if (this.length == 0) return this;
+        while (c--) {
+            let arr = [];
+            let flag = false;
+            if (ret.length == 0) {
+                flag = true;
+                for (let i = 0; i < len; i++) {
+                    if (this[i] instanceof Array) {
+                        ret.push(...this[i]);
+                    } else {
+                        ret.push(this[i]);
+                    }
+                }
+            } else {
+                for (let i = 0; i < ret.length; i++) {
+                    if (ret[i] instanceof Array) {
+                        flag = true;
+                        arr.push(...ret[i]);
+                    } else {
+                        arr.push(ret[i]);
+                    }
+                }
+                ret = arr;
+            }
+            if (!flag && c == Infinity) {
+                break;
+            }
+        }
+        return ret;
+    };
+}
+
 export function debounce(fn, delay) {
     let timer = null;
 

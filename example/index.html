@@ -422,6 +422,9 @@
                                 ['data-table'],
                                 ['flex1', 'pagination']
                             ])
+                            .on('open', isEdit => {
+                                app.setData('upsert.items[prop:a].value', 1);
+                            })
                             .done();
                         app.refresh();
                     },
@@ -483,21 +486,49 @@
                                         name: 'cl-crud',
 
                                         on: {
-                                            load({ ctx }) {
+                                            load({ ctx, app }) {
                                                 ctx.service({
                                                     page: p => {
                                                         return Promise.resolve({
-                                                            list: [],
-                                                            pagination: {}
+                                                            list: [
+                                                                {
+                                                                    id: 1,
+                                                                    name: 'A',
+                                                                    age: 26
+                                                                }
+                                                            ],
+                                                            pagination: {
+                                                                total: 1,
+                                                                page: 1,
+                                                                size: 10
+                                                            }
                                                         });
                                                     }
                                                 })
+                                                    .set('table', {
+                                                        columns: [
+                                                            {
+                                                                label: '姓名',
+                                                                prop: 'name'
+                                                            },
+                                                            {
+                                                                label: '年龄',
+                                                                prop: 'age'
+                                                            }
+                                                        ],
+
+                                                        op: {
+                                                            visible: false
+                                                        }
+                                                    })
                                                     .set('layout', [
                                                         ['refresh-btn', 'flex1', 'search-key'],
                                                         ['data-table'],
                                                         ['flex1', 'pagination']
                                                     ])
                                                     .done();
+
+                                                app.refresh();
                                             }
                                         }
                                     }
