@@ -422,9 +422,6 @@
                                 ['data-table'],
                                 ['flex1', 'pagination']
                             ])
-                            .on('open', isEdit => {
-                                app.setData('upsert.items[prop:a].value', 1);
-                            })
                             .done();
                         app.refresh();
                     },

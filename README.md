@@ -53,6 +53,8 @@
 
 -   1.3.5 添加 flat 兼容
 
+-   1.3.6 添加 flat 方法
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)

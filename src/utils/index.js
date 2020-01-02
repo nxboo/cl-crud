@@ -1,41 +1,39 @@
 import { __vue } from '../options';
 
-// flat的兼容
-if (Array.prototype.flat === undefined) {
-    Array.prototype.flat = function(count) {
-        let c = count || 1;
-        let len = this.length;
-        let ret = [];
-        if (this.length == 0) return this;
-        while (c--) {
-            let arr = [];
-            let flag = false;
-            if (ret.length == 0) {
-                flag = true;
-                for (let i = 0; i < len; i++) {
-                    if (this[i] instanceof Array) {
-                        ret.push(...this[i]);
-                    } else {
-                        ret.push(this[i]);
-                    }
+export function flat(list, count) {
+    let c = count || 1;
+    let len = list.length;
+    let ret = [];
+    if (len == 0) return [];
+
+    while (c--) {
+        let arr = [];
+        let flag = false;
+        if (ret.length == 0) {
+            flag = true;
+            for (let i = 0; i < len; i++) {
+                if (list[i] instanceof Array) {
+                    ret.push(...list[i]);
+                } else {
+                    ret.push(list[i]);
                 }
-            } else {
-                for (let i = 0; i < ret.length; i++) {
-                    if (ret[i] instanceof Array) {
-                        flag = true;
-                        arr.push(...ret[i]);
-                    } else {
-                        arr.push(ret[i]);
-                    }
+            }
+        } else {
+            for (let i = 0; i < ret.length; i++) {
+                if (ret[i] instanceof Array) {
+                    flag = true;
+                    arr.push(...ret[i]);
+                } else {
+                    arr.push(ret[i]);
                 }
-                ret = arr;
             }
-            if (!flag && c == Infinity) {
-                break;
-            }
+            ret = arr;
         }
-        return ret;
-    };
+        if (!flag && c == Infinity) {
+            break;
+        }
+    }
+    return ret;
 }
 
 export function debounce(fn, delay) {
@@ -132,16 +130,15 @@ export function certainProperty(obj, keys) {
 export function dataset(obj, key, value) {
     let d = obj;
 
-    let arr = key
-        .split('.')
-        .map(e => {
+    let arr = flat(
+        key.split('.').map(e => {
             if (e.includes('[')) {
                 return e.split('[').map(e => e.replace(/"/g, ''));
             } else {
                 return e;
             }
         })
-        .flat();
+    );
 
     for (let i = 0; i < arr.length; i++) {
         let e = arr[i];
