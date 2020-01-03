@@ -240,9 +240,10 @@ export default {
     },
 
     mounted() {
-        window.onresize = () => {
+        window.removeEventListener('resize', function() {});
+        window.addEventListener('resize', () => {
             this.resize();
-        };
+        });
 
         this.resize();
     },

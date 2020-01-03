@@ -55,6 +55,8 @@
 
 -   1.3.6 添加 flat 方法
 
+-   1.3.7 解决 onresize 重写问题
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)
