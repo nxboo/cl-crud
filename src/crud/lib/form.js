@@ -15,10 +15,6 @@ export default {
     name: 'cl-form',
     mixins: [DialogMixin],
 
-    props: {
-        options: Object
-    },
-
     data() {
         return {
             items: [],
@@ -44,6 +40,9 @@ export default {
                 'element-loading-text': '',
                 'element-loading-spinner': '',
                 'element-loading-background': ''
+            },
+            aid: {
+                forceUpdate: null
             }
         };
     },
@@ -54,9 +53,10 @@ export default {
                 return console.warn(`can't open form, because argument is null`);
             }
 
-            const { props, items, on, op } = options;
+            const { props, items, on, op, forceUpdate } = options;
 
             this.visible = true;
+            this.aid.forceUpdate = forceUpdate;
 
             if (items) {
                 this.items = items;
@@ -119,6 +119,10 @@ export default {
             this.loading = false;
         },
 
+        getRef() {
+            return this.$refs.form;
+        },
+
         getData(p) {
             return dataset(certainProperty(this, ['items']), p);
         },
@@ -139,7 +143,8 @@ export default {
                     'showLoading',
                     'hideLoading',
                     'setData',
-                    'getData'
+                    'getData',
+                    'getRef'
                 ])
             };
         },
@@ -160,7 +165,7 @@ export default {
     },
 
     render() {
-        const form = renderForm.call(this);
+        const form = renderForm.call(this, this.aid);
         const titleEl = this.renderTitleSlot();
         const { confirmButtonText, cancelButtonText, layout } = this.op;
 

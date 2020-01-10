@@ -57,6 +57,8 @@
 
 -   1.3.7 解决 onresize 重写问题
 
+-   1.3.8 cl-form 组件添加 forceUpdate（强制更新）参数
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)

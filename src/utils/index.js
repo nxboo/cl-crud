@@ -74,11 +74,15 @@ export function isNumber(value) {
 }
 
 export function isFunction(value) {
-    return typeof value == 'function';
+    return typeof value === 'function';
 }
 
 export function isString(value) {
-    return typeof value == 'string';
+    return typeof value === 'string';
+}
+
+export function isBoolean(value) {
+    return typeof value === 'boolean';
 }
 
 export function isEmpty(value) {
@@ -262,9 +266,11 @@ export function renderNode(vnode, options = {}) {
     }
 }
 
+let formItemNameIndex = 0;
+
 export function renderForm(options = {}) {
     const h = this.$createElement;
-    const { appendEl } = options;
+    const { appendEl, forceUpdate } = options;
 
     let items = this.items.map((e, i) => {
         if (!e.hidden) {
@@ -330,6 +336,20 @@ export function renderForm(options = {}) {
                     name = 'error-text';
                     jsx.domProps.innerHTML = 'Component name is required';
                     jsx.style.color = 'red';
+                }
+
+                const fn = function() {
+                    name = name + '-' + formItemNameIndex++;
+                };
+
+                if (isBoolean(e.forceUpdate)) {
+                    if (e.forceUpdate) {
+                        fn();
+                    }
+                } else {
+                    if (forceUpdate) {
+                        fn();
+                    }
                 }
 
                 if (!this.$root.$options.components[name]) {
