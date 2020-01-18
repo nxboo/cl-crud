@@ -177,6 +177,20 @@ export default {
             );
         },
 
+        emptyRender(h) {
+            const empty = this.$scopedSlots['table-empty'] || this.table.scopedSlots.empty;
+            const scope = {
+                h,
+                scope: this.table
+            };
+
+            if (empty) {
+                this.table.scopedSlots.empty = () => {
+                    return empty(scope);
+                };
+            }
+        },
+
         sort(prop, order) {
             this.$refs['table'].sort(prop, order);
         },
@@ -238,12 +252,8 @@ export default {
             }
         },
 
-        renderEl() {
-            const { ['table-empty']: tableEmpty } = this.$scopedSlots;
-
-            if (tableEmpty) {
-                this.table.scopedSlots.empty = tableEmpty;
-            }
+        renderEl(h) {
+            this.emptyRender(h);
 
             return {
                 columnEl: this.columnRender(),
@@ -261,9 +271,9 @@ export default {
         this.resize();
     },
 
-    render() {
+    render(h) {
         const { data, op, loading } = this.table;
-        const { columnEl, opEl } = this.renderEl();
+        const { columnEl, opEl } = this.renderEl(h);
 
         return (
             this.table.visible && (

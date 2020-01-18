@@ -61,6 +61,8 @@
 
 -   1.3.9 扩展 table 参数，添加 table-empty...
 
+-   1.4.0 解决 table empty 创建问题
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)
