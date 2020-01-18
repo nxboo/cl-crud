@@ -236,6 +236,19 @@ export default {
             if (resize) {
                 resize({ tableMaxHeight: this.maxHeight });
             }
+        },
+
+        renderEl() {
+            const { ['table-empty']: tableEmpty } = this.$scopedSlots;
+
+            if (tableEmpty) {
+                this.table.scopedSlots.empty = tableEmpty;
+            }
+
+            return {
+                columnEl: this.columnRender(),
+                opEl: this.opRender()
+            };
         }
     },
 
@@ -249,10 +262,8 @@ export default {
     },
 
     render() {
-        const { data, props, on, op, loading } = this.table;
-
-        const columnEl = this.columnRender();
-        const opEl = this.opRender();
+        const { data, op, loading } = this.table;
+        const { columnEl, opEl } = this.renderEl();
 
         return (
             this.table.visible && (
@@ -265,10 +276,7 @@ export default {
                             on-sort-change={this.sortChange}
                             v-loading={loading}
                             max-height={this.maxHeight + 'px'}
-                            {...{
-                                on,
-                                props
-                            }}>
+                            {...this.table}>
                             {columnEl}
                             {op.visible && opEl}
                         </el-table>
