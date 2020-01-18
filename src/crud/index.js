@@ -112,7 +112,8 @@ export default {
                     visible: true,
 
                     layout: ['edit', 'delete']
-                }
+                },
+                scopedSlots: {}
             },
             search: {
                 query: {

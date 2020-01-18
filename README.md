@@ -59,6 +59,8 @@
 
 -   1.3.8 cl-form 组件添加 forceUpdate（强制更新）参数
 
+-   1.3.9 扩展 table 参数，添加 table-empty...
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)

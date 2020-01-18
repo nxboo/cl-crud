@@ -6,7 +6,7 @@ import Form from './crud/lib/form';
 import { DialogDrag } from './directive/index';
 
 export const CRUD = {
-    version: '1.3.8',
+    version: '1.3.9',
 
     install: function(Vue, options = {}) {
         const { crud, version = '' } = options;
