@@ -1,4 +1,5 @@
 import { isObject, isArray, renderNode } from '@/utils/index';
+import { cloneDeep } from '../../utils';
 
 export default {
     name: 'data-table',
@@ -272,7 +273,7 @@ export default {
     },
 
     render(h) {
-        const { data, op, loading } = this.table;
+        const { data, op, loading, on, props, scopedSlots } = this.table;
         const { columnEl, opEl } = this.renderEl(h);
 
         return (
@@ -286,7 +287,13 @@ export default {
                             on-sort-change={this.sortChange}
                             v-loading={loading}
                             max-height={this.maxHeight + 'px'}
-                            {...this.table}>
+                            {...{
+                                on,
+                                props,
+                                scopedSlots: {
+                                    ...scopedSlots
+                                }
+                            }}>
                             {columnEl}
                             {op.visible && opEl}
                         </el-table>

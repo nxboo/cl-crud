@@ -4,9 +4,10 @@ import { deepMerge } from './utils/index';
 import Crud from './crud/index';
 import Form from './crud/lib/form';
 import { DialogDrag } from './directive/index';
+import pkg from '../package.json';
 
 export const CRUD = {
-    version: '1.4.0',
+    version: pkg.version,
 
     install: function(Vue, options = {}) {
         const { crud, version = '' } = options;

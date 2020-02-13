@@ -63,6 +63,8 @@
 
 -   1.4.0 解决 table empty 创建问题
 
+-   1.4.1 解决 table scopedSlots 渲染监听不成功
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)
