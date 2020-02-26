@@ -221,7 +221,7 @@ export default {
     render() {
         const formEl = renderForm.call(this);
         const titleEl = this.renderTitleSlot();
-        const { confirmButtonText, cancelButtonText, layout } = this.op;
+        const { confirmButtonText, cancelButtonText, layout, visible } = this.op;
 
         return (
             this.visible && (
@@ -246,35 +246,36 @@ export default {
                     <template slot="title">{titleEl}</template>
 
                     <template slot="footer">
-                        {layout.map(vnode => {
-                            if (vnode == 'confirm') {
-                                return (
-                                    <el-button
-                                        size={this.props.size}
-                                        type="success"
-                                        {...{
-                                            on: {
-                                                click: this.save
-                                            },
+                        {visible &&
+                            layout.map(vnode => {
+                                if (vnode == 'confirm') {
+                                    return (
+                                        <el-button
+                                            size={this.props.size}
+                                            type="success"
+                                            {...{
+                                                on: {
+                                                    click: this.save
+                                                },
 
-                                            props: {
-                                                loading: this.saving,
-                                                disabled: this.loading
-                                            }
-                                        }}>
-                                        {confirmButtonText}
-                                    </el-button>
-                                );
-                            } else if (vnode == 'cancel') {
-                                return (
-                                    <el-button size={this.props.size} on-click={this.close}>
-                                        {cancelButtonText}
-                                    </el-button>
-                                );
-                            } else {
-                                return renderNode.call(this, vnode);
-                            }
-                        })}
+                                                props: {
+                                                    loading: this.saving,
+                                                    disabled: this.loading
+                                                }
+                                            }}>
+                                            {confirmButtonText}
+                                        </el-button>
+                                    );
+                                } else if (vnode == 'cancel') {
+                                    return (
+                                        <el-button size={this.props.size} on-click={this.close}>
+                                            {cancelButtonText}
+                                        </el-button>
+                                    );
+                                } else {
+                                    return renderNode.call(this, vnode);
+                                }
+                            })}
                     </template>
                 </el-dialog>
             )

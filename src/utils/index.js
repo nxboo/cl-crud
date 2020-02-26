@@ -237,7 +237,7 @@ export function renderNode(vnode, options = {}) {
 
     if (typeof vnode == 'string') {
         if (vnode.includes('slot-')) {
-            let rn = this.$scopedSlots[vnode];
+            let rn = this.crud ? this.crud.$scopedSlots[vnode] : this.$scopedSlots[vnode];
 
             if (rn) {
                 return rn({ scope });

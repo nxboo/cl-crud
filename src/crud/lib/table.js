@@ -201,12 +201,7 @@ export default {
         },
 
         selectionChange(selection) {
-            const { ['selection-change']: selectionChange } = this.table.on || {};
             this.table.selection = selection;
-
-            if (selectionChange) {
-                selectionChange(selection);
-            }
         },
 
         sortChange(value) {

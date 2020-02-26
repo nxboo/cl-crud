@@ -1,10 +1,11 @@
 {
     "name": "cl-crud",
-    "version": "1.4.1",
+    "version": "1.4.25",
     "description": "cool-admin: cl-crud、cl-form",
     "main": "dist/cl-crud.min.js",
     "scripts": {
-        "dist": "webpack --config webpack.config.js"
+        "dist": "webpack --config webpack.config.js",
+        "dev": "webpack -w"
     },
     "author": "icssoa",
     "license": "ISC",

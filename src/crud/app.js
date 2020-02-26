@@ -35,7 +35,7 @@ export const bootstrap = that => {
             return that;
         },
 
-        data(p) {
+        getData(p) {
             return dataset(
                 certainProperty(that, [
                     'service',
@@ -79,6 +79,19 @@ export const bootstrap = that => {
             that.$refs['upsert'].form[k] = v;
         },
 
+        getForm(k) {
+            const { form } = that.$refs['upsert'];
+            return k ? form[k] : form;
+        },
+
+        hiddenItem(prop, flag = true) {
+            app.setData(`upsert.items[prop:${prop}].hidden`, flag);
+        },
+
+        hiddenColumn(prop, flag = true) {
+            app.setData(`table.columns[prop:${prop}].hidden`, flag);
+        },
+
         changeSort(prop, order) {
             that.changeSort(prop, order);
         },
@@ -113,6 +126,10 @@ export const bootstrap = that => {
 
         reset() {
             that.reset();
+        },
+
+        submit() {
+            that.$refs['upsert'].save();
         },
 
         renderList(d) {

@@ -65,6 +65,11 @@
 
 -   1.4.1 解决 table scopedSlots 渲染监听不成功
 
+-   1.4.2
+    -   解决 upsert:slot 失效
+    -   添加 app.hiddenItem(prop, flag?)、app.hiddenColumn(prop, flag?)、app.getForm(prop?)、app.submit 方法
+    -   app.data => app.getData
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)

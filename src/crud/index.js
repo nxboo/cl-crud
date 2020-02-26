@@ -164,6 +164,7 @@ export default {
                 op: {
                     confirmButtonText: '保存',
                     cancelButtonText: '取消',
+                    visible: true,
 
                     layout: ['cancel', 'confirm']
                 }

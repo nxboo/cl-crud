@@ -5,12 +5,9 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <title>CRUD Example</title>
-        <link
-            rel="stylesheet"
-            href="https://cdn.bootcss.com/element-ui/2.12.0/theme-chalk/index.css"
-        />
-        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-        <script src="https://cdn.bootcss.com/element-ui/2.12.0/index.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css" />
+        <script src="https://unpkg.com/vue/dist/vue.js"></script>
+        <script src="https://unpkg.com/element-ui/lib/index.js"></script>
         <script src="../dist/cl-crud.min.js"></script>
         <style>
             html,
@@ -40,12 +37,11 @@
                     ></el-image>
                 </template>
 
-                <template #slot-append>
-                    <p @click="openForm_Loading">测试loading</p>
-                </template>
-
-                <template #slot-append2>
-                    <el-button size="mini" @click="openForm_CRUD">内嵌crud</el-button>
+                <template #slot-append="{scope}">
+                    <el-button size="mini" type="text" @click="openForm_CRUD">内嵌crud</el-button>
+                    <el-button size="mini" type="text" @click="hiddenColumn(scope.row)"
+                        >显隐列</el-button
+                    >
                 </template>
 
                 <template #slot-validate="{scope}">
@@ -59,6 +55,12 @@
                     </el-form-item>
 
                     <el-button @click="addVad(scope.vads)">添加行</el-button>
+                </template>
+
+                <template #slot-fn>
+                    <el-button @click="submit" size="small">submit</el-button>
+                    <el-button @click="getForm" size="small">getForm</el-button>
+                    <el-button @click="hiddenItem" size="small">hiddenItem</el-button>
                 </template>
             </cl-crud>
             <cl-form ref="cl-form"></cl-form>
@@ -95,12 +97,15 @@
                     return {
                         vad: {
                             list: []
-                        }
+                        },
+                        crud: null
                     };
                 },
 
                 methods: {
                     onLoad({ ctx, app }) {
+                        this.crud = app;
+
                         ctx.service({
                             page: p => {
                                 console.log('page', p);
@@ -178,7 +183,7 @@
                             },
                             info: d => {
                                 console.log('info', d);
-                                return Promise.resolve();
+                                return Promise.resolve(d);
                             },
                             add: d => {
                                 console.log('add', d);
@@ -239,7 +244,8 @@
                                     {
                                         label: '销售',
                                         prop: 'salesRate',
-                                        align: 'center'
+                                        align: 'center',
+                                        hidden: false
                                     },
                                     {
                                         label: '最后期限',
@@ -253,12 +259,22 @@
                                         width: 250
                                     },
 
-                                    layout: ['slot-append', 'slot-append2', 'edit', 'delete']
+                                    layout: ['slot-append', 'edit', 'delete']
+                                },
+
+                                on: {
+                                    'selection-change'(e) {
+                                        console.log(e);
+                                    }
                                 }
                             })
                             .set('upsert', {
                                 props: {
                                     labelWidth: '150px'
+                                },
+                                op: {
+                                    visible: false,
+                                    layout: ['slot-fn', 'cancel', 'confirm']
                                 },
                                 items: [
                                     {
@@ -279,6 +295,7 @@
                                     {
                                         label: '输入框',
                                         prop: 'a',
+                                        hidden: false,
                                         component: {
                                             name: 'el-input',
                                             attrs: {
@@ -340,6 +357,7 @@
                                         {
                                             label: '输入框',
                                             prop: 'a',
+                                            hidden: false,
                                             component: {
                                                 name: 'el-input',
                                                 attrs: {
@@ -463,8 +481,6 @@
                                 }
                             ]
                         });
-
-                        console.log($.getRef);
                     },
 
                     openForm_CRUD() {
@@ -534,6 +550,24 @@
                                 }
                             ]
                         });
+                    },
+
+                    hiddenColumn(e) {
+                        e.hidden = !e.hidden;
+
+                        this.crud.hiddenColumn('salesRate', e.hidden);
+                    },
+
+                    submit() {
+                        this.crud.submit();
+                    },
+
+                    getForm() {
+                        console.log(this.crud.getForm());
+                    },
+
+                    hiddenItem() {
+                        this.crud.hiddenItem('a');
                     },
 
                     addVad(list) {
