@@ -1,14 +1,4 @@
-import {
-    renderForm,
-    renderNode,
-    certainProperty,
-    isArray,
-    isObject,
-    isString,
-    cloneDeep,
-    resetForm,
-    clearForm
-} from '@/utils';
+import { renderForm, renderNode, certainProperty, cloneDeep, clearForm } from '@/utils';
 import DialogMixin from '@/mixins/dialog';
 
 export default {
@@ -17,56 +7,85 @@ export default {
 
     data() {
         return {
+            // 显隐
             visible: false,
+            // 加载
             loading: false,
             saving: false,
+            // cnt
+            cnt: false,
+            // 是否编辑
             isEdit: false,
+            // 表单项
             items: [],
+            // 操作按钮
             op: {},
+            // 表单值
             form: {},
-            props: {}
+            // 弹窗参数
+            props: {},
+            // 打开同步
+            sync: false
         };
     },
 
     methods: {
-        open(callback) {
-            let { props, items, op, form } = this.crud.upsert;
+        async open(callback) {
+            let { props, items, op, form, sync } = this.crud.upsert;
 
+            const dataset = () => {
+                this.props = props;
+                this.items = items;
+                this.form = form;
+                this.op = op;
+                this.sync = sync;
+
+                if (!props.title) {
+                    props.title = this.isEdit ? '编辑' : '新增';
+                }
+
+                if (!props.top) {
+                    props.top = '15vh';
+                }
+
+                if (!props.width) {
+                    props.width = '50%';
+                }
+
+                this.dialog.fullscreen = props.fullscreen;
+
+                this.items.forEach(e => {
+                    this.$set(this.form, e.prop, cloneDeep(e.value));
+                });
+            };
+
+            const expand = callback || new Function();
+
+            // 同步打开
+            if (sync) {
+                dataset();
+                expand();
+            }
+            // 异步打开
+            else {
+                this.visible = true;
+                dataset();
+                this.$nextTick(() => {
+                    expand();
+                });
+            }
+        },
+
+        show(...args) {
             this.visible = true;
-
-            this.form = form;
-            this.items = items;
-            this.props = props;
-            this.op = op;
-
-            if (!props.title) {
-                props.title = this.isEdit ? '编辑' : '新增';
-            }
-
-            if (!props.top) {
-                props.top = '15vh';
-            }
-
-            if (!props.width) {
-                props.width = '50%';
-            }
-
-            this.dialog.fullscreen = props.fullscreen;
-
-            this.items.forEach(e => {
-                this.$set(this.form, e.prop, cloneDeep(e.value));
-            });
-
-            this.$nextTick(() => {
-                if (callback) callback();
-            });
+            this.emit.apply(this, ['open', this.isEdit, ...args]);
         },
 
         close() {
-            // reset value
+            // Reset value
             clearForm(this.form);
 
-            // clear status
+            // Clear status
             this.visible = false;
             this.loading = false;
             this.saving = false;
@@ -98,8 +117,8 @@ export default {
                     this.form[i] = obj[i];
                 }
 
-                this.emit('open', true, this.form);
                 this.loading = false;
+                this.show(this.form);
             };
 
             const next = data => {
@@ -132,7 +151,7 @@ export default {
             this.loading = true;
             this.isEdit = true;
 
-            this.open(() => {
+            this.open(async () => {
                 if (fn.info) {
                     this.emit('info', data, { next, done });
                 } else {
@@ -145,7 +164,7 @@ export default {
             this.isEdit = false;
 
             this.open(() => {
-                this.emit('open', false);
+                this.show(null);
             });
         },
 
@@ -156,8 +175,7 @@ export default {
                 if (data) {
                     Object.assign(this.form, data);
                 }
-
-                this.emit('open', false, data);
+                this.show(data);
             });
         },
 
@@ -221,12 +239,12 @@ export default {
     render() {
         const formEl = renderForm.call(this);
         const titleEl = this.renderTitleSlot();
-        const { confirmButtonText, cancelButtonText, layout, visible } = this.op;
 
         return (
             this.visible && (
                 <el-dialog
                     class="crud-upsert-dialog"
+                    visible={this.visible}
                     {...{
                         props: this.props,
 
@@ -240,14 +258,12 @@ export default {
                                 value: certainProperty(this, ['props', 'dialog'])
                             }
                         ]
-                    }}
-                    visible={this.visible}>
+                    }}>
                     {formEl}
                     <template slot="title">{titleEl}</template>
-
                     <template slot="footer">
-                        {visible &&
-                            layout.map(vnode => {
+                        {this.op.visible &&
+                            this.op.layout.map(vnode => {
                                 if (vnode == 'confirm') {
                                     return (
                                         <el-button
@@ -263,13 +279,13 @@ export default {
                                                     disabled: this.loading
                                                 }
                                             }}>
-                                            {confirmButtonText}
+                                            {this.op.confirmButtonText}
                                         </el-button>
                                     );
                                 } else if (vnode == 'cancel') {
                                     return (
                                         <el-button size={this.props.size} on-click={this.close}>
-                                            {cancelButtonText}
+                                            {this.op.cancelButtonText}
                                         </el-button>
                                     );
                                 } else {

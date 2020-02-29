@@ -183,7 +183,9 @@
                             },
                             info: d => {
                                 console.log('info', d);
-                                return Promise.resolve(d);
+                                return new Promise(resolve => {
+                                    resolve(d);
+                                });
                             },
                             add: d => {
                                 console.log('add', d);
@@ -250,7 +252,8 @@
                                     {
                                         label: '最后期限',
                                         prop: 'endTime',
-                                        align: 'center'
+                                        align: 'center',
+                                        formatter: row => {}
                                     }
                                 ],
 
@@ -263,20 +266,40 @@
                                 },
 
                                 on: {
-                                    'selection-change'(e) {
-                                        console.log(e);
+                                    'selection-change'(selection) {
+                                        console.log(selection);
                                     }
                                 }
                             })
                             .set('upsert', {
+                                sync: false,
                                 props: {
                                     labelWidth: '150px'
                                 },
                                 op: {
-                                    visible: false,
                                     layout: ['slot-fn', 'cancel', 'confirm']
                                 },
                                 items: [
+                                    {
+                                        prop: 'id',
+                                        label: '测试组件',
+                                        forceUpdate: true,
+                                        component: {
+                                            name: 'test-cmp',
+
+                                            props: {
+                                                value: null
+                                            },
+
+                                            created() {
+                                                console.log(this.value);
+                                            },
+
+                                            render(h) {
+                                                return h('div', this.value);
+                                            }
+                                        }
+                                    },
                                     {
                                         prop: 'vads',
                                         value: [],
@@ -440,6 +463,14 @@
                                 ['data-table'],
                                 ['flex1', 'pagination']
                             ])
+                            .on('info', (data, { next }) => {
+                                setTimeout(() => {
+                                    next(data);
+                                }, 300);
+                            })
+                            .on('open', (isEdit, data) => {
+                                console.log(data);
+                            })
                             .done();
                         app.refresh();
                     },

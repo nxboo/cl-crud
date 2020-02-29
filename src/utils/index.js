@@ -81,6 +81,10 @@ export function isString(value) {
     return typeof value === 'string';
 }
 
+export function isNull(value) {
+    return !value && value !== 0;
+}
+
 export function isBoolean(value) {
     return typeof value === 'boolean';
 }

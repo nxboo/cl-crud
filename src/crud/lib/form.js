@@ -132,6 +132,10 @@ export default {
             deepMerge(this, dataset(certainProperty(this, ['items']), p, d));
         },
 
+        hiddenItem(prop, flag = true) {
+            this.setData(`items[prop:${prop}].hidden`, flag);
+        },
+
         cb() {
             return {
                 data: this.form,
@@ -145,7 +149,8 @@ export default {
                     'hideLoading',
                     'setData',
                     'getData',
-                    'getRef'
+                    'getRef',
+                    'hiddenItem'
                 ])
             };
         },

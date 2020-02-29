@@ -1,5 +1,4 @@
-import { isObject, isArray, renderNode } from '@/utils/index';
-import { cloneDeep } from '../../utils';
+import { isNull, renderNode } from '@/utils/index';
 
 export default {
     name: 'data-table',
@@ -19,20 +18,6 @@ export default {
     },
 
     methods: {
-        columnValueHandler(scope) {
-            let value = scope.row[scope.prop];
-
-            if (scope.dict) {
-                let item = scope.dict.find(d => d.value == value);
-
-                if (item) {
-                    value = item.label;
-                }
-            }
-
-            return scope.slot ? '' : value || scope.emptyText;
-        },
-
         columnRender() {
             return this.table.columns
                 .filter(e => !e.hidden)
@@ -58,7 +43,37 @@ export default {
                                             scope: newScope
                                         });
                                     } else {
-                                        return this.columnValueHandler(newScope);
+                                        // elm formatter
+                                        if (item.formatter) {
+                                            return item.formatter(
+                                                newScope.row,
+                                                newScope.column,
+                                                newScope.row[item.prop],
+                                                newScope.$index
+                                            );
+                                        }
+                                        // cs formatter
+                                        else {
+                                            return (scope => {
+                                                let value = scope.row[scope.prop];
+
+                                                if (scope.dict) {
+                                                    let item = scope.dict.find(
+                                                        d => d.value == value
+                                                    );
+
+                                                    if (item) {
+                                                        value = item.label;
+                                                    }
+                                                }
+
+                                                return scope.slot
+                                                    ? ''
+                                                    : isNull(value)
+                                                    ? scope.emptyText
+                                                    : value;
+                                            })(newScope);
+                                        }
                                     }
                                 },
                                 header: scope => {
