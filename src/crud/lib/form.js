@@ -54,7 +54,7 @@ export default {
                 return console.warn(`can't open form, because argument is null`);
             }
 
-            const { props, items, on, op, forceUpdate } = options;
+            let { props = {}, items, on, op, forceUpdate } = options;
 
             this.visible = true;
             this.aid.forceUpdate = forceUpdate;
@@ -86,7 +86,9 @@ export default {
             }
 
             this.items.forEach(e => {
-                this.$set(this.form, e.prop, cloneDeep(e.value));
+                if (e.prop) {
+                    this.$set(this.form, e.prop, cloneDeep(e.value));
+                }
             });
 
             return this.cb();

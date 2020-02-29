@@ -55,7 +55,9 @@ export default {
                 this.dialog.fullscreen = props.fullscreen;
 
                 this.items.forEach(e => {
-                    this.$set(this.form, e.prop, cloneDeep(e.value));
+                    if (e.prop) {
+                        this.$set(this.form, e.prop, cloneDeep(e.value));
+                    }
                 });
             };
 

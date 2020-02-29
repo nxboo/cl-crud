@@ -73,6 +73,8 @@
 
 -   1.4.3 解决 table-column formatter 未处理问题
 
+-   1.4.4 解决 prop 为空参数带入 undefined
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)
