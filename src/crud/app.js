@@ -139,6 +139,12 @@ export const bootstrap = that => {
 
         refresh(d) {
             isFunction(d) ? d(that.params, refresh) : refresh(d);
+        },
+
+        doLayout(key) {
+            if (key == 'table') {
+                this.refs('table').calcHeight();
+            }
         }
     };
 

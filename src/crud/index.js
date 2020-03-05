@@ -108,9 +108,7 @@ export default {
                         fixed: 'right',
                         label: '操作'
                     },
-
                     visible: true,
-
                     layout: ['edit', 'delete']
                 },
                 scopedSlots: {}
@@ -153,19 +151,21 @@ export default {
                 form: {},
                 items: [],
                 props: {
+                    drag: true,
                     width: '',
+                    size: 'small',
                     'label-width': '80px',
                     'append-to-body': true,
                     'close-on-click-modal': false,
-                    size: 'small',
-                    'destroy-on-close': true,
-                    drag: true
+                    'destroy-on-close': true
+                },
+                hdr: {
+                    layout: ['fullscreen', 'close']
                 },
                 op: {
                     confirmButtonText: '保存',
                     cancelButtonText: '取消',
                     visible: true,
-
                     layout: ['cancel', 'confirm']
                 }
             },

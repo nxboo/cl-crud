@@ -75,6 +75,8 @@
 
 -   1.4.4 解决 prop 为空参数带入 undefined
 
+-   1.4.5 优化 upsert 渲染方式，表单添加 hdr 参数，支持自定义布局
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)

@@ -9,27 +9,34 @@ import {
     clearForm
 } from '@/utils';
 import DialogMixin from '@/mixins/dialog';
+import Flex1 from './flex1';
 import '../assets/css/index.styl';
 
 export default {
-    name: 'cl-form',
     mixins: [DialogMixin],
+    name: 'cl-form',
+    components: {
+        Flex1
+    },
 
     data() {
         return {
             items: [],
+            hdr: {
+                layout: ['fullscreen', 'close']
+            },
             op: {
+                visible: true,
                 confirmButtonText: '保存',
                 cancelButtonText: '取消',
-                visible: true,
                 layout: ['cancel', 'confirm']
             },
             props: {
+                drag: true,
                 size: 'small',
                 'append-to-body': true,
                 'close-on-click-modal': false,
-                'destroy-on-close': true,
-                drag: true
+                'destroy-on-close': true
             },
             form: {},
             on: {},
@@ -48,13 +55,19 @@ export default {
         };
     },
 
+    computed: {
+        crud() {
+            return this;
+        }
+    },
+
     methods: {
         open(options) {
             if (!options) {
                 return console.warn(`can't open form, because argument is null`);
             }
 
-            let { props = {}, items, on, op, forceUpdate } = options;
+            let { props = {}, items, on, op, hdr, forceUpdate } = options;
 
             this.visible = true;
             this.aid.forceUpdate = forceUpdate;
@@ -83,6 +96,10 @@ export default {
 
             if (op) {
                 deepMerge(this.op, op);
+            }
+
+            if (hdr) {
+                deepMerge(this.hdr, hdr);
             }
 
             this.items.forEach(e => {
@@ -174,64 +191,38 @@ export default {
 
     render() {
         const form = renderForm.call(this, this.aid);
-        const titleEl = this.renderTitleSlot();
-        const { confirmButtonText, cancelButtonText, layout, visible } = this.op;
+        const footer = (this.op.layout || []).map(vnode => {
+            if (vnode == 'confirm') {
+                return (
+                    <el-button
+                        size={this.props.size}
+                        type="success"
+                        {...{
+                            on: {
+                                click: this.save
+                            },
 
-        return (
-            this.visible && (
-                <el-dialog
-                    visible={this.visible}
-                    {...{
-                        props: this.props,
-
-                        on: {
-                            open: this.open,
-                            close: this.close
-                        },
-
-                        directives: [
-                            {
-                                name: 'dialog-drag',
-                                value: certainProperty(this, ['props', 'dialog'])
+                            props: {
+                                loading: this.saving,
+                                disabled: this.loading
                             }
-                        ]
-                    }}>
-                    {form}
-                    <template slot="title">{titleEl}</template>
-                    <template slot="footer">
-                        {visible &&
-                            layout.map(vnode => {
-                                if (vnode == 'confirm') {
-                                    return (
-                                        <el-button
-                                            size={this.props.size}
-                                            type="success"
-                                            {...{
-                                                on: {
-                                                    click: this.save
-                                                },
+                        }}>
+                        {this.op.confirmButtonText}
+                    </el-button>
+                );
+            } else if (vnode == 'cancel') {
+                return (
+                    <el-button size={this.props.size} on-click={this.close}>
+                        {this.op.cancelButtonText}
+                    </el-button>
+                );
+            } else if (vnode == 'flex1') {
+                return <flex1 />;
+            } else {
+                return renderNode.call(this, vnode);
+            }
+        });
 
-                                                props: {
-                                                    loading: this.saving,
-                                                    disabled: this.loading
-                                                }
-                                            }}>
-                                            {confirmButtonText}
-                                        </el-button>
-                                    );
-                                } else if (vnode == 'cancel') {
-                                    return (
-                                        <el-button size={this.props.size} on-click={this.close}>
-                                            {cancelButtonText}
-                                        </el-button>
-                                    );
-                                } else {
-                                    return renderNode.call(this, vnode);
-                                }
-                            })}
-                    </template>
-                </el-dialog>
-            )
-        );
+        return this.renderDialog({ form, footer });
     }
 };

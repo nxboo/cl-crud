@@ -1,9 +1,14 @@
-import { renderForm, renderNode, certainProperty, cloneDeep, clearForm } from '@/utils';
+import { renderForm, renderNode, cloneDeep, clearForm } from '@/utils';
 import DialogMixin from '@/mixins/dialog';
+import Flex1 from './flex1';
 
 export default {
-    inject: ['crud'],
     mixins: [DialogMixin],
+    inject: ['crud'],
+
+    components: {
+        Flex1
+    },
 
     data() {
         return {
@@ -18,8 +23,10 @@ export default {
             isEdit: false,
             // 表单项
             items: [],
-            // 操作按钮
+            // 操作栏
             op: {},
+            // 窗口栏
+            hdr: {},
             // 表单值
             form: {},
             // 弹窗参数
@@ -31,13 +38,14 @@ export default {
 
     methods: {
         async open(callback) {
-            let { props, items, op, form, sync } = this.crud.upsert;
+            let { props, items, op, hdr, form, sync } = this.crud.upsert;
 
             const dataset = () => {
                 this.props = props;
                 this.items = items;
                 this.form = form;
                 this.op = op;
+                this.hdr = hdr;
                 this.sync = sync;
 
                 if (!props.title) {
@@ -239,64 +247,39 @@ export default {
     },
 
     render() {
-        const formEl = renderForm.call(this);
-        const titleEl = this.renderTitleSlot();
+        const form = renderForm.call(this);
+        const footer = (this.op.layout || []).map(vnode => {
+            if (vnode == 'confirm') {
+                return (
+                    <el-button
+                        size={this.props.size}
+                        type="success"
+                        {...{
+                            on: {
+                                click: this.save
+                            },
 
-        return (
-            this.visible && (
-                <el-dialog
-                    class="crud-upsert-dialog"
-                    visible={this.visible}
-                    {...{
-                        props: this.props,
-
-                        on: {
-                            close: this.close
-                        },
-
-                        directives: [
-                            {
-                                name: 'dialog-drag',
-                                value: certainProperty(this, ['props', 'dialog'])
+                            props: {
+                                loading: this.saving,
+                                disabled: this.loading
                             }
-                        ]
-                    }}>
-                    {formEl}
-                    <template slot="title">{titleEl}</template>
-                    <template slot="footer">
-                        {this.op.visible &&
-                            this.op.layout.map(vnode => {
-                                if (vnode == 'confirm') {
-                                    return (
-                                        <el-button
-                                            size={this.props.size}
-                                            type="success"
-                                            {...{
-                                                on: {
-                                                    click: this.save
-                                                },
+                        }}>
+                        {this.op.confirmButtonText}
+                    </el-button>
+                );
+            } else if (vnode == 'cancel') {
+                return (
+                    <el-button size={this.props.size} on-click={this.close}>
+                        {this.op.cancelButtonText}
+                    </el-button>
+                );
+            } else if (vnode == 'flex1') {
+                return <flex1 />;
+            } else {
+                return renderNode.call(this, vnode);
+            }
+        });
 
-                                                props: {
-                                                    loading: this.saving,
-                                                    disabled: this.loading
-                                                }
-                                            }}>
-                                            {this.op.confirmButtonText}
-                                        </el-button>
-                                    );
-                                } else if (vnode == 'cancel') {
-                                    return (
-                                        <el-button size={this.props.size} on-click={this.close}>
-                                            {this.op.cancelButtonText}
-                                        </el-button>
-                                    );
-                                } else {
-                                    return renderNode.call(this, vnode);
-                                }
-                            })}
-                    </template>
-                </el-dialog>
-            )
-        );
+        return this.renderDialog({ form, footer });
     }
 };

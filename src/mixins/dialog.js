@@ -1,3 +1,5 @@
+import { renderNode, certainProperty } from '@/utils';
+
 export default {
     data() {
         return {
@@ -31,14 +33,26 @@ export default {
                 dlg.style.left = 0;
                 dlg.style.marginBottom = '50px';
             }
+
+            this.crud.$emit('fullscreen', this.dialog.fullscreen);
         },
 
-        renderTitleSlot() {
-            const { drag, title } = this.props;
+        renderHeader() {
+            const { title } = this.props;
+            const { drag, layout = [] } = this.hdr;
             const { fullscreen } = this.dialog;
 
             return (
-                <div class="el-dialog__header-slot">
+                <div
+                    class="el-dialog__header-slot"
+                    {...{
+                        directives: [
+                            {
+                                name: 'dialog-drag',
+                                value: certainProperty(this, ['props', 'dialog'])
+                            }
+                        ]
+                    }}>
                     <span
                         class={{
                             'el-dialog__header-slot-title': true,
@@ -49,20 +63,60 @@ export default {
                     </span>
 
                     <div class="el-dialog__header-slot-button">
-                        {fullscreen ? (
-                            <button class="minimize" on-click={this.onFullScreen}>
-                                <i class="el-icon-minus" />
-                            </button>
-                        ) : (
-                            <button class="maximize" on-click={this.onFullScreen}>
-                                <i class="el-icon-full-screen" />
-                            </button>
-                        )}
-                        <button class="close" on-click={this.close}>
-                            <i class="el-icon-close" />
-                        </button>
+                        {layout.map(vnode => {
+                            if (vnode === 'fullscreen') {
+                                return fullscreen ? (
+                                    <button class="minimize" on-click={this.onFullScreen}>
+                                        <i class="el-icon-minus" />
+                                    </button>
+                                ) : (
+                                    <button class="maximize" on-click={this.onFullScreen}>
+                                        <i class="el-icon-full-screen" />
+                                    </button>
+                                );
+                            } else if (vnode === 'close') {
+                                return (
+                                    <button class="close" on-click={this.close}>
+                                        <i class="el-icon-close" />
+                                    </button>
+                                );
+                            } else {
+                                return renderNode.call(this, vnode);
+                            }
+                        })}
                     </div>
                 </div>
+            );
+        },
+
+        renderDialog({ form, footer }, options) {
+            return (
+                this.visible && (
+                    <el-dialog
+                        class="crud-upsert-dialog"
+                        visible={this.visible}
+                        {...{
+                            props: this.props,
+
+                            on: {
+                                open: this.open,
+                                close: this.close
+                            },
+
+                            directives: [
+                                {
+                                    name: 'dialog-drag',
+                                    value: certainProperty(this, ['props', 'dialog', 'win'])
+                                }
+                            ],
+
+                            ...options
+                        }}>
+                        <template slot="title">{this.renderHeader()}</template>
+                        {form}
+                        <template slot="footer">{this.op.visible && footer}</template>
+                    </el-dialog>
+                )
             );
         }
     }
