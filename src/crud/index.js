@@ -504,7 +504,7 @@ export default {
 
         return (
             this.process.status && (
-                <div class="crud-index">
+                <div class="cl-crud">
                     {template}
 
                     <adv-search ref="adv-search" />

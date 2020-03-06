@@ -77,6 +77,8 @@
 
 -   1.4.5 优化 upsert 渲染方式，表单添加 hdr 参数，支持自定义布局
 
+-   1.4.6 el-dialog 样式冲突
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)

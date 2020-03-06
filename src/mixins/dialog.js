@@ -93,7 +93,7 @@ export default {
             return (
                 this.visible && (
                     <el-dialog
-                        class="crud-upsert-dialog"
+                        class="cl-form"
                         visible={this.visible}
                         {...{
                             props: this.props,

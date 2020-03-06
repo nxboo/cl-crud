@@ -224,11 +224,11 @@ export default {
         },
 
         calcHeight() {
-            const el = document.querySelector('.crud-index');
+            const el = document.querySelector('.cl-crud');
             const { height = '' } = this.table.props || {};
 
             if (el) {
-                let rows = document.querySelectorAll('.crud-index > .el-row');
+                let rows = document.querySelectorAll('.cl-crud > .el-row');
 
                 let h = 20;
 
