@@ -263,7 +263,7 @@ export default {
 
         // 关闭
         rowClose() {
-            this.$refs['upsert'].hide();
+            this.$refs['upsert'].close();
         },
 
         // 删除

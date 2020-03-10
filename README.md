@@ -79,6 +79,8 @@
 
 -   1.4.6 el-dialog 样式冲突
 
+-   1.4.7 app.close 调用错误
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)

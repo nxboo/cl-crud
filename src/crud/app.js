@@ -120,8 +120,8 @@ export const bootstrap = that => {
             that.rowEdit(d);
         },
 
-        close(d) {
-            that.rowClose(d);
+        close() {
+            that.rowClose();
         },
 
         reset() {
