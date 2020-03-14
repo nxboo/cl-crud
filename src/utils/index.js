@@ -239,7 +239,9 @@ export function renderNode(vnode, options = {}) {
     const h = this.$createElement;
     const { scope } = options;
 
-    if (typeof vnode == 'string') {
+    if (isFunction(vnode)) {
+        return vnode({ scope, h });
+    } else if (isString(vnode)) {
         if (vnode.includes('slot-')) {
             let rn = this.crud ? this.crud.$scopedSlots[vnode] : this.$scopedSlots[vnode];
 
@@ -274,133 +276,141 @@ let formItemNameIndex = 0;
 
 export function renderForm(options = {}) {
     const h = this.$createElement;
+    const scope = this.form;
     const { appendEl, forceUpdate } = options;
 
-    let items = this.items.map((e, i) => {
+    const items = this.items.map((e, i) => {
         if (!e.hidden) {
             let vnode = null;
 
-            let {
-                name,
-                attrs = {},
-                props,
-                on = {},
-                options = [],
-                children = [],
-                context,
-                render,
-                domProps = {},
-                style = {},
-                ['class']: _class = {},
-                nativeOn = {},
-                directives = {},
-                scopedSlots = {},
-                slot,
-                key,
-                ref,
-                refInFor,
-                width = '100%'
-            } = e.component || {};
+            if (isFunction(e.component)) {
+                vnode = e.component({ scope, h });
+            } else {
+                let {
+                    name,
+                    attrs = {},
+                    props,
+                    on = {},
+                    options = [],
+                    children = [],
+                    context,
+                    render,
+                    domProps = {},
+                    style = {},
+                    ['class']: _class = {},
+                    nativeOn = {},
+                    directives = {},
+                    scopedSlots = {},
+                    slot,
+                    key,
+                    ref,
+                    refInFor,
+                    width = '100%'
+                } = e.component || {};
 
-            if (!style.width) {
-                style.width = width;
-            }
+                if (!style.width) {
+                    style.width = width;
+                }
 
-            let jsx = {
-                ...e.component,
-                ['class']: _class,
-                domProps,
-                style,
-                nativeOn,
-                directives,
-                scopedSlots,
-                slot,
-                key,
-                ref,
-                refInFor,
-                attrs: {
-                    ...attrs,
-                    value: this.form[e.prop]
-                },
-                props: {
-                    ...props
-                },
-                on: {
-                    input: val => {
-                        this.form[e.prop] = val;
+                let jsx = {
+                    ...e.component,
+                    ['class']: _class,
+                    domProps,
+                    style,
+                    nativeOn,
+                    directives,
+                    scopedSlots,
+                    slot,
+                    key,
+                    ref,
+                    refInFor,
+                    attrs: {
+                        ...attrs,
+                        value: this.form[e.prop]
                     },
-                    ...on
-                }
-            };
-
-            if (context) {
-                vnode = e.component;
-            } else if (render) {
-                if (!name) {
-                    name = 'error-text';
-                    jsx.domProps.innerHTML = 'Component name is required';
-                    jsx.style.color = 'red';
-                }
-
-                const fn = function() {
-                    name = name + '-' + formItemNameIndex++;
+                    props: {
+                        ...props
+                    },
+                    on: {
+                        input: val => {
+                            this.form[e.prop] = val;
+                        },
+                        ...on
+                    }
                 };
 
-                if (isBoolean(e.forceUpdate)) {
-                    if (e.forceUpdate) {
-                        fn();
+                if (context) {
+                    vnode = e.component;
+                } else if (render) {
+                    if (!name) {
+                        name = 'error-text';
+                        jsx.domProps.innerHTML = 'Component name is required';
+                        jsx.style.color = 'red';
                     }
-                } else {
-                    if (forceUpdate) {
-                        fn();
-                    }
-                }
 
-                if (!this.$root.$options.components[name]) {
-                    __vue.component(name, jsx);
-                }
+                    const fn = function() {
+                        name = name + '-' + formItemNameIndex++;
+                    };
 
-                // Delete jsx props, avoid props is null.
-                delete jsx.props;
-
-                vnode = h(name, jsx);
-            } else if (name) {
-                if (name.includes('slot-')) {
-                    let rn = this.crud ? this.crud.$scopedSlots[name] : this.$scopedSlots[name];
-
-                    if (rn) {
-                        vnode = rn({ scope: this.form });
-                    }
-                } else {
-                    children = (e.component.options || []).map((e, i) => {
-                        switch (name) {
-                            case 'el-select':
-                                return (
-                                    <el-option
-                                        key={i}
-                                        label={e.label}
-                                        value={e.value}
-                                        {...{ props: e.props }}
-                                    />
-                                );
-
-                            case 'el-radio-group':
-                                return (
-                                    <el-radio key={i} label={e.value} {...{ props: e.props }}>
-                                        {e.label}
-                                    </el-radio>
-                                );
-
-                            case 'el-checkbox-group':
-                                return (
-                                    <el-checkbox key={i} label={e.value} {...{ props: e.props }}>
-                                        {e.label}
-                                    </el-checkbox>
-                                );
+                    if (isBoolean(e.forceUpdate)) {
+                        if (e.forceUpdate) {
+                            fn();
                         }
-                    });
+                    } else {
+                        if (forceUpdate) {
+                            fn();
+                        }
+                    }
 
-                    vnode = h(name, jsx, children);
+                    if (!this.$root.$options.components[name]) {
+                        __vue.component(name, jsx);
+                    }
+
+                    // Delete jsx props, avoid props is null.
+                    delete jsx.props;
+
+                    vnode = h(name, jsx);
+                } else if (name) {
+                    if (name.includes('slot-')) {
+                        let rn = this.crud ? this.crud.$scopedSlots[name] : this.$scopedSlots[name];
+
+                        if (rn) {
+                            vnode = rn({ scope });
+                        }
+                    } else {
+                        children = (e.component.options || []).map((e, i) => {
+                            switch (name) {
+                                case 'el-select':
+                                    return (
+                                        <el-option
+                                            key={i}
+                                            label={e.label}
+                                            value={e.value}
+                                            {...{ props: e.props }}
+                                        />
+                                    );
+
+                                case 'el-radio-group':
+                                    return (
+                                        <el-radio key={i} label={e.value} {...{ props: e.props }}>
+                                            {e.label}
+                                        </el-radio>
+                                    );
+
+                                case 'el-checkbox-group':
+                                    return (
+                                        <el-checkbox
+                                            key={i}
+                                            label={e.value}
+                                            {...{ props: e.props }}>
+                                            {e.label}
+                                        </el-checkbox>
+                                    );
+                            }
+                        });
+
+                        vnode = h(name, jsx, children);
+                    }
                 }
             }
 
@@ -426,7 +436,7 @@ export function renderForm(options = {}) {
         }
     });
 
-    let form = (
+    const form = (
         <el-form
             ref="form"
             class="cl-form"

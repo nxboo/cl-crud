@@ -273,7 +273,28 @@
                                         width: 250
                                     },
 
-                                    layout: ['slot-append', 'edit', 'delete']
+                                    layout: [
+                                        'slot-append',
+                                        'edit',
+                                        'delete',
+                                        ({ scope, h }) => {
+                                            return h(
+                                                'el-button',
+                                                {
+                                                    props: {
+                                                        size: 'mini',
+                                                        type: 'text'
+                                                    },
+                                                    on: {
+                                                        click() {
+                                                            alert(scope.row.name);
+                                                        }
+                                                    }
+                                                },
+                                                '点击我'
+                                            );
+                                        }
+                                    ]
                                 },
 
                                 on: {

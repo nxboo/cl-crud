@@ -81,6 +81,8 @@
 
 -   1.4.7 app.close 调用错误
 
+-   1.4.8 layout 支持 function({scope, h}) {...}
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)
