@@ -28,7 +28,7 @@ export default {
                             on: item.on
                         };
 
-                        if (!item.type) {
+                        if (!item.type || item.type === 'expand') {
                             params.scopedSlots = {
                                 default: scope => {
                                     let slot = this.$scopedSlots[`table-column-${item.prop}`];
@@ -100,7 +100,7 @@ export default {
         },
 
         opRender() {
-            const { rowEdit, rowDelete, dict, getPermission, getLabel } = this.crud;
+            const { rowEdit, rowDelete, getPermission, getLabel } = this.crud;
             const { on, op } = this.table;
 
             const render = scope => {

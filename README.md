@@ -83,6 +83,8 @@
 
 -   1.4.8 layout 支持 function({scope, h}) {...}
 
+-   1.4.9 处理 el-table-column type='expand' 不生效问题
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)
