@@ -85,6 +85,8 @@
 
 -   1.4.9 处理 el-table-column type='expand' 不生效问题
 
+-   1.5.0 更新异常
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)
