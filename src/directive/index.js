@@ -33,7 +33,7 @@ export const DialogDrag = {
     bind(el, binding) {
         const dlg = el.querySelector('.el-dialog');
         if (!dlg) return false;
-        const hdr = el.querySelector('.el-dialog__header-slot-title');
+        const hdr = el.querySelector('.el-dialog__header');
         if (!hdr) return false;
         const sty = dlg.currentStyle || window.getComputedStyle(dlg, null);
         const pad = 5;

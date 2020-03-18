@@ -38,29 +38,32 @@ export default {
         },
 
         renderHeader() {
-            const { title } = this.props;
-            const { drag, layout = [] } = this.hdr;
+            const { title, drag } = this.props;
+            const { layout = [] } = this.hdr;
             const { fullscreen } = this.dialog;
+
+            console.log(drag && !fullscreen);
 
             return (
                 <div
                     class="el-dialog__header-slot"
                     {...{
+                        class: {
+                            _drag: drag && !fullscreen
+                        },
                         directives: [
                             {
                                 name: 'dialog-drag',
                                 value: certainProperty(this, ['props', 'dialog'])
                             }
-                        ]
+                        ],
+                        on: {
+                            dblclick: () => {
+                                this.onFullScreen();
+                            }
+                        }
                     }}>
-                    <span
-                        class={{
-                            'el-dialog__header-slot-title': true,
-                            _drag: drag && !fullscreen
-                        }}
-                        on-dblclick={this.onFullScreen}>
-                        {title}
-                    </span>
+                    <span class="el-dialog__header-slot-title">{title}</span>
 
                     <div class="el-dialog__header-slot-button">
                         {layout.map(vnode => {
