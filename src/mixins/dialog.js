@@ -42,8 +42,6 @@ export default {
             const { layout = [] } = this.hdr;
             const { fullscreen } = this.dialog;
 
-            console.log(drag && !fullscreen);
-
             return (
                 <div
                     class="el-dialog__header-slot"

@@ -137,6 +137,10 @@ export const bootstrap = that => {
             that.table.loading = false;
         },
 
+        setPagination(d) {
+            deepMerge(that.pagination, d);
+        },
+
         refresh(d) {
             isFunction(d) ? d(that.params, refresh) : refresh(d);
         },

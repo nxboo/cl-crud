@@ -420,8 +420,14 @@ export default {
                 this.table.loading = false;
             };
 
-            // 渲染列表
-            const render = list => {
+            // 渲染
+            const render = (list, pagination) => {
+                // 设置分页
+                if (pagination) {
+                    Object.assign(this.pagination, pagination);
+                }
+
+                // 渲染列表
                 this.table.data = list;
                 done();
             };
@@ -443,9 +449,7 @@ export default {
                                 return false;
                             }
 
-                            Object.assign(this.pagination, res.pagination);
-
-                            render(cloneDeep(res.list));
+                            render(cloneDeep(res.list), res.pagination);
                             resolve(res);
                         })
                         .catch(err => {

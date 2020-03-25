@@ -89,6 +89,8 @@
 
 -   1.5.1 处理自定义头与拖动冲突
 
+-   1.5.2 添加 app.setPagination
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)
