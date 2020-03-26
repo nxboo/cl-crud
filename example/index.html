@@ -5,9 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <title>CRUD Example</title>
-        <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css" />
-        <script src="https://unpkg.com/vue/dist/vue.js"></script>
-        <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/element-ui/lib/theme-chalk/index.css"
+        />
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/element-ui/lib/index.js"></script>
         <script src="../dist/cl-crud.min.js"></script>
         <style>
             html,
@@ -89,6 +92,32 @@
                                 update: false,
                                 delete: false
                             });
+                        }
+                    }
+                },
+                components: {
+                    printBtn: {
+                        methods: {
+                            printls() {
+                                console.log(this.$crud.app.getData('table.data'));
+                            }
+                        },
+
+                        render(h) {
+                            return h(
+                                'el-button',
+                                {
+                                    props: {
+                                        size: 'mini'
+                                    },
+                                    on: {
+                                        click: () => {
+                                            this.printls();
+                                        }
+                                    }
+                                },
+                                '打印列表（插件 · 组件注入）'
+                            );
                         }
                     }
                 }
@@ -460,6 +489,7 @@
                                     'refresh-btn',
                                     'add-btn',
                                     'multi-delete-btn',
+                                    'print-btn',
                                     'query',
                                     'flex1',
                                     'search-key',
