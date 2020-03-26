@@ -492,9 +492,9 @@ export default function({ __crud, __components }) {
                 };
 
                 if (this.fn.refresh) {
-                    this.fn.refresh(params, { next, done, render });
+                    return this.fn.refresh(params, { next, done, render });
                 } else {
-                    next(params);
+                    return next(params);
                 }
             },
 

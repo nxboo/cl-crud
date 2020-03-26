@@ -142,7 +142,7 @@ export const bootstrap = that => {
         },
 
         refresh(d) {
-            isFunction(d) ? d(that.params, refresh) : refresh(d);
+            return isFunction(d) ? d(that.params, refresh) : refresh(d);
         },
 
         doLayout(key) {

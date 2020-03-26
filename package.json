@@ -1,6 +1,6 @@
 {
     "name": "cl-crud",
-    "version": "1.5.31",
+    "version": "1.5.32",
     "description": "cool-admin: cl-crud、cl-form",
     "main": "dist/cl-crud.min.js",
     "scripts": {
