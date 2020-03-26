@@ -9,7 +9,7 @@ import MultiDeleteBtn from './lib/multi-delete-btn';
 import AdvBtn from './lib/adv-btn';
 import Pagination from './lib/pagination';
 import SearchKey from './lib/search-key';
-import { deepMerge, print, renderNode, cloneDeep, isArray } from '@/utils';
+import { deepMerge, print, renderNode, cloneDeep, isArray, mergeFunction } from '@/utils';
 import { bootstrap } from './app';
 import './assets/css/index.styl';
 
@@ -220,23 +220,27 @@ export default function({ __crud, __components }) {
             ...__components
         },
 
-        beforeCreate() {
+        created() {
             let that = this;
 
             // 注入 $crud
             for (let i in __components) {
-                const { beforeCreate } = __components[i] || {};
+                const { created } = __components[i];
 
-                __components[i].beforeCreate = function() {
+                __components[i].created = function(flag) {
+                    if (flag) {
+                        return false;
+                    }
+
                     this.$crud = bootstrap(that);
 
-                    if (beforeCreate) {
-                        if (isArray(beforeCreate)) {
-                            beforeCreate.map(e => {
-                                e.call(this);
+                    if (created) {
+                        if (isArray(created)) {
+                            created.map(e => {
+                                e.call(this, true);
                             });
                         } else {
-                            beforeCreate.call(this);
+                            created.call(this, true);
                         }
                     }
                 };
