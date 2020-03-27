@@ -9,7 +9,7 @@ import MultiDeleteBtn from './lib/multi-delete-btn';
 import AdvBtn from './lib/adv-btn';
 import Pagination from './lib/pagination';
 import SearchKey from './lib/search-key';
-import { deepMerge, print, renderNode, cloneDeep, isArray, mergeFunction } from '@/utils';
+import { deepMerge, print, renderNode, cloneDeep, isArray } from '@/utils';
 import { bootstrap } from './app';
 import './assets/css/index.styl';
 
@@ -220,27 +220,27 @@ export default function({ __crud, __components }) {
             ...__components
         },
 
-        created() {
+        beforeCreate() {
             let that = this;
 
             // 注入 $crud
             for (let i in __components) {
-                const { created } = __components[i];
+                const { beforeCreate } = __components[i];
 
-                __components[i].created = function(flag) {
+                __components[i].beforeCreate = function(flag) {
                     if (flag) {
                         return false;
                     }
 
                     this.$crud = bootstrap(that);
 
-                    if (created) {
-                        if (isArray(created)) {
-                            created.map(e => {
+                    if (beforeCreate) {
+                        if (isArray(beforeCreate)) {
+                            beforeCreate.map(e => {
                                 e.call(this, true);
                             });
                         } else {
-                            created.call(this, true);
+                            beforeCreate.call(this, true);
                         }
                     }
                 };
@@ -308,7 +308,7 @@ export default function({ __crud, __components }) {
                             type: 'warning'
                         })
                             .then(res => {
-                                if (res == 'confirm') {
+                                if (res === 'confirm') {
                                     const reqName = this.dict.api.delete;
 
                                     if (!this.service[reqName]) {
@@ -359,11 +359,11 @@ export default function({ __crud, __components }) {
 
             // 改变排序
             changeSort(prop, order) {
-                if (order == 'desc') {
+                if (order === 'desc') {
                     order = 'descending';
                 }
 
-                if (order == 'asc') {
+                if (order === 'asc') {
                     order = 'ascending';
                 }
 
@@ -378,11 +378,11 @@ export default function({ __crud, __components }) {
 
             // 排序刷新
             sortChange({ prop, order }) {
-                if (order == 'descending') {
+                if (order === 'descending') {
                     order = 'desc';
                 }
 
-                if (order == 'ascending') {
+                if (order === 'ascending') {
                     order = 'asc';
                 }
 
@@ -417,7 +417,7 @@ export default function({ __crud, __components }) {
                 }
 
                 for (let i in a) {
-                    if (i[0] == '_') {
+                    if (i[0] === '_') {
                         a[i.substr(1)] = a[i];
 
                         delete a[i];
@@ -505,7 +505,7 @@ export default function({ __crud, __components }) {
 
         render(h) {
             const rn = vnode => {
-                if (vnode == 'data-table') {
+                if (vnode === 'data-table') {
                     return (
                         <data-table
                             ref="table"

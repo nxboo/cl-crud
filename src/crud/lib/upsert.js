@@ -17,8 +17,6 @@ export default {
             // 加载
             loading: false,
             saving: false,
-            // cnt
-            cnt: false,
             // 是否编辑
             isEdit: false,
             // 表单项

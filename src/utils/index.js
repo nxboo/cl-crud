@@ -471,13 +471,3 @@ export function contains(parent, node) {
         return false;
     }
 }
-
-export function mergeFunction(functionA, functionB) {
-    if (!functionA || !functionB) return;
-    let merge = functionB;
-    functionB = (function() {
-        merge.call(this);
-        functionA.call(this);
-    })();
-    return (functionB = merge);
-}
