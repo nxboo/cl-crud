@@ -39,18 +39,18 @@ export function flat(list, count) {
 export function debounce(fn, delay) {
     let timer = null;
 
-    return function() {
+    return function () {
         let args = arguments;
         let context = this;
 
         if (timer) {
             clearTimeout(timer);
 
-            timer = setTimeout(function() {
+            timer = setTimeout(function () {
                 fn.apply(context, args);
             }, delay);
         } else {
-            timer = setTimeout(function() {
+            timer = setTimeout(function () {
                 fn.apply(context, args);
             }, delay);
         }
@@ -135,13 +135,27 @@ export function certainProperty(obj, keys) {
     }, {});
 }
 
+export function getParent(name) {
+    let parent = this.$parent;
+
+    while (parent) {
+        if (parent.$options.componentName !== name) {
+            parent = parent.$parent;
+        } else {
+            return parent;
+        }
+    }
+
+    return null;
+}
+
 export function dataset(obj, key, value) {
     let d = obj;
 
     let arr = flat(
-        key.split('.').map(e => {
+        key.split('.').map((e) => {
             if (e.includes('[')) {
-                return e.split('[').map(e => e.replace(/"/g, ''));
+                return e.split('[').map((e) => e.replace(/"/g, ''));
             } else {
                 return e;
             }
@@ -156,7 +170,7 @@ export function dataset(obj, key, value) {
             let [k, v] = e.replace(']', '').split(':');
 
             if (v) {
-                n = d.findIndex(x => x[k] == v);
+                n = d.findIndex((x) => x[k] == v);
             } else {
                 n = Number(n);
             }
@@ -203,7 +217,7 @@ export function print(title, value) {
 }
 
 export function resetForm(items, form) {
-    items.forEach(e => {
+    items.forEach((e) => {
         if (isArray(e.value)) {
             form[e.prop] = [];
         } else if (isObject(e.value)) {
@@ -305,7 +319,7 @@ export function renderForm(options = {}) {
                     key,
                     ref,
                     refInFor,
-                    width = '100%'
+                    width = '100%',
                 } = e.component || {};
 
                 if (!style.width) {
@@ -326,17 +340,17 @@ export function renderForm(options = {}) {
                     refInFor,
                     attrs: {
                         ...attrs,
-                        value: this.form[e.prop]
+                        value: this.form[e.prop],
                     },
                     props: {
-                        ...props
+                        ...props,
                     },
                     on: {
-                        input: val => {
+                        input: (val) => {
                             this.form[e.prop] = val;
                         },
-                        ...on
-                    }
+                        ...on,
+                    },
                 };
 
                 if (context) {
@@ -348,7 +362,7 @@ export function renderForm(options = {}) {
                         jsx.style.color = 'red';
                     }
 
-                    const fn = function() {
+                    const fn = function () {
                         name = name + '-' + formItemNameIndex++;
                     };
 
@@ -444,15 +458,15 @@ export function renderForm(options = {}) {
                 props: {
                     disabled: this.saving,
                     model: this.form,
-                    ...this.props
-                }
+                    ...this.props,
+                },
             }}>
             <el-row
                 v-loading={this.loading}
                 {...{
                     attrs: {
-                        ...this['v-loading']
-                    }
+                        ...this['v-loading'],
+                    },
                 }}>
                 {items}
                 {appendEl}
