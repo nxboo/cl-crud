@@ -91,6 +91,10 @@
 
 -   1.5.2 添加 app.setPagination
 
+-   1.5.3 添加 插件模式（组件注入）
+-   
+-   1.5.4 优化一点
+
 ## 文档地址
 
 [文档地址](https://docs.cool-admin.com/#/front/crud)

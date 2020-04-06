@@ -1,5 +1,4 @@
 import { deepMerge, isFunction, dataset, certainProperty } from '@/utils';
-import { __crud } from '../options';
 
 export const bootstrap = that => {
     // eslint-disable-next-line
@@ -142,13 +141,17 @@ export const bootstrap = that => {
         },
 
         refresh(d) {
-            isFunction(d) ? d(that.params, refresh) : refresh(d);
+            return isFunction(d) ? d(that.params, refresh) : refresh(d);
         },
 
         doLayout(key) {
-            if (key == 'table') {
+            if (key === 'table') {
                 this.refs('table').calcHeight();
             }
+        },
+
+        paramsReplace(p) {
+            return that.paramsReplace(p);
         }
     };
 
@@ -184,20 +187,20 @@ export const bootstrap = that => {
         let a = that[n];
         let b = isFunction(x) ? x(a) : x;
 
-        if (n == 'table') {
+        if (n === 'table') {
             if (b.props) {
                 const { order, prop } = b.props['default-sort'] || {};
 
-                params.order = !order ? '' : order == 'descending' ? 'desc' : 'asc';
+                params.order = !order ? '' : order === 'descending' ? 'desc' : 'asc';
                 params.prop = prop;
             }
         }
 
-        if (n == 'adv') {
+        if (n === 'adv') {
             a = that.search.adv;
         }
 
-        if (n == 'layout') {
+        if (n === 'layout') {
             that[n] = b;
         } else {
             deepMerge(a, b);

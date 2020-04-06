@@ -1,16 +1,15 @@
-import './common/index';
-import { __crud, __vue } from './options';
+import { __crud, __vue, __components } from './options';
 import { deepMerge } from './utils/index';
+import { DialogDrag } from './directive/index';
 import Crud from './crud/index';
 import Form from './crud/lib/form';
-import { DialogDrag } from './directive/index';
-import pkg from '../package.json';
+import './common/index';
 
 export const CRUD = {
-    version: pkg.version,
+    version: '1.5.4',
 
     install: function(Vue, options = {}) {
-        const { crud, version = '' } = options;
+        const { crud, components, version = '' } = options;
 
         const Ver = name => {
             return `${name}${version}`;
@@ -18,10 +17,11 @@ export const CRUD = {
 
         deepMerge(__crud, crud);
         deepMerge(__vue, Vue);
+        deepMerge(__components, components);
 
         Vue.directive('dialog-drag', DialogDrag);
 
-        Vue.component(Ver('cl-crud'), Crud);
+        Vue.component(Ver('cl-crud'), Crud({ __crud, __components }));
         Vue.component(Ver('cl-form'), Form);
     }
 };
