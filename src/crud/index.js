@@ -69,7 +69,7 @@ export default function ({ __crud, __components }) {
                         delete: '删除',
                         update: '编辑',
                         refresh: '刷新',
-                        advSearch: '高级搜素',
+                        advSearch: '高级搜索',
                     },
                 },
                 tips: {
