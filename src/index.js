@@ -6,12 +6,12 @@ import Form from './crud/lib/form';
 import './common/index';
 
 export const CRUD = {
-    version: '1.5.5',
+    version: '1.5.6',
 
-    install: function (Vue, options = {}) {
+    install: function(Vue, options = {}) {
         const { crud, components, version = '' } = options;
 
-        const Ver = (name) => {
+        const Ver = name => {
             return `${name}${version}`;
         };
 
@@ -23,7 +23,7 @@ export const CRUD = {
 
         Vue.component(Ver('cl-crud'), Crud({ __crud, __components }));
         Vue.component(Ver('cl-form'), Form);
-    },
+    }
 };
 
 export default CRUD;
