@@ -51,9 +51,6 @@
 
                 <template #slot-append="{scope}">
                     <el-button size="mini" type="text" @click="openForm_CRUD">内嵌crud</el-button>
-                    <el-button size="mini" type="text" @click="hiddenColumn(scope.row)"
-                        >显隐列</el-button
-                    >
                 </template>
 
                 <template #slot-validate="{scope}">
@@ -301,8 +298,7 @@
                                             {
                                                 label: '销售',
                                                 prop: 'salesRate',
-                                                align: 'center',
-                                                hidden: false
+                                                align: 'center'
                                             }
                                         ]
                                     },
@@ -648,12 +644,6 @@
                                 }
                             ]
                         });
-                    },
-
-                    hiddenColumn(e) {
-                        e.hidden = !e.hidden;
-
-                        this.crud.hiddenColumn('salesRate', e.hidden);
                     },
 
                     submit() {
