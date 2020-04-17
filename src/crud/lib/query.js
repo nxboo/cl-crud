@@ -17,11 +17,7 @@ export default {
             }
 
             return list.map(e => {
-                this.$set(
-                    e,
-                    'active',
-                    arr.some(v => v === e.value)
-                );
+                this.$set(e, 'active', arr.some(v => v === e.value));
 
                 return e;
             });
@@ -59,15 +55,16 @@ export default {
     render() {
         return (
             <div class="crud-query">
-                {this.list.map((e, i) => {
+                {this.list.map((item, index) => {
                     return (
                         <button
-                            class={{ active: e.active }}
-                            on-click={() => {
-                                this.selectRow(e);
+                            class={{ active: item.active }}
+                            on-click={event => {
+                                this.selectRow(item);
+                                event.preventDefault();
                             }}
-                            key={i}>
-                            <span>{e.label}</span>
+                            key={index}>
+                            <span>{item.label}</span>
                         </button>
                     );
                 })}

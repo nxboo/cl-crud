@@ -34,6 +34,8 @@ yarn add cl-crud
 [https://docs.cool-admin.com/#/front/crud](https://docs.cool-admin.com/#/front/crud)
 
 ## Version
+-   1.5.8 解决内嵌 crud 下 `query` 点击刷新页面问题
+-   
 -   1.5.7 dataset 处理错误
 
 -   1.5.6 data-table cell 尺寸修改（以el-table size为标准），去掉默认的font-weight，background-color 样式

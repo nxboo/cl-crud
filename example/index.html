@@ -614,6 +614,20 @@
                                                         });
                                                     }
                                                 })
+                                                    .set('search', {
+                                                        query: {
+                                                            list: [
+                                                                {
+                                                                    label: '类目1',
+                                                                    value: 1
+                                                                },
+                                                                {
+                                                                    label: '类目2',
+                                                                    value: 0
+                                                                }
+                                                            ]
+                                                        }
+                                                    })
                                                     .set('table', {
                                                         columns: [
                                                             {
@@ -631,7 +645,12 @@
                                                         }
                                                     })
                                                     .set('layout', [
-                                                        ['refresh-btn', 'flex1', 'search-key'],
+                                                        [
+                                                            'refresh-btn',
+                                                            'query',
+                                                            'flex1',
+                                                            'search-key'
+                                                        ],
                                                         ['data-table'],
                                                         ['flex1', 'pagination']
                                                     ])
