@@ -105,7 +105,7 @@
                     printBtn: {
                         methods: {
                             printls() {
-                                console.log(this.$crud.app.getData('table.data'));
+                                console.log('获取打印数据', this.$crud.app.getData('table.data'));
                             }
                         },
 
@@ -340,7 +340,7 @@
 
                                 on: {
                                     'selection-change'(selection) {
-                                        console.log(selection);
+                                        console.log('监听表格选择项', selection);
                                     }
                                 }
                             })
@@ -518,7 +518,21 @@
                                     'adv-btn'
                                 ],
                                 ['data-table'],
-                                ['flex1', 'pagination']
+                                [
+                                    ({ h }) => {
+                                        return h(
+                                            'p',
+                                            {
+                                                style: {
+                                                    'font-size': '13px'
+                                                }
+                                            },
+                                            '（打开开发者工具，查看数据响应）'
+                                        );
+                                    },
+                                    'flex1',
+                                    'pagination'
+                                ]
                             ])
                             .on('info', (data, { next }) => {
                                 setTimeout(() => {
@@ -578,14 +592,29 @@
                             props: {
                                 title: '内嵌CRUD',
                                 width: '800px',
-                                size: 'mini'
+                                size: 'mini',
+                                'label-width': '80px'
                             },
 
                             op: {
                                 visible: false
                             },
 
+                            on: {
+                                load(res) {
+                                    console.log('自定义表单加载完事件', res);
+                                    res.setForm('name', 'icssoa');
+                                }
+                            },
+
                             items: [
+                                {
+                                    prop: 'name',
+                                    label: '作者',
+                                    component: {
+                                        name: 'el-input'
+                                    }
+                                },
                                 {
                                     props: {
                                         labelWidth: '0px'

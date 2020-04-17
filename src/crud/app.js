@@ -146,7 +146,7 @@ export const bootstrap = that => {
 
         doLayout(key) {
             if (key === 'table') {
-                this.refs('table').calcHeight();
+                that.$refs['table'].calcHeight();
             }
         },
 

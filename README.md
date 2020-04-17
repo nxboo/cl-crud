@@ -1,7 +1,5 @@
 # cl-crud
 
-
-
 ## Install
 
 #### npm
@@ -35,15 +33,20 @@ yarn add cl-crud
 
 ## Version
 
+-   1.6.0
+    -   更新 cl-crud 高度计算方式
+    -   cl-form 添加 on.load 事件，添加 setForm, getForm
+    -   table.op 下拉菜单模式修改
+
 -   1.5.9 解决 cloneDeep, dataset 取值错误
--   
+
 -   1.5.8 解决内嵌 crud 下 `query` 点击刷新页面问题
--   
+
 -   1.5.7 dataset 处理错误
 
--   1.5.6 data-table cell 尺寸修改（以el-table size为标准），去掉默认的font-weight，background-color 样式
+-   1.5.6 data-table cell 尺寸修改（以 el-table size 为标准），去掉默认的 font-weight，background-color 样式
 
--   1.5.5 解决 $crud 注入错误问题
+-   1.5.5 解决 \$crud 注入错误问题
 
 -   1.5.4 优化一点
 
@@ -70,6 +73,7 @@ yarn add cl-crud
 -   1.4.3 解决 table-column formatter 未处理问题
 
 -   1.4.2
+
     -   解决 upsert:slot 失效
     -   添加 app.hiddenItem(prop, flag?)、app.hiddenColumn(prop, flag?)、app.getForm(prop?)、app.submit 方法
     -   app.data => app.getData

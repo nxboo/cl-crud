@@ -39,7 +39,11 @@ export default {
                 'destroy-on-close': true
             },
             form: {},
-            on: {},
+            on: {
+                load: null,
+                submit: null,
+                close: null
+            },
             fn: {},
             saving: false,
             loading: false,
@@ -69,13 +73,17 @@ export default {
 
             let { props = {}, items, on, op, hdr, forceUpdate } = options;
 
+            // 显示窗口
             this.visible = true;
+            // 辅助参数：强制更新
             this.aid.forceUpdate = forceUpdate;
 
+            // 设置表单项
             if (items) {
                 this.items = items;
             }
 
+            // 窗口配置
             if (!props.top) {
                 props.top = '15vh';
             }
@@ -84,31 +92,45 @@ export default {
                 props.width = '50%';
             }
 
+            // 是否全屏
             this.dialog.fullscreen = props.fullscreen;
 
+            // 参数合并
             if (props) {
                 deepMerge(this.props, props);
             }
 
+            // 事件合并
             if (on) {
                 this.on = on;
             }
 
+            // 操作栏合并
             if (op) {
                 deepMerge(this.op, op);
             }
 
+            // 窗口栏合并
             if (hdr) {
                 deepMerge(this.hdr, hdr);
             }
 
+            // 设置表单值
             this.items.forEach(e => {
                 if (e.prop) {
                     this.$set(this.form, e.prop, cloneDeep(e.value));
                 }
             });
 
-            return this.cb();
+            // 互动
+            const res = this.cb();
+
+            // 加载完事件
+            if (on.load) {
+                on.load(res);
+            }
+
+            return res;
         },
 
         done() {
@@ -151,6 +173,14 @@ export default {
             deepMerge(this, dataset(certainProperty(this, ['items']), p, d));
         },
 
+        getForm(prop) {
+            return this.form[prop];
+        },
+
+        setForm(prop, value) {
+            this.form[prop] = value;
+        },
+
         hiddenItem(prop, flag = true) {
             this.setData(`items[prop:${prop}].hidden`, flag);
         },
@@ -168,6 +198,8 @@ export default {
                     'hideLoading',
                     'setData',
                     'getData',
+                    'setForm',
+                    'getForm',
                     'getRef',
                     'hiddenItem'
                 ])

@@ -39,13 +39,20 @@ export default {
             let { props, items, op, hdr, form, sync } = this.crud.upsert;
 
             const dataset = () => {
+                // 设置参数
                 this.props = props;
+                // 设置表单项
                 this.items = items;
+                // 设置表单数据初始值
                 this.form = form;
+                // 设置操作栏
                 this.op = op;
+                // 设置窗口栏
                 this.hdr = hdr;
+                // 是否同步打开
                 this.sync = sync;
 
+                // 设置窗口信息
                 if (!props.title) {
                     props.title = this.isEdit ? '编辑' : '新增';
                 }
@@ -58,8 +65,10 @@ export default {
                     props.width = '50%';
                 }
 
+                // 是否全屏
                 this.dialog.fullscreen = props.fullscreen;
 
+                // 设置表单值
                 this.items.forEach(e => {
                     if (e.prop) {
                         this.$set(this.form, e.prop, cloneDeep(e.value));

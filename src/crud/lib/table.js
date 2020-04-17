@@ -121,15 +121,11 @@ export default {
                                 }
                             };
 
-                            if (op.name == 'dropdown-menu') {
-                                return <p on-click={onclick}>{label}</p>;
-                            } else {
-                                return (
-                                    <el-button size="mini" type="text" on-click={onclick}>
-                                        {label}
-                                    </el-button>
-                                );
-                            }
+                            return (
+                                <el-button size="mini" type="text" on-click={onclick}>
+                                    {label}
+                                </el-button>
+                            );
                         }
                     } else {
                         return renderNode.call(this, vnode, { scope });
@@ -172,6 +168,7 @@ export default {
 
                                             <el-dropdown-menu
                                                 style={{ width }}
+                                                class="cl-crud__op-dropdown-menu"
                                                 {...{ slot: 'dropdown' }}>
                                                 {items}
                                             </el-dropdown-menu>
@@ -224,37 +221,39 @@ export default {
         },
 
         calcHeight() {
-            const el = document.querySelector('.cl-crud');
-            const { height = '' } = this.table.props || {};
+            return this.$nextTick(() => {
+                const el = this.crud.$el.parentNode;
+                const { height = '' } = this.table.props || {};
 
-            if (el) {
-                let rows = document.querySelectorAll('.cl-crud > .el-row');
+                if (el) {
+                    let rows = el.querySelectorAll('.el-row');
 
-                let h = 20;
+                    let h = 20;
 
-                for (let i = 0; i < rows.length; i++) {
-                    let f = true;
+                    for (let i = 0; i < rows.length; i++) {
+                        let f = true;
 
-                    for (let j = 0; j < rows[i].childNodes.length; j++) {
-                        if (rows[i].childNodes[j].className == 'crud-data-table') {
-                            f = false;
+                        for (let j = 0; j < rows[i].childNodes.length; j++) {
+                            if (rows[i].childNodes[j].className == 'crud-data-table') {
+                                f = false;
+                            }
+                        }
+
+                        if (f) {
+                            h += rows[i].clientHeight + 10;
                         }
                     }
 
-                    if (f) {
-                        h += rows[i].clientHeight + 10;
-                    }
+                    let h1 = Number(String(height).replace('px', ''));
+                    let h2 = el.clientHeight - h;
+
+                    this.maxHeight = h1 > h2 ? h1 : h2;
                 }
-
-                let h1 = Number(String(height).replace('px', ''));
-                let h2 = el.clientHeight - h;
-
-                this.maxHeight = h1 > h2 ? h1 : h2;
-            }
+            });
         },
 
-        resize() {
-            this.calcHeight();
+        async resize() {
+            await this.calcHeight();
 
             const { resize } = this.crud.fn;
             const d = { tableMaxHeight: this.maxHeight };
