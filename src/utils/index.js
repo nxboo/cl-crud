@@ -1,40 +1,6 @@
+import cloneDeep from 'clone-deep';
+import flat from 'array.prototype.flat';
 import { __vue } from '../options';
-
-export function flat(list, count) {
-    let c = count || 1;
-    let len = list.length;
-    let ret = [];
-    if (len == 0) return [];
-
-    while (c--) {
-        let arr = [];
-        let flag = false;
-        if (ret.length == 0) {
-            flag = true;
-            for (let i = 0; i < len; i++) {
-                if (list[i] instanceof Array) {
-                    ret.push(...list[i]);
-                } else {
-                    ret.push(list[i]);
-                }
-            }
-        } else {
-            for (let i = 0; i < ret.length; i++) {
-                if (ret[i] instanceof Array) {
-                    flag = true;
-                    arr.push(...ret[i]);
-                } else {
-                    arr.push(ret[i]);
-                }
-            }
-            ret = arr;
-        }
-        if (!flag && c == Infinity) {
-            break;
-        }
-    }
-    return ret;
-}
 
 export function debounce(fn, delay) {
     let timer = null;
@@ -101,26 +67,6 @@ export function isEmpty(value) {
     return value === '' || value === undefined || value === null;
 }
 
-export function cloneDeep(v) {
-    let d = v;
-
-    if (isObject(v)) {
-        for (let k in v) {
-            if (v.hasOwnProperty && v.hasOwnProperty(k)) {
-                if (v[k] && typeof v[k] === 'object') {
-                    d[k] = cloneDeep(v[k]);
-                } else {
-                    d[k] = v[k];
-                }
-            }
-        }
-    } else if (isArray(v)) {
-        d = v.map(cloneDeep);
-    }
-
-    return d;
-}
-
 export function clone(obj) {
     return Object.create(Object.getPrototypeOf(obj), Object.getOwnPropertyDescriptors(obj));
 }
@@ -150,6 +96,7 @@ export function getParent(name) {
 }
 
 export function dataset(obj, key, value) {
+    const isGet = value === undefined;
     let d = obj;
 
     let arr = flat(
@@ -162,37 +109,39 @@ export function dataset(obj, key, value) {
         })
     );
 
-    for (let i = 0; i < arr.length; i++) {
-        let e = arr[i];
-        let n = null;
+    try {
+        for (let i = 0; i < arr.length; i++) {
+            let e = arr[i];
+            let n = null;
 
-        if (e.includes(']')) {
-            let [k, v] = e.replace(']', '').split(':');
+            if (e.includes(']')) {
+                let [k, v] = e.replace(']', '').split(':');
 
-            if (v) {
-                n = d.findIndex(x => x[k] == v);
+                if (v) {
+                    n = d.findIndex(x => x[k] == v);
+                } else {
+                    n = Number(n);
+                }
             } else {
-                n = Number(n);
+                n = e;
             }
-        } else {
-            n = e;
+
+            if (i != arr.length - 1) {
+                d = d[n];
+            } else {
+                if (isGet) {
+                    return d[n];
+                } else {
+                    d[n] = value;
+                }
+            }
         }
 
-        if (i != arr.length - 1) {
-            d = d[n];
-        } else {
-            // if (isEmpty(value)) {
-            //     return d[n];
-            // } else {
-            //     d[n] = value;
-            // }
-
-            // dev 4.15
-            d[n] = value;
-        }
+        return obj;
+    } catch (e) {
+        console.error('格式错误', `${key}`);
+        return {};
     }
-
-    return obj;
 }
 
 export function print(title, value) {
@@ -488,3 +437,5 @@ export function contains(parent, node) {
         return false;
     }
 }
+
+export { cloneDeep, flat };

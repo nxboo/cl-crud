@@ -1,6 +1,6 @@
 {
     "name": "cl-crud",
-    "version": "1.5.8",
+    "version": "1.5.9",
     "description": "cool-admin: cl-crud、cl-form",
     "main": "dist/cl-crud.min.js",
     "scripts": {
@@ -47,7 +47,9 @@
         "webpack-cli": "^3.3.10"
     },
     "dependencies": {
+        "array.prototype.flat": "^1.2.3",
         "babel-plugin-jsx-v-model": "^2.0.3",
+        "clone-deep": "^4.0.1",
         "vue": "^2.6.10"
     }
 }

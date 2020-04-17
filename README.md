@@ -34,6 +34,9 @@ yarn add cl-crud
 [https://docs.cool-admin.com/#/front/crud](https://docs.cool-admin.com/#/front/crud)
 
 ## Version
+
+-   1.5.9 解决 cloneDeep, dataset 取值错误
+-   
 -   1.5.8 解决内嵌 crud 下 `query` 点击刷新页面问题
 -   
 -   1.5.7 dataset 处理错误
