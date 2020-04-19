@@ -231,7 +231,7 @@
                                     ],
                                     pagination: {
                                         page: 1,
-                                        size: 20,
+                                        size: p.size,
                                         total: 5
                                     }
                                 });
@@ -534,6 +534,11 @@
                                     'pagination'
                                 ]
                             ])
+                            .set('pagination', {
+                                props: {
+                                    'page-sizes': [10, 20]
+                                }
+                            })
                             .on('info', (data, { next }) => {
                                 setTimeout(() => {
                                     next(data);

@@ -20,15 +20,17 @@ export default {
     },
 
     render() {
-        const { pagination } = this.crud;
-        const { props, page, size, total } = pagination;
+        const { props, page, size, total } = this.crud.pagination;
 
         return (
             <el-pagination
                 on-size-change={this.sizeChange}
                 on-current-change={this.currentChange}
-                {...props}
-                layout={props.layout}
+                {...{
+                    props: {
+                        ...props
+                    }
+                }}
                 current-page={page}
                 page-size={size}
                 total={total}

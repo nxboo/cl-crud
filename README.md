@@ -17,7 +17,7 @@ yarn add cl-crud
 #### Browser
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/cl-crud@1.5.6/dist/cl-crud.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cl-crud@1.6.1/dist/cl-crud.min.js"></script>
 ```
 
 ## Demo
@@ -33,7 +33,10 @@ yarn add cl-crud
 
 ## Version
 
+-   1.6.1 解决 pagination props 参数处理错误问题
+
 -   1.6.0
+
     -   更新 cl-crud 高度计算方式
     -   cl-form 添加 on.load 事件，添加 setForm, getForm
     -   table.op 下拉菜单模式修改
