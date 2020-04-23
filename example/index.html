@@ -16,8 +16,13 @@
             html,
             body,
             #app {
-                height: 100vh;
-                width: 100vw;
+                height: 100%;
+                width: 100%;
+            }
+
+            #app {
+                padding: 10px;
+                box-sizing: border-box;
             }
 
             * {
@@ -33,53 +38,160 @@
                 font-weight: normal;
                 color: #666;
             }
+
+            .el-tabs,
+            .el-tab-pane {
+                height: 100%;
+            }
+
+            .el-tabs__header {
+                margin-bottom: 0;
+            }
+
+            .el-tabs__content {
+                height: calc(100% - 42px);
+                border: 1px solid #eee;
+                border-top: 0;
+            }
         </style>
     </head>
     <body>
         <div id="app">
-            <cl-crud @load="onLoad" @fullscreen="onFullscreen" @resize="onResize">
-                <template #table-column-images="{scope}">
-                    <el-image
-                        :src="scope.row.images[0]"
-                        :preview-src-list="scope.row.images"
-                        :style='{
-                            height: "60px",
-                            width: "60px"
-                        }'
-                    ></el-image>
-                </template>
+            <el-tabs type="card" lazy v-model="tabs.active" @tab-click="onTabClick">
+                <el-tab-pane name="a" label="列表 A">
+                    <cl-crud @load="onLoadA" @fullscreen="onFullscreen" @resize="onResize">
+                        <template #table-column-images="{scope}">
+                            <el-image
+                                :src="scope.row.images[0]"
+                                :preview-src-list="scope.row.images"
+                                :style='{
+                                    height: "60px",
+                                    width: "60px"
+                                }'
+                            ></el-image>
+                        </template>
 
-                <template #slot-append="{scope}">
-                    <el-button size="mini" type="text" @click="openForm_CRUD">内嵌crud</el-button>
-                </template>
+                        <template #slot-append="{scope}">
+                            <el-button size="mini" type="text" @click="openForm_CRUD"
+                                >内嵌crud</el-button
+                            >
+                        </template>
 
-                <template #slot-validate="{scope}">
-                    <el-form-item
-                        v-for="(item, index) in scope.vads"
-                        :key="index"
-                        :prop="'vads.' + index + '.val'"
-                        :rules="{ required: true }"
-                    >
-                        <el-input v-model="item.val"></el-input>
-                    </el-form-item>
+                        <template #slot-validate="{scope}">
+                            <el-form-item
+                                v-for="(item, index) in scope.vads"
+                                :key="index"
+                                :prop="'vads.' + index + '.val'"
+                                :rules="{ required: true }"
+                            >
+                                <el-input v-model="item.val"></el-input>
+                            </el-form-item>
 
-                    <el-button @click="addVad(scope.vads)">添加行</el-button>
-                </template>
+                            <el-button @click="addVad(scope.vads)">添加行</el-button>
+                        </template>
 
-                <template #slot-fn>
-                    <el-button @click="submit" size="small">submit</el-button>
-                    <el-button @click="getForm" size="small">getForm</el-button>
-                    <el-button @click="hiddenItem" size="small">hiddenItem</el-button>
-                </template>
+                        <template #slot-fn>
+                            <el-button @click="submit" size="small">submit</el-button>
+                            <el-button @click="getForm" size="small">getForm</el-button>
+                            <el-button @click="hiddenItem" size="small">hiddenItem</el-button>
+                        </template>
 
-                <template #slot-hdr-btn>
-                    <el-button size="mini" round>自定义按钮</el-button>
-                </template>
-            </cl-crud>
+                        <template #slot-hdr-btn>
+                            <el-button size="mini" round>自定义按钮</el-button>
+                        </template>
+                    </cl-crud>
+                </el-tab-pane>
+
+                <el-tab-pane name="b" label="列表 B">
+                    <cl-crud @load="onLoadB">
+                        <template #slot-append="{scope}">
+                            <el-button size="mini" type="text" @click="openForm_CRUD"
+                                >内嵌crud</el-button
+                            >
+                        </template>
+                    </cl-crud>
+                </el-tab-pane>
+            </el-tabs>
+
             <cl-form ref="cl-form"></cl-form>
         </div>
 
         <script>
+            const userList = [
+                {
+                    id: 1,
+                    name: '刘一',
+                    process: 42.2,
+                    endTime: '2019年09月02日',
+                    price: 75.99,
+                    salesRate: 52.2,
+                    salesStatus: 1,
+                    images: [
+                        'https://cool-comm.oss-cn-shenzhen.aliyuncs.com/show/imgs/chat/avatar/1.jpg'
+                    ],
+                    children: [
+                        {
+                            id: 6,
+                            name: '刘一儿子',
+                            process: 35.2,
+                            endTime: '2019年09月05日',
+                            price: 242.1,
+                            salesRate: 72.1,
+                            salesStatus: 1,
+                            images: []
+                        }
+                    ]
+                },
+                {
+                    id: 2,
+                    name: '陈二',
+                    process: 35.2,
+                    endTime: '2019年09月05日',
+                    price: 242.1,
+                    salesRate: 72.1,
+                    salesStatus: 1,
+                    images: [
+                        'https://cool-comm.oss-cn-shenzhen.aliyuncs.com/show/imgs/chat/avatar/2.jpg'
+                    ]
+                },
+                {
+                    id: 3,
+                    name: '张三',
+                    process: 10.2,
+                    endTime: '2019年09月12日',
+                    price: 74.11,
+                    salesRate: 23.9,
+                    salesStatus: 0,
+                    images: [
+                        'https://cool-comm.oss-cn-shenzhen.aliyuncs.com/show/imgs/chat/avatar/3.jpg'
+                    ]
+                },
+                {
+                    id: 4,
+                    name: '李四',
+                    process: 75.5,
+                    endTime: '2019年09月13日',
+                    price: 276.64,
+                    salesRate: 47.2,
+                    salesStatus: 0,
+                    images: [
+                        'https://cool-comm.oss-cn-shenzhen.aliyuncs.com/show/imgs/chat/avatar/4.jpg'
+                    ]
+                },
+                {
+                    id: 5,
+                    name: '王五',
+                    process: 25.4,
+                    endTime: '2019年09月18日',
+                    price: 160.23,
+                    salesRate: 28.3,
+                    salesStatus: 1,
+                    images: [
+                        'https://cool-comm.oss-cn-shenzhen.aliyuncs.com/show/imgs/chat/avatar/5.jpg'
+                    ]
+                }
+            ];
+
             Vue.use(CRUD, {
                 crud: {
                     table: {
@@ -105,7 +217,7 @@
                     printBtn: {
                         methods: {
                             printls() {
-                                console.log('获取打印数据', this.$crud.app.getData('table.data'));
+                                console.log(this.$crud.app.getData('table.data'));
                             }
                         },
 
@@ -137,11 +249,32 @@
                         vad: {
                             list: []
                         },
-                        crud: null
+                        crud1: null,
+                        crud2: null,
+                        tabs: {
+                            active: 'a',
+                            list: [
+                                {
+                                    label: '列表A',
+                                    value: 'a'
+                                },
+                                {
+                                    label: '列表B',
+                                    value: 'b'
+                                }
+                            ]
+                        }
                     };
                 },
 
                 methods: {
+                    onTabClick(a) {
+                        this.$nextTick(() => {
+                            this.crud1.doLayout('table');
+                            this.crud2.doLayout('table');
+                        });
+                    },
+
                     onFullscreen(v) {
                         console.log('是否全屏', v);
                     },
@@ -150,88 +283,17 @@
                         console.log('table-max-height', tableMaxHeight + 'px');
                     },
 
-                    onLoad({ ctx, app }) {
-                        this.crud = app;
+                    onLoadA({ ctx, app }) {
+                        this.crud1 = app;
 
                         ctx.service({
                             page: p => {
                                 console.log('GET[page]', p);
                                 return Promise.resolve({
-                                    list: [
-                                        {
-                                            id: 1,
-                                            name: '刘一',
-                                            process: 42.2,
-                                            endTime: '2019年09月02日',
-                                            price: 75.99,
-                                            salesRate: 52.2,
-                                            salesStatus: 1,
-                                            images: [
-                                                'https://dss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=3783120155,1061441906&fm=26&gp=0.jpg'
-                                            ],
-                                            children: [
-                                                {
-                                                    id: 6,
-                                                    name: '刘一儿子',
-                                                    process: 35.2,
-                                                    endTime: '2019年09月05日',
-                                                    price: 242.1,
-                                                    salesRate: 72.1,
-                                                    salesStatus: 1,
-                                                    images: []
-                                                }
-                                            ]
-                                        },
-                                        {
-                                            id: 2,
-                                            name: '陈二',
-                                            process: 35.2,
-                                            endTime: '2019年09月05日',
-                                            price: 242.1,
-                                            salesRate: 72.1,
-                                            salesStatus: 1,
-                                            images: [
-                                                'http://pic2.zhimg.com/50/v2-fb824dbb6578831f7b5d92accdae753a_hd.jpg'
-                                            ]
-                                        },
-                                        {
-                                            id: 3,
-                                            name: '张三',
-                                            process: 10.2,
-                                            endTime: '2019年09月12日',
-                                            price: 74.11,
-                                            salesRate: 23.9,
-                                            salesStatus: 0,
-                                            images: [
-                                                'http://imgsrc.baidu.com/forum/w=580/sign=a9714efaaf86c91708035231f93c70c6/ddd3ab59d109b3dea0394e6ac4bf6c81810a4c48.jpg'
-                                            ]
-                                        },
-                                        {
-                                            id: 4,
-                                            name: '李四',
-                                            process: 75.5,
-                                            endTime: '2019年09月13日',
-                                            price: 276.64,
-                                            salesRate: 47.2,
-                                            salesStatus: 0,
-                                            images: [
-                                                'http://hbimg.b0.upaiyun.com/6384e34946c64dba4c99b5b6de52e527a0f8dbe37358-VUNocf_fw236'
-                                            ]
-                                        },
-                                        {
-                                            id: 5,
-                                            name: '王五',
-                                            process: 25.4,
-                                            endTime: '2019年09月18日',
-                                            price: 160.23,
-                                            salesRate: 28.3,
-                                            salesStatus: 1,
-                                            images: []
-                                        }
-                                    ],
+                                    list: userList,
                                     pagination: {
                                         page: 1,
-                                        size: p.size,
+                                        size: 20,
                                         total: 5
                                     }
                                 });
@@ -340,7 +402,7 @@
 
                                 on: {
                                     'selection-change'(selection) {
-                                        console.log('监听表格选择项', selection);
+                                        console.log(selection);
                                     }
                                 }
                             })
@@ -518,27 +580,8 @@
                                     'adv-btn'
                                 ],
                                 ['data-table'],
-                                [
-                                    ({ h }) => {
-                                        return h(
-                                            'p',
-                                            {
-                                                style: {
-                                                    'font-size': '13px'
-                                                }
-                                            },
-                                            '（打开开发者工具，查看数据响应）'
-                                        );
-                                    },
-                                    'flex1',
-                                    'pagination'
-                                ]
+                                ['flex1', 'pagination']
                             ])
-                            .set('pagination', {
-                                props: {
-                                    'page-sizes': [10, 20]
-                                }
-                            })
                             .on('info', (data, { next }) => {
                                 setTimeout(() => {
                                     next(data);
@@ -549,6 +592,90 @@
                                 console.log(`是否编辑`, isEdit);
                                 console.log(`表单参数`, data);
                             })
+                            .done();
+                        app.refresh();
+                    },
+
+                    onLoadB({ ctx, app }) {
+                        this.crud2 = app;
+
+                        ctx.service({
+                            page: p => {
+                                console.log('GET[page]', p);
+                                return Promise.resolve({
+                                    list: userList,
+                                    pagination: {
+                                        page: 1,
+                                        size: 20,
+                                        total: 5
+                                    }
+                                });
+                            },
+                            info: d => {
+                                return new Promise(resolve => {
+                                    resolve(d);
+                                });
+                            },
+                            add: d => {
+                                return Promise.resolve();
+                            },
+                            delete: d => {
+                                return Promise.resolve();
+                            },
+                            update: d => {
+                                return Promise.resolve();
+                            }
+                        })
+                            .set('permission', () => {
+                                return {
+                                    add: true,
+                                    update: true,
+                                    delete: true
+                                };
+                            })
+                            .set('table', {
+                                columns: [
+                                    {
+                                        type: 'index',
+                                        label: '#',
+                                        align: 'center'
+                                    },
+                                    {
+                                        label: '花名',
+                                        prop: 'name',
+                                        align: 'center'
+                                    },
+                                    {
+                                        label: '进展',
+                                        prop: 'process',
+                                        align: 'center'
+                                    },
+                                    {
+                                        label: '总量',
+                                        prop: 'price',
+                                        align: 'center'
+                                    },
+                                    {
+                                        label: '销售',
+                                        prop: 'salesRate',
+                                        align: 'center'
+                                    },
+                                    {
+                                        label: '最后期限',
+                                        prop: 'endTime',
+                                        align: 'center'
+                                    }
+                                ],
+
+                                op: {
+                                    layout: ['slot-append']
+                                }
+                            })
+                            .set('layout', [
+                                ['refresh-btn', 'flex1', 'search-key'],
+                                ['data-table'],
+                                ['flex1', 'pagination']
+                            ])
                             .done();
                         app.refresh();
                     },
@@ -597,29 +724,14 @@
                             props: {
                                 title: '内嵌CRUD',
                                 width: '800px',
-                                size: 'mini',
-                                'label-width': '80px'
+                                size: 'mini'
                             },
 
                             op: {
                                 visible: false
                             },
 
-                            on: {
-                                load(res) {
-                                    console.log('自定义表单加载完事件', res);
-                                    res.setForm('name', 'icssoa');
-                                }
-                            },
-
                             items: [
-                                {
-                                    prop: 'name',
-                                    label: '作者',
-                                    component: {
-                                        name: 'el-input'
-                                    }
-                                },
                                 {
                                     props: {
                                         labelWidth: '0px'
@@ -700,15 +812,15 @@
                     },
 
                     submit() {
-                        this.crud.submit();
+                        this.crud1.submit();
                     },
 
                     getForm() {
-                        console.log('表单数据', this.crud.getForm());
+                        console.log('表单数据', this.crud1.getForm());
                     },
 
                     hiddenItem() {
-                        this.crud.hiddenItem('a');
+                        this.crud1.hiddenItem('a');
                     },
 
                     addVad(list) {
