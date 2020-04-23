@@ -71,7 +71,7 @@ export default {
                 return console.warn(`can't open form, because argument is null`);
             }
 
-            let { props = {}, items, on, op, hdr, forceUpdate } = options;
+            let { props = {}, items = [], on = {}, op = {}, hdr = {}, forceUpdate } = options;
 
             // 显示窗口
             this.visible = true;

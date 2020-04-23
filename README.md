@@ -33,6 +33,8 @@ yarn add cl-crud
 
 ## Version
 
+-   1.6.2 添加 tabs 示例，调整 on 事件
+
 -   1.6.1 解决 pagination props 参数处理错误问题
 
 -   1.6.0
