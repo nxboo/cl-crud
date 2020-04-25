@@ -113,7 +113,7 @@
                 </el-tab-pane>
             </el-tabs>
 
-            <cl-form ref="cl-form"></cl-form>
+            <cl-form ref="cl-form"> </cl-form>
         </div>
 
         <script>
@@ -680,45 +680,6 @@
                         app.refresh();
                     },
 
-                    openForm_Loading() {
-                        const $ = this.$refs['cl-form'].open({
-                            props: {
-                                title: '测试loading',
-                                width: '500px'
-                            },
-
-                            items: [
-                                {
-                                    prop: 'tl',
-                                    hidden: false,
-                                    component: {
-                                        name: 'test-loading',
-
-                                        data() {
-                                            return {
-                                                status: 'loading'
-                                            };
-                                        },
-
-                                        mounted() {
-                                            this.status = 'loading';
-                                            $.showLoading('加载中');
-
-                                            setTimeout(() => {
-                                                this.status = 'done';
-                                                $.hideLoading();
-                                            }, 1000);
-                                        },
-
-                                        render(h) {
-                                            return h('p', this.status);
-                                        }
-                                    }
-                                }
-                            ]
-                        });
-                    },
-
                     openForm_CRUD() {
                         this.$refs['cl-form'].open({
                             props: {
@@ -728,7 +689,6 @@
                             },
 
                             op: {
-                                visible: false
                             },
 
                             items: [

@@ -17,7 +17,7 @@ yarn add cl-crud
 #### Browser
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/cl-crud@1.6.1/dist/cl-crud.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cl-crud@1.6.3/dist/cl-crud.min.js"></script>
 ```
 
 ## Demo
@@ -32,6 +32,11 @@ yarn add cl-crud
 [https://docs.cool-admin.com/#/front/crud](https://docs.cool-admin.com/#/front/crud)
 
 ## Version
+
+-   1.6.3
+
+    -   优化 cl-crud 高度计算方式
+    -   cl-form 支持自定义内容（\$slots.default）
 
 -   1.6.2 添加 tabs 示例，调整 on 事件
 

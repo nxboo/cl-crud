@@ -68,7 +68,7 @@ export default {
     methods: {
         open(options) {
             if (!options) {
-                return console.warn(`can't open form, because argument is null`);
+                return console.error(`can't open form, because argument is null`);
             }
 
             let { props = {}, items = [], on = {}, op = {}, hdr = {}, forceUpdate } = options;
@@ -207,22 +207,30 @@ export default {
         },
 
         save() {
-            this.$refs.form.validate(valid => {
-                if (valid) {
-                    if (this.on.submit) {
-                        this.saving = true;
+            const next = () => {
+                if (this.on.submit) {
+                    this.saving = true;
 
-                        this.on.submit(this.cb());
-                    } else {
-                        console.warn('Submit is not found');
-                    }
+                    this.on.submit(this.cb());
+                } else {
+                    console.error('Submit is not found');
                 }
-            });
+            };
+
+            if (this.$refs.form) {
+                this.$refs.form.validate(valid => {
+                    if (valid) {
+                        next();
+                    }
+                });
+            } else {
+                next();
+            }
         }
     },
 
     render() {
-        const form = renderForm.call(this, this.aid);
+        const form = this.$slots.default || renderForm.call(this, this.aid);
         const footer = (this.op.layout || []).map(vnode => {
             if (vnode == 'confirm') {
                 return (

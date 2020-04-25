@@ -226,7 +226,7 @@ export default {
                 const { height = '' } = this.table.props || {};
 
                 if (el) {
-                    let rows = el.querySelectorAll('.el-row');
+                    let rows = el.querySelectorAll('.cl-crud .el-row');
 
                     let h = 20;
 
