@@ -1,4 +1,5 @@
-import { deepMerge, isFunction, dataset, certainProperty } from '@/utils';
+import { deepMerge, isEmpty, isFunction, dataset, certainProperty, loopPluginEvent } from '@/utils';
+import { __plugins } from '@/options';
 
 export const bootstrap = that => {
     // eslint-disable-next-line
@@ -14,7 +15,8 @@ export const bootstrap = that => {
         params,
         pagination,
         permission,
-        fn
+        fn,
+        id
     } = that;
 
     const app = {
@@ -161,6 +163,8 @@ export const bootstrap = that => {
         return ctx;
     };
 
+    ctx.id = id;
+
     ctx.conf = d => {
         deepMerge(conf, d);
 
@@ -168,8 +172,7 @@ export const bootstrap = that => {
     };
 
     ctx.service = d => {
-        that.service = d;
-
+        that.service = deepMerge(that.service || {}, d);
         return ctx;
     };
 
@@ -222,6 +225,12 @@ export const bootstrap = that => {
             if (fn.permission) {
                 that.permission = deepMerge(await fn.permission(that), that.permission);
             }
+
+            loopPluginEvent('load', { ctx, app })
+                .then(async () => {})
+                .catch(err => {
+                    console.error('crud[load] error', err);
+                });
         };
 
         if (isFunction(cb)) {

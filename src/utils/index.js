@@ -1,6 +1,6 @@
 import cloneDeep from 'clone-deep';
 import flat from 'array.prototype.flat';
-import { __vue } from '../options';
+import { __vue, __plugins } from '../options';
 
 export function debounce(fn, delay) {
     let timer = null;
@@ -436,6 +436,24 @@ export function contains(parent, node) {
         while (node && (node = node.parentNode)) if (node === parent) return true;
         return false;
     }
+}
+
+export function loopPluginEvent(key, ...args) {
+    return new Promise((resolve, reject) => {
+        const fns = __plugins.map(e => e[key]).filter(Boolean);
+
+        const deep = i => {
+            if (fns[i]) {
+                fns[i](...args, () => {
+                    deep(i + 1);
+                });
+            } else {
+                resolve(...args);
+            }
+        };
+
+        deep(0);
+    });
 }
 
 export { cloneDeep, flat };

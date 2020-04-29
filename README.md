@@ -33,6 +33,8 @@ yarn add cl-crud
 
 ## Version
 
+-   1.6.4 添加 on.advReset({ close }) 高级搜索重置回调事件
+
 -   1.6.3
 
     -   优化 cl-crud 高度计算方式

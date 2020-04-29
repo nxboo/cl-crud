@@ -9,7 +9,15 @@ import MultiDeleteBtn from './lib/multi-delete-btn';
 import AdvBtn from './lib/adv-btn';
 import Pagination from './lib/pagination';
 import SearchKey from './lib/search-key';
-import { deepMerge, print, renderNode, cloneDeep, isArray, getParent } from '@/utils';
+import {
+    deepMerge,
+    print,
+    renderNode,
+    cloneDeep,
+    isArray,
+    getParent,
+    loopPluginEvent
+} from '@/utils';
 import { bootstrap } from './app';
 import './assets/css/index.styl';
 
@@ -17,6 +25,10 @@ export default function({ __crud, __components }) {
     return {
         name: 'cl-crud',
         componentName: 'ClCrud',
+
+        props: {
+            name: String
+        },
 
         provide() {
             return {
@@ -26,6 +38,7 @@ export default function({ __crud, __components }) {
 
         data() {
             return {
+                id: this.name,
                 service: null,
                 conf: {
                     UPSERT_REFRESH: true,
@@ -41,6 +54,8 @@ export default function({ __crud, __components }) {
                     info: null,
                     permission: null,
                     advSearch: null,
+                    advReset: null,
+                    sortChange: null,
                     resize: null
                 },
                 dict: {
@@ -246,8 +261,16 @@ export default function({ __crud, __components }) {
             }
         },
 
-        mounted() {
-            this.$emit('load', bootstrap(deepMerge(this, __crud)));
+        async mounted() {
+            let { ctx, app } = bootstrap(deepMerge(this, __crud));
+
+            loopPluginEvent('ready', ctx)
+                .then(() => {
+                    this.$emit('load', { ctx, app });
+                })
+                .catch(err => {
+                    console.error(`crud 加载失败`, err);
+                });
         },
 
         methods: {

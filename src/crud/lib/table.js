@@ -217,7 +217,9 @@ export default {
         },
 
         sortChange(value) {
-            this.$emit('sort-change', value);
+            if (this.crud.fn.sortChange) {
+                this.crud.fn.sortChange(value);
+            }
         },
 
         calcHeight() {

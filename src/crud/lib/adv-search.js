@@ -20,7 +20,6 @@ export default {
     methods: {
         search() {
             const params = cloneDeep(this.form);
-            const { fn } = this.crud;
 
             const next = params => {
                 this.crud.refresh({
@@ -29,8 +28,8 @@ export default {
                 });
             };
 
-            if (fn.advSearch) {
-                fn.advSearch(params, { next });
+            if (this.crud.fn.advSearch) {
+                this.crud.fn.advSearch(params, { next });
             } else {
                 next(params);
             }
@@ -65,6 +64,9 @@ export default {
 
         reset() {
             resetForm(this.items, this.form);
+            if (this.crud.fn.advReset) {
+                this.crud.fn.advReset({ close: this.close });
+            }
         }
     },
 

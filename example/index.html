@@ -59,7 +59,7 @@
         <div id="app">
             <el-tabs type="card" lazy v-model="tabs.active" @tab-click="onTabClick">
                 <el-tab-pane name="a" label="列表 A">
-                    <cl-crud @load="onLoadA" @fullscreen="onFullscreen" @resize="onResize">
+                    <cl-crud name="a" @load="onLoadA" @fullscreen="onFullscreen" @resize="onResize">
                         <template #table-column-images="{scope}">
                             <el-image
                                 :src="scope.row.images[0]"
@@ -103,7 +103,7 @@
                 </el-tab-pane>
 
                 <el-tab-pane name="b" label="列表 B">
-                    <cl-crud @load="onLoadB">
+                    <cl-crud name="b" @load="onLoadB">
                         <template #slot-append="{scope}">
                             <el-button size="mini" type="text" @click="openForm_CRUD"
                                 >内嵌crud</el-button
@@ -688,8 +688,7 @@
                                 size: 'mini'
                             },
 
-                            op: {
-                            },
+                            op: {},
 
                             items: [
                                 {
