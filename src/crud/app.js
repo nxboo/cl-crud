@@ -1,4 +1,4 @@
-import { deepMerge, isEmpty, isFunction, dataset, certainProperty, loopPluginEvent } from '@/utils';
+import { deepMerge, isEmpty, isFunction, dataset, certainProperty } from '@/utils';
 import { __plugins } from '@/options';
 
 export const bootstrap = that => {
@@ -172,7 +172,7 @@ export const bootstrap = that => {
     };
 
     ctx.service = d => {
-        that.service = deepMerge(that.service || {}, d);
+        that.service = d;
         return ctx;
     };
 
@@ -220,17 +220,11 @@ export const bootstrap = that => {
 
     ctx.done = async cb => {
         const next = async () => {
-            that.done();
-
             if (fn.permission) {
                 that.permission = deepMerge(await fn.permission(that), that.permission);
             }
 
-            loopPluginEvent('load', { ctx, app })
-                .then(async () => {})
-                .catch(err => {
-                    console.error('crud[load] error', err);
-                });
+            that.done();
         };
 
         if (isFunction(cb)) {

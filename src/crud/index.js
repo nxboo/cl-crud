@@ -1,7 +1,7 @@
-import Query from './lib/query.js';
-import AdvSearch from './lib/adv-search.js';
-import DataTable from './lib/table.js';
-import Upsert from './lib/upsert.js';
+import Query from './lib/query';
+import AdvSearch from './lib/adv-search';
+import DataTable from './lib/table';
+import Upsert from './lib/upsert';
 import RefreshBtn from './lib/refresh-btn';
 import Flex1 from './lib/flex1';
 import AddBtn from './lib/add-btn';
@@ -9,15 +9,7 @@ import MultiDeleteBtn from './lib/multi-delete-btn';
 import AdvBtn from './lib/adv-btn';
 import Pagination from './lib/pagination';
 import SearchKey from './lib/search-key';
-import {
-    deepMerge,
-    print,
-    renderNode,
-    cloneDeep,
-    isArray,
-    getParent,
-    loopPluginEvent
-} from '@/utils';
+import { deepMerge, print, renderNode, cloneDeep, isArray, getParent } from '@/utils';
 import { bootstrap } from './app';
 import './assets/css/index.styl';
 
@@ -261,16 +253,8 @@ export default function({ __crud, __components }) {
             }
         },
 
-        async mounted() {
-            let { ctx, app } = bootstrap(deepMerge(this, __crud));
-
-            loopPluginEvent('ready', ctx)
-                .then(() => {
-                    this.$emit('load', { ctx, app });
-                })
-                .catch(err => {
-                    console.error(`crud 加载失败`, err);
-                });
+        mounted() {
+            this.$emit('load', bootstrap(deepMerge(this, __crud)));
         },
 
         methods: {
@@ -525,7 +509,7 @@ export default function({ __crud, __components }) {
             }
         },
 
-        render(h) {
+        render() {
             const rn = vnode => {
                 if (vnode === 'data-table') {
                     return (
