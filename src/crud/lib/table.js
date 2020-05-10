@@ -230,6 +230,10 @@ export default {
                 if (el) {
                     let rows = el.querySelectorAll('.cl-crud .el-row');
 
+                    if (!rows[0].isConnected) {
+                        return false;
+                    }
+
                     let h = 20;
 
                     for (let i = 0; i < rows.length; i++) {
