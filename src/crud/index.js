@@ -47,7 +47,6 @@ export default function({ __crud, __components }) {
                     permission: null,
                     advSearch: null,
                     advReset: null,
-                    sortChange: null,
                     resize: null
                 },
                 dict: {

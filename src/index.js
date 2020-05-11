@@ -6,7 +6,7 @@ import Form from './crud/lib/form';
 import './common/index';
 
 export const CRUD = {
-    version: '1.6.42',
+    version: '1.6.43',
 
     install: function(Vue, options = {}) {
         const { crud, components, plugins, version = '' } = options;
