@@ -593,7 +593,12 @@
                                 console.log(`是否编辑`, isEdit);
                                 console.log(`表单参数`, data);
                             })
+                            .on('advReset', (data, { close }) => {
+                                console.log(data);
+                                close();
+                            })
                             .done();
+
                         app.refresh();
                     },
 

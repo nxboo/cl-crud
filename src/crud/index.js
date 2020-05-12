@@ -47,7 +47,8 @@ export default function({ __crud, __components }) {
                     permission: null,
                     advSearch: null,
                     advReset: null,
-                    resize: null
+                    resize: null,
+                    done: null
                 },
                 dict: {
                     api: {
@@ -505,6 +506,12 @@ export default function({ __crud, __components }) {
 
             done() {
                 this.process.status = true;
+
+                this.$nextTick(() => {
+                    if (this.fn.done) {
+                        this.fn.done();
+                    }
+                });
             }
         },
 

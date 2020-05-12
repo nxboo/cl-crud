@@ -1,4 +1,4 @@
-import { cloneDeep, renderForm, isArray, isString, isObject, resetForm } from '@/utils';
+import { cloneDeep, renderForm, resetForm, certainProperty } from '@/utils';
 
 export default {
     inject: ['crud'],
@@ -64,8 +64,11 @@ export default {
 
         reset() {
             resetForm(this.items, this.form);
+
             if (this.crud.fn.advReset) {
-                this.crud.fn.advReset({ close: this.close });
+                this.crud.fn.advReset(this.form, {
+                    close: this.close
+                });
             }
         }
     },

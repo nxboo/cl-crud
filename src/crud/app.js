@@ -23,13 +23,13 @@ export const bootstrap = that => {
         refs(k) {
             const { upsert, table, [`adv-search`]: advSearch } = that.$refs;
 
-            const refs = (that.refs = {
+            that.refs = {
                 table: table.$refs['table'],
                 upsert: upsert.$refs['form'],
                 'adv-search': advSearch.$refs['form']
-            });
+            };
 
-            return k ? refs[k] : refs;
+            return k ? that.refs[k] : that.refs;
         },
 
         component() {
@@ -85,12 +85,12 @@ export const bootstrap = that => {
             return k ? form[k] : form;
         },
 
-        hiddenItem(prop, flag = true) {
-            app.setData(`upsert.items[prop:${prop}].hidden`, flag);
+        hiddenItem(k, v = true) {
+            app.setData(`upsert.items[prop:${k}].hidden`, v);
         },
 
-        hiddenColumn(prop, flag = true) {
-            app.setData(`table.columns[prop:${prop}].hidden`, flag);
+        hiddenColumn(k, v = true) {
+            app.setData(`table.columns[prop:${k}].hidden`, v);
         },
 
         changeSort(prop, order) {

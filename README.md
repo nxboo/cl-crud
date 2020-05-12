@@ -17,7 +17,7 @@ yarn add cl-crud
 #### Browser
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/cl-crud@1.6.3/dist/cl-crud.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cl-crud@1.6.5/dist/cl-crud.min.js"></script>
 ```
 
 ## Demo
@@ -32,6 +32,8 @@ yarn add cl-crud
 [https://docs.cool-admin.com/#/front/crud](https://docs.cool-admin.com/#/front/crud)
 
 ## Version
+
+-   1.6.5 修改 on.advReset(data, { close }) 
 
 -   1.6.4 添加 on.advReset({ close }) 高级搜索重置回调事件
 
