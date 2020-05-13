@@ -17,7 +17,7 @@ yarn add cl-crud
 #### Browser
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/cl-crud@1.6.5/dist/cl-crud.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cl-crud@1.6.6/dist/cl-crud.min.js"></script>
 ```
 
 ## Demo
@@ -32,6 +32,8 @@ yarn add cl-crud
 [https://docs.cool-admin.com/#/front/crud](https://docs.cool-admin.com/#/front/crud)
 
 ## Version
+
+-   1.6.6 添加自定义事件，app.on(name, callback)
 
 -   1.6.5 修改 on.advReset(data, { close }) 
 

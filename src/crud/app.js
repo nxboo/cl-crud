@@ -1,5 +1,5 @@
 import { deepMerge, isEmpty, isFunction, dataset, certainProperty } from '@/utils';
-import { __plugins } from '@/options';
+import { __plugins, __event } from '@/options';
 
 export const bootstrap = that => {
     // eslint-disable-next-line
@@ -16,6 +16,7 @@ export const bootstrap = that => {
         pagination,
         permission,
         fn,
+        event,
         id
     } = that;
 
@@ -212,8 +213,21 @@ export const bootstrap = that => {
         return ctx;
     };
 
-    ctx.on = (name, fn) => {
-        that.fn[name] = fn;
+    ctx.on = (name, cb) => {
+        if (Object.keys(that.fn).includes(name)) {
+            that.fn[name] = cb;
+        } else {
+            event[name] = cb;
+        }
+
+        return ctx;
+    };
+
+    ctx.once = (name, cb) => {
+        event[name] = {
+            mode: 'once',
+            callback: cb
+        };
 
         return ctx;
     };

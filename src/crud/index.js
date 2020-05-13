@@ -1,3 +1,14 @@
+import {
+    deepMerge,
+    print,
+    renderNode,
+    cloneDeep,
+    isArray,
+    getParent,
+    isObject,
+    isFunction
+} from '../utils';
+import { __event } from '../options';
 import Query from './lib/query';
 import AdvSearch from './lib/adv-search';
 import DataTable from './lib/table';
@@ -9,7 +20,6 @@ import MultiDeleteBtn from './lib/multi-delete-btn';
 import AdvBtn from './lib/adv-btn';
 import Pagination from './lib/pagination';
 import SearchKey from './lib/search-key';
-import { deepMerge, print, renderNode, cloneDeep, isArray, getParent } from '@/utils';
 import { bootstrap } from './app';
 import './assets/css/index.styl';
 
@@ -50,6 +60,7 @@ export default function({ __crud, __components }) {
                     resize: null,
                     done: null
                 },
+                event: {},
                 dict: {
                     api: {
                         list: 'list',
@@ -238,7 +249,10 @@ export default function({ __crud, __components }) {
                         return false;
                     }
 
-                    this.$crud = bootstrap(getParent.call(this, 'ClCrud'));
+                    this.$crud = {
+                        ...this.$crud,
+                        ...bootstrap(getParent.call(this, 'ClCrud'))
+                    };
 
                     if (beforeCreate) {
                         if (isArray(beforeCreate)) {
@@ -254,7 +268,38 @@ export default function({ __crud, __components }) {
         },
 
         mounted() {
-            this.$emit('load', bootstrap(deepMerge(this, __crud)));
+            // 相应参数
+            const res = bootstrap(deepMerge(this, __crud));
+
+            // 加载回调
+            this.$emit('load', res);
+
+            // 注册事件
+            for (let i in this.event) {
+                let d = this.event[i];
+                let mode = null;
+                let callback = null;
+
+                if (isObject(d)) {
+                    mode = d.mode;
+                    callback = d.callback;
+                } else {
+                    mode = 'on';
+                    callback = d;
+                }
+
+                if (!['on', 'once'].includes(mode)) {
+                    return console.error(`Event[${i}].mode must be (on / once)`);
+                }
+
+                if (!isFunction(callback)) {
+                    return console.error(`Event[${i}].callback is not a function`);
+                }
+
+                __event[`$${mode}`](i, data => {
+                    callback(data, res);
+                });
+            }
         },
 
         methods: {

@@ -1,4 +1,4 @@
-import { __crud, __vue, __components, __plugins } from './options';
+import { __crud, __vue, __components, __plugins, __event } from './options';
 import { deepMerge } from './utils/index';
 import { DialogDrag } from './directive/index';
 import Crud from './crud/index';
@@ -6,24 +6,33 @@ import Form from './crud/lib/form';
 import './common/index';
 
 export const CRUD = {
-    version: '1.6.5',
+    version: '1.6.6',
 
-    install: function(Vue, options = {}) {
-        const { crud, components, plugins, version = '' } = options;
+    install: function(Vue, options) {
+        const { crud, components, plugins } = options || {};
 
-        const Ver = name => {
-            return `${name}${version}`;
-        };
-
+        // 合并参数
         deepMerge(__crud, crud);
         deepMerge(__vue, Vue);
         deepMerge(__components, components);
         deepMerge(__plugins, plugins);
+        deepMerge(__event, new Vue());
 
+        // 窗口拖动指令
         Vue.directive('dialog-drag', DialogDrag);
 
-        Vue.component(Ver('cl-crud'), Crud({ __crud, __components }));
-        Vue.component(Ver('cl-form'), Form);
+        // crud 组件
+        Vue.component('cl-crud', Crud({ __crud, __components }));
+
+        // 自定义表单组件
+        Vue.component('cl-form', Form);
+
+        // 挂载 $crud
+        Vue.prototype.$crud = {
+            emit: (name, callback) => {
+                __event.$emit(name, callback);
+            }
+        };
     }
 };
 
