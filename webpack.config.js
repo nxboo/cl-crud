@@ -1,7 +1,7 @@
 const path = require('path');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
-const resolve = dir => path.resolve(__dirname, dir);
+const resolve = (dir) => path.resolve(__dirname, dir);
 
 const webpackConfig = {
     mode: 'production',
@@ -9,36 +9,35 @@ const webpackConfig = {
     output: {
         path: resolve('./dist'),
         filename: 'cl-crud.min.js',
-        libraryTarget: 'umd'
+        libraryTarget: 'umd',
     },
     module: {
         rules: [
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
-                exclude: /node_modules/
-            },
-            {
-                test: /\.vue$/,
-                loader: 'vue-loader',
-                options: {
-                    compilerOptions: {
-                        preserveWhitespace: false
-                    }
-                }
+                exclude: /node_modules/,
             },
             {
                 test: /\.styl$/,
-                loaders: ['style-loader', 'css-loader', 'stylus-loader']
-            }
-        ]
+                loaders: ['style-loader', 'css-loader', 'stylus-loader'],
+            },
+        ],
     },
-    plugins: [new VueLoaderPlugin()],
     resolve: {
         alias: {
-            '@': resolve('src')
-        }
-    }
+            '@': resolve('src'),
+        },
+    },
+    optimization: {
+        minimize: true,
+        minimizer: [
+            new TerserPlugin({
+                parallel: true,
+                sourceMap: true,
+            }),
+        ],
+    },
 };
 
 module.exports = webpackConfig;

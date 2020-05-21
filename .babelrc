@@ -1,4 +1,4 @@
 {
-    "presets": ["env", "es2015", "stage-3"],
-    "plugins": ["babel-plugin-jsx-v-model", "transform-vue-jsx", "transform-runtime"]
+    "presets": ["@vue/babel-preset-jsx"],
+    "plugins": ["@babel/plugin-transform-runtime"]
 }
