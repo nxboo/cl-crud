@@ -1,6 +1,6 @@
 {
     "name": "cl-crud",
-    "version": "1.6.6",
+    "version": "1.6.61",
     "description": "cool-admin: cl-crud、cl-form",
     "main": "dist/cl-crud.min.js",
     "scripts": {
@@ -40,5 +40,6 @@
     "dependencies": {
         "array.prototype.flat": "^1.2.3",
         "clone-deep": "^4.0.1"
-    }
+    },
+    "sideEffects": false
 }

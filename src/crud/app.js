@@ -1,24 +1,9 @@
-import { deepMerge, isEmpty, isFunction, dataset, certainProperty } from '@/utils';
+import { deepMerge, isFunction, dataset, certainProperty } from '@/utils';
 import { __plugins, __event } from '@/options';
 
-export const bootstrap = that => {
+export const bootstrap = (that) => {
     // eslint-disable-next-line
-    const {
-        table,
-        upsert,
-        tips,
-        dict,
-        conf,
-        search,
-        layout,
-        refresh,
-        params,
-        pagination,
-        permission,
-        fn,
-        event,
-        id
-    } = that;
+    const { conf, refresh, params, fn, event, id } = that;
 
     const app = {
         refs(k) {
@@ -27,7 +12,7 @@ export const bootstrap = that => {
             that.refs = {
                 table: table.$refs['table'],
                 upsert: upsert.$refs['form'],
-                'adv-search': advSearch.$refs['form']
+                'adv-search': advSearch.$refs['form'],
             };
 
             return k ? that.refs[k] : that.refs;
@@ -49,7 +34,7 @@ export const bootstrap = that => {
                     'upsert',
                     'pagination',
                     'params',
-                    'layout'
+                    'layout',
                 ]),
                 p
             );
@@ -69,7 +54,7 @@ export const bootstrap = that => {
                         'upsert',
                         'pagination',
                         'params',
-                        'layout'
+                        'layout',
                     ]),
                     p,
                     d
@@ -155,10 +140,10 @@ export const bootstrap = that => {
 
         paramsReplace(p) {
             return that.paramsReplace(p);
-        }
+        },
     };
 
-    const ctx = data => {
+    const ctx = (data) => {
         deepMerge(that, data);
 
         return ctx;
@@ -166,18 +151,18 @@ export const bootstrap = that => {
 
     ctx.id = id;
 
-    ctx.conf = d => {
+    ctx.conf = (d) => {
         deepMerge(conf, d);
 
         return ctx;
     };
 
-    ctx.service = d => {
+    ctx.service = (d) => {
         that.service = d;
         return ctx;
     };
 
-    ctx.permission = x => {
+    ctx.permission = (x) => {
         if (isFunction(x)) {
             x();
         } else {
@@ -226,13 +211,13 @@ export const bootstrap = that => {
     ctx.once = (name, cb) => {
         event[name] = {
             mode: 'once',
-            callback: cb
+            callback: cb,
         };
 
         return ctx;
     };
 
-    ctx.done = async cb => {
+    ctx.done = async (cb) => {
         const next = async () => {
             if (fn.permission) {
                 that.permission = deepMerge(await fn.permission(that), that.permission);

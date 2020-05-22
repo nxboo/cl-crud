@@ -1,14 +1,14 @@
 import { __crud, __vue, __components, __plugins, __event } from './options';
 import { deepMerge } from './utils/index';
-import { DialogDrag } from './directive/index';
-import Crud from './crud/index';
+import { DialogDrag } from './directive';
+import Crud from './crud';
 import Form from './crud/lib/form';
 import './common/index';
 
 export const CRUD = {
-    version: '1.6.6',
+    version: '1.6.61',
 
-    install: function(Vue, options) {
+    install: function (Vue, options) {
         const { crud, components, plugins } = options || {};
 
         // 合并参数
@@ -31,9 +31,9 @@ export const CRUD = {
         Vue.prototype.$crud = {
             emit: (name, callback) => {
                 __event.$emit(name, callback);
-            }
+            },
         };
-    }
+    },
 };
 
 export default CRUD;

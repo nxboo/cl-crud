@@ -33,7 +33,6 @@ const webpackConfig = {
         minimize: true,
         minimizer: [
             new TerserPlugin({
-                parallel: true,
                 sourceMap: true,
             }),
         ],
