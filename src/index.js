@@ -1,12 +1,12 @@
 import { __crud, __vue, __components, __plugins, __event } from './options';
-import { deepMerge } from './utils/index';
+import { deepMerge } from './utils';
 import { DialogDrag } from './directive';
 import Crud from './crud';
 import Form from './crud/lib/form';
-import './common/index';
+require('./common');
 
 export const CRUD = {
-    version: '1.6.61',
+    version: '1.6.6',
 
     install: function (Vue, options) {
         const { crud, components, plugins } = options || {};

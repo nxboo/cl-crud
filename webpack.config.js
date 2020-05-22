@@ -4,7 +4,6 @@ const TerserPlugin = require('terser-webpack-plugin');
 const resolve = (dir) => path.resolve(__dirname, dir);
 
 const webpackConfig = {
-    devtool: 'source-map',
     mode: 'production',
     entry: './src/index.js',
     output: {
@@ -34,6 +33,7 @@ const webpackConfig = {
         minimize: true,
         minimizer: [
             new TerserPlugin({
+                parallel: true,
                 sourceMap: true,
             }),
         ],

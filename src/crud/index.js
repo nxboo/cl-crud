@@ -6,7 +6,7 @@ import {
     isArray,
     getParent,
     isObject,
-    isFunction
+    isFunction,
 } from '../utils';
 import { __event } from '../options';
 import Query from './lib/query';
@@ -21,20 +21,21 @@ import AdvBtn from './lib/adv-btn';
 import Pagination from './lib/pagination';
 import SearchKey from './lib/search-key';
 import { bootstrap } from './app';
-import './assets/css/index.styl';
 
-export default function({ __crud, __components }) {
+require('./assets/css/index.styl');
+
+export default function ({ __crud, __components }) {
     return {
         name: 'cl-crud',
         componentName: 'ClCrud',
 
         props: {
-            name: String
+            name: String,
         },
 
         provide() {
             return {
-                crud: this
+                crud: this,
             };
         },
 
@@ -44,7 +45,7 @@ export default function({ __crud, __components }) {
                 service: null,
                 conf: {
                     UPSERT_REFRESH: true,
-                    DELETE_REFRESH: true
+                    DELETE_REFRESH: true,
                 },
                 permission: {},
                 fn: {
@@ -58,7 +59,7 @@ export default function({ __crud, __components }) {
                     advSearch: null,
                     advReset: null,
                     resize: null,
-                    done: null
+                    done: null,
                 },
                 event: {},
                 dict: {
@@ -68,42 +69,42 @@ export default function({ __crud, __components }) {
                         update: 'update',
                         delete: 'delete',
                         info: 'info',
-                        page: 'page'
+                        page: 'page',
                     },
                     pagination: {
                         page: 'page',
-                        size: 'size'
+                        size: 'size',
                     },
                     search: {
                         keyWord: 'keyWord',
-                        query: 'query'
+                        query: 'query',
                     },
                     sort: {
                         order: 'order',
-                        prop: 'prop'
+                        prop: 'prop',
                     },
                     label: {
                         add: '添加',
                         delete: '删除',
                         update: '编辑',
                         refresh: '刷新',
-                        advSearch: '高级搜索'
-                    }
+                        advSearch: '高级搜索',
+                    },
                 },
                 tips: {
                     add: {
                         success: '新增成功',
-                        error: ''
+                        error: '',
                     },
                     update: {
                         success: '修改成功',
-                        error: ''
+                        error: '',
                     },
                     delete: {
                         confirm: '此操作将永久删除选中数据，是否继续？',
                         success: '删除成功',
-                        error: ''
-                    }
+                        error: '',
+                    },
                 },
                 table: {
                     visible: true,
@@ -117,7 +118,7 @@ export default function({ __crud, __components }) {
                         size: 'mini',
                         'element-loading-text': '拼命加载中...',
                         'element-loading-background': 'rgba(255, 255, 255, 0.7)',
-                        'element-loading-spinner': 'el-icon-loading'
+                        'element-loading-spinner': 'el-icon-loading',
                     },
                     on: {},
                     op: {
@@ -125,19 +126,19 @@ export default function({ __crud, __components }) {
                             width: 150,
                             align: 'center',
                             fixed: 'right',
-                            label: '操作'
+                            label: '操作',
                         },
                         visible: true,
-                        layout: ['edit', 'delete']
+                        layout: ['edit', 'delete'],
                     },
-                    scopedSlots: {}
+                    scopedSlots: {},
                 },
                 search: {
                     query: {
                         list: [],
                         value: null,
                         multiple: false,
-                        callback: null
+                        callback: null,
                     },
 
                     key: {
@@ -145,7 +146,7 @@ export default function({ __crud, __components }) {
                         selected: '',
                         value: '',
                         list: [],
-                        props: {}
+                        props: {},
                     },
 
                     adv: {
@@ -156,15 +157,15 @@ export default function({ __crud, __components }) {
                         form: {},
                         props: {
                             size: 'small',
-                            'label-width': '120px'
+                            'label-width': '120px',
                         },
                         op: {
                             visible: false,
                             confirmButtonText: '确定',
                             resetButtonText: '重置',
-                            'label-width': '120px'
-                        }
-                    }
+                            'label-width': '120px',
+                        },
+                    },
                 },
                 upsert: {
                     form: {},
@@ -176,28 +177,28 @@ export default function({ __crud, __components }) {
                         'label-width': '80px',
                         'append-to-body': true,
                         'close-on-click-modal': false,
-                        'destroy-on-close': true
+                        'destroy-on-close': true,
                     },
                     hdr: {
-                        layout: ['fullscreen', 'close']
+                        layout: ['fullscreen', 'close'],
                     },
                     op: {
                         confirmButtonText: '保存',
                         cancelButtonText: '取消',
                         visible: true,
-                        layout: ['cancel', 'confirm']
-                    }
+                        layout: ['cancel', 'confirm'],
+                    },
                 },
                 pagination: {
                     props: {
                         background: true,
                         small: false,
                         layout: 'total, sizes, prev, pager, next, jumper',
-                        'page-sizes': [20, 50, 100, 200]
+                        'page-sizes': [20, 50, 100, 200],
                     },
                     size: 20,
                     page: 1,
-                    total: 0
+                    total: 0,
                 },
                 layout: [
                     [
@@ -207,20 +208,20 @@ export default function({ __crud, __components }) {
                         'query',
                         'flex1',
                         'search-key',
-                        'adv-btn'
+                        'adv-btn',
                     ],
                     ['data-table'],
-                    ['flex1', 'pagination']
+                    ['flex1', 'pagination'],
                 ],
                 refs: {},
                 params: {},
                 temp: {
                     refreshRd: null,
-                    sortLock: false
+                    sortLock: false,
                 },
                 process: {
-                    status: false
-                }
+                    status: false,
+                },
             };
         },
 
@@ -236,7 +237,7 @@ export default function({ __crud, __components }) {
             AdvBtn,
             Pagination,
             Flex1,
-            ...__components
+            ...__components,
         },
 
         beforeCreate() {
@@ -244,19 +245,19 @@ export default function({ __crud, __components }) {
             for (let i in __components) {
                 const { beforeCreate } = __components[i];
 
-                __components[i].beforeCreate = function(flag) {
+                __components[i].beforeCreate = function (flag) {
                     if (flag) {
                         return false;
                     }
 
                     this.$crud = {
                         ...this.$crud,
-                        ...bootstrap(getParent.call(this, 'ClCrud'))
+                        ...bootstrap(getParent.call(this, 'ClCrud')),
                     };
 
                     if (beforeCreate) {
                         if (isArray(beforeCreate)) {
-                            beforeCreate.map(e => {
+                            beforeCreate.map((e) => {
                                 e.call(this, true);
                             });
                         } else {
@@ -296,7 +297,7 @@ export default function({ __crud, __components }) {
                     return console.error(`Event[${i}].callback is not a function`);
                 }
 
-                __event[`$${mode}`](i, data => {
+                __event[`$${mode}`](i, (data) => {
                     callback(data, res);
                 });
             }
@@ -350,15 +351,15 @@ export default function({ __crud, __components }) {
                 const tips = this.tips.delete;
 
                 let params = {
-                    ids: selection.map(e => e.id).join(',')
+                    ids: selection.map((e) => e.id).join(','),
                 };
 
-                const next = params => {
+                const next = (params) => {
                     return new Promise((resolve, reject) => {
                         this.$confirm(tips.confirm, '提示', {
-                            type: 'warning'
+                            type: 'warning',
                         })
-                            .then(res => {
+                            .then((res) => {
                                 if (res === 'confirm') {
                                     const reqName = this.dict.api.delete;
 
@@ -367,7 +368,7 @@ export default function({ __crud, __components }) {
                                     }
 
                                     this.service[reqName](params)
-                                        .then(res => {
+                                        .then((res) => {
                                             this.$message.success(tips.success);
 
                                             if (this.conf['DELETE_REFRESH']) {
@@ -376,7 +377,7 @@ export default function({ __crud, __components }) {
 
                                             resolve(res);
                                         })
-                                        .catch(err => {
+                                        .catch((err) => {
                                             this.$message.error(tips.error || err);
                                             reject(err);
                                         });
@@ -423,7 +424,7 @@ export default function({ __crud, __components }) {
 
                 this.table.sort = {
                     prop,
-                    order
+                    order,
                 };
             },
 
@@ -441,7 +442,7 @@ export default function({ __crud, __components }) {
                     this.refresh({
                         prop,
                         order,
-                        page: 1
+                        page: 1,
                     });
                 }
             },
@@ -512,7 +513,7 @@ export default function({ __crud, __components }) {
                 };
 
                 // 请求执行
-                const next = params => {
+                const next = (params) => {
                     return new Promise((resolve, reject) => {
                         const reqName = this.dict.api.page;
 
@@ -523,7 +524,7 @@ export default function({ __crud, __components }) {
                         }
 
                         this.service[reqName](params)
-                            .then(res => {
+                            .then((res) => {
                                 if (rd != this.temp.refreshRd) {
                                     return false;
                                 }
@@ -531,7 +532,7 @@ export default function({ __crud, __components }) {
                                 render(cloneDeep(res.list), res.pagination);
                                 resolve(res);
                             })
-                            .catch(err => {
+                            .catch((err) => {
                                 this.$message.error(err);
                                 reject(err);
                             })
@@ -557,11 +558,11 @@ export default function({ __crud, __components }) {
                         this.fn.done();
                     }
                 });
-            }
+            },
         },
 
         render() {
-            const rn = vnode => {
+            const rn = (vnode) => {
                 if (vnode === 'data-table') {
                     return (
                         <data-table
@@ -569,8 +570,8 @@ export default function({ __crud, __components }) {
                             {...{
                                 scopedSlots: this.$scopedSlots,
                                 on: {
-                                    'sort-change': this.sortChange
-                                }
+                                    'sort-change': this.sortChange,
+                                },
                             }}
                         />
                     );
@@ -601,6 +602,6 @@ export default function({ __crud, __components }) {
                     </div>
                 )
             );
-        }
+        },
     };
 }
