@@ -17,7 +17,7 @@ yarn add cl-crud
 #### Browser
 
 ```html
-<script src="https://cdn.jsdelivr.net/npm/cl-crud@1.6.7/dist/cl-crud.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cl-crud@1.6.71/dist/cl-crud.min.js"></script>
 ```
 
 ## Demo

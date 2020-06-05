@@ -7,7 +7,7 @@ export default {
     inject: ['crud'],
 
     components: {
-        Flex1
+        Flex1,
     },
 
     data() {
@@ -30,7 +30,7 @@ export default {
             // 弹窗参数
             props: {},
             // 打开同步
-            sync: false
+            sync: false,
         };
     },
 
@@ -52,11 +52,6 @@ export default {
                 // 是否同步打开
                 this.sync = sync;
 
-                // 设置窗口信息
-                if (!props.title) {
-                    props.title = this.isEdit ? '编辑' : '新增';
-                }
-
                 if (!props.top) {
                     props.top = '15vh';
                 }
@@ -69,7 +64,7 @@ export default {
                 this.dialog.fullscreen = props.fullscreen;
 
                 // 设置表单值
-                this.items.forEach(e => {
+                this.items.forEach((e) => {
                     if (e.prop) {
                         this.$set(this.form, e.prop, cloneDeep(e.value));
                     }
@@ -129,7 +124,7 @@ export default {
         edit(data) {
             const { fn, dict, service } = this.crud;
 
-            const done = obj => {
+            const done = (obj) => {
                 for (let i in obj) {
                     this.form[i] = obj[i];
                 }
@@ -138,7 +133,7 @@ export default {
                 this.show(this.form);
             };
 
-            const next = data => {
+            const next = (data) => {
                 return new Promise((resolve, reject) => {
                     const reqName = dict.api.info;
 
@@ -149,13 +144,13 @@ export default {
                     }
 
                     service[reqName]({
-                        id: data.id
+                        id: data.id,
                     })
-                        .then(res => {
+                        .then((res) => {
                             done(res);
                             resolve(res);
                         })
-                        .catch(err => {
+                        .catch((err) => {
                             this.$message.error(err);
                             reject(err);
                         })
@@ -197,7 +192,7 @@ export default {
         },
 
         save() {
-            this.$refs['form'].validate(async valid => {
+            this.$refs['form'].validate(async (valid) => {
                 if (valid) {
                     const { conf, dict, service, fn } = this.crud;
 
@@ -205,7 +200,7 @@ export default {
                         this.saving = false;
                     };
 
-                    const next = data => {
+                    const next = (data) => {
                         const method = this.isEdit ? 'update' : 'add';
                         const tips = this.crud.tips[method];
 
@@ -219,7 +214,7 @@ export default {
                             }
 
                             service[reqName](data)
-                                .then(res => {
+                                .then((res) => {
                                     this.$message.success(tips.success);
                                     this.close();
 
@@ -229,7 +224,7 @@ export default {
 
                                     resolve(res);
                                 })
-                                .catch(err => {
+                                .catch((err) => {
                                     this.$message.error(tips.error || err);
                                     reject(err);
                                 })
@@ -250,12 +245,12 @@ export default {
                     }
                 }
             });
-        }
+        },
     },
 
     render() {
         const form = renderForm.call(this);
-        const footer = (this.op.layout || []).map(vnode => {
+        const footer = (this.op.layout || []).map((vnode) => {
             if (vnode == 'confirm') {
                 return (
                     <el-button
@@ -263,13 +258,13 @@ export default {
                         type="success"
                         {...{
                             on: {
-                                click: this.save
+                                click: this.save,
                             },
 
                             props: {
                                 loading: this.saving,
-                                disabled: this.loading
-                            }
+                                disabled: this.loading,
+                            },
                         }}>
                         {this.op.confirmButtonText}
                     </el-button>
@@ -288,5 +283,5 @@ export default {
         });
 
         return this.renderDialog({ form, footer });
-    }
+    },
 };

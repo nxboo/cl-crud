@@ -4,8 +4,8 @@ export default {
     data() {
         return {
             dialog: {
-                fullscreen: false
-            }
+                fullscreen: false,
+            },
         };
     },
 
@@ -47,24 +47,26 @@ export default {
                     class="el-dialog__header-slot"
                     {...{
                         class: {
-                            _drag: drag && !fullscreen
+                            _drag: drag && !fullscreen,
                         },
                         directives: [
                             {
                                 name: 'dialog-drag',
-                                value: certainProperty(this, ['props', 'dialog'])
-                            }
+                                value: certainProperty(this, ['props', 'dialog']),
+                            },
                         ],
                         on: {
                             dblclick: () => {
                                 this.onFullScreen();
-                            }
-                        }
+                            },
+                        },
                     }}>
-                    <span class="el-dialog__header-slot-title">{title}</span>
+                    <span class="el-dialog__header-slot-title">
+                        {title || (this.isEdit ? '编辑' : '新增')}
+                    </span>
 
                     <div class="el-dialog__header-slot-button">
-                        {layout.map(vnode => {
+                        {layout.map((vnode) => {
                             if (vnode === 'fullscreen') {
                                 return fullscreen ? (
                                     <button class="minimize" on-click={this.onFullScreen}>
@@ -97,21 +99,23 @@ export default {
                         class="cl-form"
                         visible={this.visible}
                         {...{
-                            props: this.props,
+                            props: {
+                                ...this.props,
+                            },
 
                             on: {
                                 open: this.open,
-                                close: this.close
+                                close: this.close,
                             },
 
                             directives: [
                                 {
                                     name: 'dialog-drag',
-                                    value: certainProperty(this, ['props', 'dialog', 'win'])
-                                }
+                                    value: certainProperty(this, ['props', 'dialog', 'win']),
+                                },
                             ],
 
-                            ...options
+                            ...options,
                         }}>
                         <template slot="title">{this.renderHeader()}</template>
                         {form}
@@ -119,6 +123,6 @@ export default {
                     </el-dialog>
                 )
             );
-        }
-    }
+        },
+    },
 };
