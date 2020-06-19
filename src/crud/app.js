@@ -116,7 +116,7 @@ export const bootstrap = (that) => {
         },
 
         submit() {
-            that.$refs['upsert'].save();
+            return that.$refs['upsert'].save();
         },
 
         renderList(d) {

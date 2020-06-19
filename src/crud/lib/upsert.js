@@ -192,58 +192,62 @@ export default {
         },
 
         save() {
-            this.$refs['form'].validate(async (valid) => {
-                if (valid) {
-                    const { conf, dict, service, fn } = this.crud;
+            return new Promise((resolve, reject) => {
+                this.$refs['form'].validate(async (valid) => {
+                    if (valid) {
+                        const { conf, dict, service, fn } = this.crud;
 
-                    const done = () => {
-                        this.saving = false;
-                    };
+                        const done = () => {
+                            this.saving = false;
+                        };
 
-                    const next = (data) => {
-                        const method = this.isEdit ? 'update' : 'add';
-                        const tips = this.crud.tips[method];
+                        const next = (data) => {
+                            const method = this.isEdit ? 'update' : 'add';
+                            const tips = this.crud.tips[method];
 
-                        return new Promise((resolve, reject) => {
-                            const reqName = dict.api[method];
+                            return new Promise((resolve2, reject2) => {
+                                const reqName = dict.api[method];
 
-                            if (!service[reqName]) {
-                                this.saving = false;
-
-                                return reject(`Request function '${reqName}' is not fount`);
-                            }
-
-                            service[reqName](data)
-                                .then((res) => {
-                                    this.$message.success(tips.success);
-                                    this.close();
-
-                                    if (conf['UPSERT_REFRESH']) {
-                                        this.crud.refresh();
-                                    }
-
-                                    resolve(res);
-                                })
-                                .catch((err) => {
-                                    this.$message.error(tips.error || err);
-                                    reject(err);
-                                })
-                                .done(() => {
+                                if (!service[reqName]) {
                                     this.saving = false;
-                                });
-                        });
-                    };
 
-                    let data = cloneDeep(this.form);
+                                    return reject(`Request function '${reqName}' is not fount`);
+                                }
 
-                    this.saving = true;
+                                service[reqName](data)
+                                    .then((res) => {
+                                        this.$message.success(tips.success);
+                                        this.close();
 
-                    if (fn.submit) {
-                        this.emit('submit', this.isEdit, data, { next, done });
-                    } else {
-                        next(data);
+                                        if (conf['UPSERT_REFRESH']) {
+                                            this.crud.refresh();
+                                        }
+
+                                        resolve(res);
+                                        resolve2(res);
+                                    })
+                                    .catch((err) => {
+                                        this.$message.error(tips.error || err);
+                                        reject(err);
+                                        reject2(err);
+                                    })
+                                    .done(() => {
+                                        this.saving = false;
+                                    });
+                            });
+                        };
+
+                        let data = cloneDeep(this.form);
+
+                        this.saving = true;
+
+                        if (fn.submit) {
+                            this.emit('submit', this.isEdit, data, { next, done });
+                        } else {
+                            next(data);
+                        }
                     }
-                }
+                });
             });
         },
     },

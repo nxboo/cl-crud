@@ -127,7 +127,7 @@
                     salesRate: 52.2,
                     salesStatus: 1,
                     images: [
-                        'https://cool-comm.oss-cn-shenzhen.aliyuncs.com/show/imgs/chat/avatar/1.jpg'
+                        'https://cool-comm.oss-cn-shenzhen.aliyuncs.com/show/imgs/chat/avatar/1.jpg',
                     ],
                     children: [
                         {
@@ -138,9 +138,9 @@
                             price: 242.1,
                             salesRate: 72.1,
                             salesStatus: 1,
-                            images: []
-                        }
-                    ]
+                            images: [],
+                        },
+                    ],
                 },
                 {
                     id: 2,
@@ -151,8 +151,8 @@
                     salesRate: 72.1,
                     salesStatus: 1,
                     images: [
-                        'https://cool-comm.oss-cn-shenzhen.aliyuncs.com/show/imgs/chat/avatar/2.jpg'
-                    ]
+                        'https://cool-comm.oss-cn-shenzhen.aliyuncs.com/show/imgs/chat/avatar/2.jpg',
+                    ],
                 },
                 {
                     id: 3,
@@ -163,8 +163,8 @@
                     salesRate: 23.9,
                     salesStatus: 0,
                     images: [
-                        'https://cool-comm.oss-cn-shenzhen.aliyuncs.com/show/imgs/chat/avatar/3.jpg'
-                    ]
+                        'https://cool-comm.oss-cn-shenzhen.aliyuncs.com/show/imgs/chat/avatar/3.jpg',
+                    ],
                 },
                 {
                     id: 4,
@@ -175,8 +175,8 @@
                     salesRate: 47.2,
                     salesStatus: 0,
                     images: [
-                        'https://cool-comm.oss-cn-shenzhen.aliyuncs.com/show/imgs/chat/avatar/4.jpg'
-                    ]
+                        'https://cool-comm.oss-cn-shenzhen.aliyuncs.com/show/imgs/chat/avatar/4.jpg',
+                    ],
                 },
                 {
                     id: 5,
@@ -187,9 +187,9 @@
                     salesRate: 28.3,
                     salesStatus: 1,
                     images: [
-                        'https://cool-comm.oss-cn-shenzhen.aliyuncs.com/show/imgs/chat/avatar/5.jpg'
-                    ]
-                }
+                        'https://cool-comm.oss-cn-shenzhen.aliyuncs.com/show/imgs/chat/avatar/5.jpg',
+                    ],
+                },
             ];
 
             Vue.use(CRUD, {
@@ -199,26 +199,26 @@
                             // name: 'dropdown-menu', // 下拉模式
 
                             ['dropdown-menu']: {
-                                width: '160px'
-                            }
-                        }
+                                width: '160px',
+                            },
+                        },
                     },
                     fn: {
                         permission() {
                             return Promise.resolve({
                                 add: false,
                                 update: false,
-                                delete: false
+                                delete: false,
                             });
-                        }
-                    }
+                        },
+                    },
                 },
                 components: {
                     printBtn: {
                         methods: {
                             printls() {
                                 console.log(this.$crud.app.getData('table.data'));
-                            }
+                            },
                         },
 
                         render(h) {
@@ -226,19 +226,19 @@
                                 'el-button',
                                 {
                                     props: {
-                                        size: 'mini'
+                                        size: 'mini',
                                     },
                                     on: {
                                         click: () => {
                                             this.printls();
-                                        }
-                                    }
+                                        },
+                                    },
                                 },
                                 '打印列表（插件 · 组件注入）'
                             );
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             });
 
             new Vue({
@@ -247,7 +247,7 @@
                 data() {
                     return {
                         vad: {
-                            list: []
+                            list: [],
                         },
                         crud1: null,
                         crud2: null,
@@ -256,14 +256,14 @@
                             list: [
                                 {
                                     label: '列表A',
-                                    value: 'a'
+                                    value: 'a',
                                 },
                                 {
                                     label: '列表B',
-                                    value: 'b'
-                                }
-                            ]
-                        }
+                                    value: 'b',
+                                },
+                            ],
+                        },
                     };
                 },
 
@@ -287,41 +287,41 @@
                         this.crud1 = app;
 
                         ctx.service({
-                            page: p => {
+                            page: (p) => {
                                 console.log('GET[page]', p);
                                 return Promise.resolve({
                                     list: userList,
                                     pagination: {
                                         page: 1,
                                         size: 20,
-                                        total: 5
-                                    }
+                                        total: 5,
+                                    },
                                 });
                             },
-                            info: d => {
+                            info: (d) => {
                                 console.log('GET[info]', d);
-                                return new Promise(resolve => {
+                                return new Promise((resolve) => {
                                     resolve(d);
                                 });
                             },
-                            add: d => {
+                            add: (d) => {
                                 console.log('POST[add]', d);
                                 return Promise.resolve();
                             },
-                            delete: d => {
+                            delete: (d) => {
                                 console.log('POST[delete]', d);
                                 return Promise.resolve();
                             },
-                            update: d => {
+                            update: (d) => {
                                 console.log('POST[update]', d);
                                 return Promise.resolve();
-                            }
+                            },
                         })
                             .set('permission', () => {
                                 return {
                                     add: true,
                                     update: true,
-                                    delete: true
+                                    delete: true,
                                 };
                             })
                             .set('table', {
@@ -329,18 +329,18 @@
                                     {
                                         type: 'selection',
                                         align: 'center',
-                                        width: 60
+                                        width: 60,
                                     },
                                     {
                                         label: '图片',
                                         prop: 'images',
                                         align: 'center',
-                                        width: '200'
+                                        width: '200',
                                     },
                                     {
                                         label: '花名',
                                         prop: 'name',
-                                        align: 'center'
+                                        align: 'center',
                                     },
                                     {
                                         label: '统计',
@@ -350,31 +350,31 @@
                                             {
                                                 label: '进展',
                                                 prop: 'process',
-                                                align: 'center'
+                                                align: 'center',
                                             },
                                             {
                                                 label: '总量',
                                                 prop: 'price',
-                                                align: 'center'
+                                                align: 'center',
                                             },
                                             {
                                                 label: '销售',
                                                 prop: 'salesRate',
-                                                align: 'center'
-                                            }
-                                        ]
+                                                align: 'center',
+                                            },
+                                        ],
                                     },
                                     {
                                         label: '最后期限',
                                         prop: 'endTime',
                                         align: 'center',
-                                        sortable: true
-                                    }
+                                        sortable: true,
+                                    },
                                 ],
 
                                 op: {
                                     props: {
-                                        width: 250
+                                        width: 250,
                                     },
 
                                     layout: [
@@ -387,36 +387,36 @@
                                                 {
                                                     props: {
                                                         size: 'mini',
-                                                        type: 'text'
+                                                        type: 'text',
                                                     },
                                                     on: {
                                                         click() {
                                                             alert(scope.row.name);
-                                                        }
-                                                    }
+                                                        },
+                                                    },
                                                 },
                                                 '点击我'
                                             );
-                                        }
-                                    ]
+                                        },
+                                    ],
                                 },
 
                                 on: {
                                     'selection-change'(selection) {
                                         console.log(selection);
-                                    }
-                                }
+                                    },
+                                },
                             })
                             .set('upsert', {
                                 sync: false,
                                 props: {
-                                    labelWidth: '150px'
+                                    labelWidth: '150px',
                                 },
                                 op: {
-                                    layout: ['slot-fn', 'cancel', 'confirm']
+                                    layout: ['slot-fn', 'cancel', 'confirm'],
                                 },
                                 hdr: {
-                                    layout: ['slot-hdr-btn', 'flex1', 'fullscreen', 'close']
+                                    layout: ['slot-hdr-btn', 'flex1', 'fullscreen', 'close'],
                                 },
                                 items: [
                                     {
@@ -424,15 +424,15 @@
                                         value: [],
                                         label: '动态增减表单验证',
                                         component: {
-                                            name: 'slot-validate'
-                                        }
+                                            name: 'slot-validate',
+                                        },
                                     },
                                     {
                                         label: '数字框',
                                         prop: 'a',
                                         component: {
-                                            name: 'el-input-number'
-                                        }
+                                            name: 'el-input-number',
+                                        },
                                     },
                                     {
                                         label: '输入框',
@@ -441,9 +441,9 @@
                                         component: {
                                             name: 'el-input',
                                             attrs: {
-                                                placeholder: '请输入关键字'
-                                            }
-                                        }
+                                                placeholder: '请输入关键字',
+                                            },
+                                        },
                                     },
                                     {
                                         label: '下拉选择',
@@ -452,26 +452,26 @@
                                         component: {
                                             name: 'el-select',
                                             props: {
-                                                multiple: true
+                                                multiple: true,
                                             },
                                             options: [
                                                 {
                                                     label: '选项1',
-                                                    value: 1
+                                                    value: 1,
                                                 },
                                                 {
                                                     label: '选项2',
-                                                    value: 2
-                                                }
-                                            ]
-                                        }
+                                                    value: 2,
+                                                },
+                                            ],
+                                        },
                                     },
                                     {
                                         label: '时间',
                                         prop: 'd',
                                         component: {
-                                            name: 'el-date-picker'
-                                        }
+                                            name: 'el-date-picker',
+                                        },
                                     },
                                     {
                                         label: '多选',
@@ -482,16 +482,16 @@
                                             options: [
                                                 {
                                                     label: '选项1',
-                                                    value: 1
+                                                    value: 1,
                                                 },
                                                 {
                                                     label: '选项2',
-                                                    value: 2
-                                                }
-                                            ]
-                                        }
-                                    }
-                                ]
+                                                    value: 2,
+                                                },
+                                            ],
+                                        },
+                                    },
+                                ],
                             })
                             .set('search', {
                                 adv: {
@@ -503,9 +503,9 @@
                                             component: {
                                                 name: 'el-input',
                                                 attrs: {
-                                                    placeholder: '请输入关键字'
-                                                }
-                                            }
+                                                    placeholder: '请输入关键字',
+                                                },
+                                            },
                                         },
                                         {
                                             label: '下拉选择',
@@ -514,26 +514,26 @@
                                             component: {
                                                 name: 'el-select',
                                                 props: {
-                                                    multiple: true
+                                                    multiple: true,
                                                 },
                                                 options: [
                                                     {
                                                         label: '选项1',
-                                                        value: 1
+                                                        value: 1,
                                                     },
                                                     {
                                                         label: '选项2',
-                                                        value: 2
-                                                    }
-                                                ]
-                                            }
+                                                        value: 2,
+                                                    },
+                                                ],
+                                            },
                                         },
                                         {
                                             label: '时间',
                                             prop: 'c',
                                             component: {
-                                                name: 'el-date-picker'
-                                            }
+                                                name: 'el-date-picker',
+                                            },
                                         },
                                         {
                                             label: '多选',
@@ -544,30 +544,30 @@
                                                 options: [
                                                     {
                                                         label: '选项1',
-                                                        value: 1
+                                                        value: 1,
                                                     },
                                                     {
                                                         label: '选项2',
-                                                        value: 2
-                                                    }
-                                                ]
-                                            }
-                                        }
-                                    ]
+                                                        value: 2,
+                                                    },
+                                                ],
+                                            },
+                                        },
+                                    ],
                                 },
 
                                 query: {
                                     list: [
                                         {
                                             label: '类目1',
-                                            value: 1
+                                            value: 1,
                                         },
                                         {
                                             label: '类目2',
-                                            value: 0
-                                        }
-                                    ]
-                                }
+                                            value: 0,
+                                        },
+                                    ],
+                                },
                             })
                             .set('layout', [
                                 [
@@ -578,10 +578,10 @@
                                     'query',
                                     'flex1',
                                     'search-key',
-                                    'adv-btn'
+                                    'adv-btn',
                                 ],
                                 ['data-table'],
-                                ['flex1', 'pagination']
+                                ['flex1', 'pagination'],
                             ])
                             .on('info', (data, { next }) => {
                                 setTimeout(() => {
@@ -606,37 +606,37 @@
                         this.crud2 = app;
 
                         ctx.service({
-                            page: p => {
+                            page: (p) => {
                                 console.log('GET[page]', p);
                                 return Promise.resolve({
                                     list: userList,
                                     pagination: {
                                         page: 1,
                                         size: 20,
-                                        total: 5
-                                    }
+                                        total: 5,
+                                    },
                                 });
                             },
-                            info: d => {
-                                return new Promise(resolve => {
+                            info: (d) => {
+                                return new Promise((resolve) => {
                                     resolve(d);
                                 });
                             },
-                            add: d => {
+                            add: (d) => {
                                 return Promise.resolve();
                             },
-                            delete: d => {
+                            delete: (d) => {
                                 return Promise.resolve();
                             },
-                            update: d => {
+                            update: (d) => {
                                 return Promise.resolve();
-                            }
+                            },
                         })
                             .set('permission', () => {
                                 return {
                                     add: true,
                                     update: true,
-                                    delete: true
+                                    delete: true,
                                 };
                             })
                             .set('table', {
@@ -644,43 +644,43 @@
                                     {
                                         type: 'index',
                                         label: '#',
-                                        align: 'center'
+                                        align: 'center',
                                     },
                                     {
                                         label: '花名',
                                         prop: 'name',
-                                        align: 'center'
+                                        align: 'center',
                                     },
                                     {
                                         label: '进展',
                                         prop: 'process',
-                                        align: 'center'
+                                        align: 'center',
                                     },
                                     {
                                         label: '总量',
                                         prop: 'price',
-                                        align: 'center'
+                                        align: 'center',
                                     },
                                     {
                                         label: '销售',
                                         prop: 'salesRate',
-                                        align: 'center'
+                                        align: 'center',
                                     },
                                     {
                                         label: '最后期限',
                                         prop: 'endTime',
-                                        align: 'center'
-                                    }
+                                        align: 'center',
+                                    },
                                 ],
 
                                 op: {
-                                    layout: ['slot-append']
-                                }
+                                    layout: ['slot-append'],
+                                },
                             })
                             .set('layout', [
                                 ['refresh-btn', 'flex1', 'search-key'],
                                 ['data-table'],
-                                ['flex1', 'pagination']
+                                ['flex1', 'pagination'],
                             ])
                             .done();
                         app.refresh();
@@ -691,7 +691,7 @@
                             props: {
                                 title: '内嵌CRUD',
                                 width: '800px',
-                                size: 'mini'
+                                size: 'mini',
                             },
 
                             op: {},
@@ -699,7 +699,7 @@
                             items: [
                                 {
                                     props: {
-                                        labelWidth: '0px'
+                                        labelWidth: '0px',
                                     },
 
                                     component: {
@@ -708,76 +708,78 @@
                                         on: {
                                             load({ ctx, app }) {
                                                 ctx.service({
-                                                    page: p => {
+                                                    page: (p) => {
                                                         return Promise.resolve({
                                                             list: [
                                                                 {
                                                                     id: 1,
                                                                     name: 'A',
-                                                                    age: 26
-                                                                }
+                                                                    age: 26,
+                                                                },
                                                             ],
                                                             pagination: {
                                                                 total: 1,
                                                                 page: 1,
-                                                                size: 10
-                                                            }
+                                                                size: 10,
+                                                            },
                                                         });
-                                                    }
+                                                    },
                                                 })
                                                     .set('search', {
                                                         query: {
                                                             list: [
                                                                 {
                                                                     label: '类目1',
-                                                                    value: 1
+                                                                    value: 1,
                                                                 },
                                                                 {
                                                                     label: '类目2',
-                                                                    value: 0
-                                                                }
-                                                            ]
-                                                        }
+                                                                    value: 0,
+                                                                },
+                                                            ],
+                                                        },
                                                     })
                                                     .set('table', {
                                                         columns: [
                                                             {
                                                                 label: '姓名',
-                                                                prop: 'name'
+                                                                prop: 'name',
                                                             },
                                                             {
                                                                 label: '年龄',
-                                                                prop: 'age'
-                                                            }
+                                                                prop: 'age',
+                                                            },
                                                         ],
 
                                                         op: {
-                                                            visible: false
-                                                        }
+                                                            visible: false,
+                                                        },
                                                     })
                                                     .set('layout', [
                                                         [
                                                             'refresh-btn',
                                                             'query',
                                                             'flex1',
-                                                            'search-key'
+                                                            'search-key',
                                                         ],
                                                         ['data-table'],
-                                                        ['flex1', 'pagination']
+                                                        ['flex1', 'pagination'],
                                                     ])
                                                     .done();
 
                                                 app.refresh();
-                                            }
-                                        }
-                                    }
-                                }
-                            ]
+                                            },
+                                        },
+                                    },
+                                },
+                            ],
                         });
                     },
 
                     submit() {
-                        this.crud1.submit();
+                        this.crud1.submit().then((res) => {
+                            console.log(res);
+                        });
                     },
 
                     getForm() {
@@ -790,10 +792,10 @@
 
                     addVad(list) {
                         list.push({
-                            val: ''
+                            val: '',
                         });
-                    }
-                }
+                    },
+                },
             });
         </script>
     </body>
