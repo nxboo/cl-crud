@@ -242,7 +242,11 @@ export default {
                         this.saving = true;
 
                         if (fn.submit) {
-                            this.emit('submit', this.isEdit, data, { next, done });
+                            this.emit('submit', this.isEdit, data, {
+                                next,
+                                done,
+                                close: this.close,
+                            });
                         } else {
                             next(data);
                         }
