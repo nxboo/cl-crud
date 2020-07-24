@@ -267,7 +267,7 @@ export default {
         if (this.op.inPage) {
             return this.visible && (<div>
                 {form}
-                {this.op.visible && footer}
+                <div style="display: flex; justify-content: center">{footer}</div>
             </div>);
         } else {
             return this.renderDialog({ form, footer });
