@@ -26,6 +26,7 @@ export default {
                 layout: ['fullscreen', 'close']
             },
             op: {
+                inPage: false,
                 visible: true,
                 confirmButtonText: '保存',
                 cancelButtonText: '取消',
@@ -263,6 +264,13 @@ export default {
             }
         });
 
-        return this.renderDialog({ form, footer });
+        if (this.op.inPage) {
+            return this.visible && (<div>
+                {form}
+                {this.op.visible && footer}
+            </div>);
+        } else {
+            return this.renderDialog({ form, footer });
+        }
     }
 };
